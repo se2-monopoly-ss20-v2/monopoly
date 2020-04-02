@@ -18,21 +18,8 @@ So please write all issues, code comments, pull request, commit messages etc. in
 * Use a descriptive title no more than 64 characters long. This will be used as the commit message when your PR is merged. 
 * Please reference in the PR description the issue # that the PR resolves, something like `Fixes #1234` or `Resolves #6458` (See [closing issues using keywords](https://help.github.com/articles/closing-issues-using-keywords/))
 
-## Prerequisites
-IntelliJ, as most people know, can format the code automatically. But every developer has his own settings for formatting.
-
-That's why it's important that we agree on common settings so that each time we commit new changes, the file is not changed completely.
-The file monopoly-code-styles.xml is located in the root directory of the project. This file contains the formatting scheme. To apply it, follow the steps below:
-
-1. Open the settings of Android Studio (or IntelliJ)
-2. Go to Editor > Code Style
-3. Import the previously mentioned schema from the project directory in the drop-down menu
-4. Click the button "Apply" and then "OK" to save the changes
-
-Now open every single file you are working on and reformat it to apply the new code styles. Then stage only the reformatting (no new lines of code)
-and commit the changes on your feature branch under the message "Reformat code using new code styles".
-
 ## Standard procedure
+
 If you want to implement/fix a new issue, this is the basic procedure. Contact the group if there are any uncertainties.
 We only work on issues that are included in the current sprint backlog. We decide at the beginning of each sprint what will go into the backlog. The sprint backlog can always be found in the `ToDo` column of the Kanban Board in the [Projects Tab](https://github.com/SS20-SE2-Monopoly-Team/monopoly/projects).
 
@@ -60,7 +47,6 @@ You can test if the commit message is good by adding it to the end of this sente
     - "Add method for computing the dice value"
     - "Change board colors"
     - "Create class for saving user data"
-    - ...
 
 7. With `git push` you can backup your commits to the repository. Your colleagues can then access your branch. Pushing won't merge anything yet, so don't worry about it. There may be a error in the terminal if the remote branch doesn't exist yet. Just run the suggested command then.
 
