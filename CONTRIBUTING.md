@@ -47,6 +47,7 @@ You can test if the commit message is good by adding it to the end of this sente
     - "Add method for computing the dice value"
     - "Change board colors"
     - "Create class for saving user data"
+    - ...
 
 7. With `git push` you can backup your commits to the repository. Your colleagues can then access your branch. Pushing won't merge anything yet, so don't worry about it. There may be a error in the terminal if the remote branch doesn't exist yet. Just run the suggested command then.
 
