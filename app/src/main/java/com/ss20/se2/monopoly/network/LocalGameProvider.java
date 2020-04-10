@@ -13,6 +13,7 @@ public class LocalGameProvider{
 	private NsdServiceInfo serviceInfo;
 	private NsdManager.RegistrationListener registrationListener;
 	private String serviceName;
+	private boolean published;
 
 	/**
 	 * Use the getInstance() method to get the instance of this class
@@ -20,7 +21,7 @@ public class LocalGameProvider{
 	private LocalGameProvider(){
 		this.serviceInfo = createServiceInfo(serviceName);
 		this.serviceName = NetworkUtilities.NSD_SERVICE_NAME;
-		initializeRegistrationListener();
+		this.published = false;
 	}
 
 	public static LocalGameProvider getInstance(){
@@ -72,24 +73,41 @@ public class LocalGameProvider{
 	}
 
 	/**
-	 * Makes the game visible in the local network. Other users can then discover the IP address of the server
+	 * Makes the game visible in the local network. Other users can then discover the IP address of
+	 * the server. If this method is called again even though the game is already visible on the
+	 * network, the game will be re-published.
+	 *
+	 * @param context
+	 * @param port    Port on which the server on this device is accessible
 	 */
 	public void showGameInNetwork(Context context, int port){
-		NsdManager manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
-		// Possible that the server has been terminated and has been assigned a new port
-		serviceInfo.setPort(port);
-		// Publish this service to all people on the network who are looking for a service
-		manager.registerService(serviceInfo, NsdManager.PROTOCOL_DNS_SD, registrationListener);
+		if (this.published){
+			hideGameInNetwork(context);
+			showGameInNetwork(context, port);
+		}else{
+			NsdManager manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
+			// Possible that the server has been terminated and has been assigned a new port
+			serviceInfo.setPort(port);
+			// Create each time new listener, else the NsdManager thinks its the same
+			initializeRegistrationListener();
+			// Publish this service to all people on the network who are looking for a service
+			manager.registerService(serviceInfo, NsdManager.PROTOCOL_DNS_SD, registrationListener);
+			this.published = true;
+		}
 	}
 
 	/**
-	 * Makes the game invisible on the local network. But if somehow the IP address is known, the server can still be accessed.
-	 * Call this after starting the game and leaving the lobby.
-	 * Needed for cleanup
+	 * Makes the game invisible on the local network. But if somehow the IP address is known, the
+	 * server can still be accessed. Call this after starting the game and leaving the lobby.
+	 *
+	 * @param context
 	 */
 	public void hideGameInNetwork(Context context){
-		NsdManager manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
-		// Make the service no longer available to people in the network who are looking for services
-		manager.unregisterService(registrationListener);
+		if (this.published){
+			NsdManager manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
+			// Make the service no longer available to people in the network who are looking for services
+			manager.unregisterService(registrationListener);
+			this.published = false;
+		}
 	}
 }
