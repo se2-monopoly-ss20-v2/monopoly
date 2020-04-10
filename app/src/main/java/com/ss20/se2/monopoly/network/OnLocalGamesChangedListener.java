@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface OnLocalGamesChangedListener{
 
-	void onGamesChanged(List<LocalGame> game);
+	void onGamesChanged(List<LocalGame> foundGames);
 }
