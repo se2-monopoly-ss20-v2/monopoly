@@ -12,13 +12,14 @@ public class LocalGameProvider{
 	// Instance variables
 	private NsdServiceInfo serviceInfo;
 	private NsdManager.RegistrationListener registrationListener;
-	private String serviceName = "monopoly";
+	private String serviceName;
 
 	/**
 	 * Use the getInstance() method to get the instance of this class
 	 */
 	private LocalGameProvider(){
 		this.serviceInfo = createServiceInfo(serviceName);
+		this.serviceName = NetworkUtilities.NSD_SERVICE_NAME;
 		initializeRegistrationListener();
 	}
 
