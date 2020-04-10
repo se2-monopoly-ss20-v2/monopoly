@@ -15,14 +15,15 @@ public class LocalGamesFinder{
 	private NsdManager.DiscoveryListener discoveryListener;
 	private List<OnLocalGamesChangedListener> listeners;
 	private List<LocalGame> foundLocalGames;
+	private boolean searching;
 
 	/**
 	 * Use the getInstance() method to get the instance of this class
 	 */
 	private LocalGamesFinder(){
-		initializeDiscoveryListener();
 		this.listeners = new ArrayList<>();
 		this.foundLocalGames = new ArrayList<>();
+		this.searching = false;
 	}
 
 	public static LocalGamesFinder getInstance(){
@@ -76,13 +77,22 @@ public class LocalGamesFinder{
 	}
 
 	/**
-	 * Starts the search for games in the area
+	 * Starts the search for games in the area. Search will be restarted if it is currently
+	 * running and has not been closed.
 	 *
 	 * @param context
 	 */
 	public void startGameSearchInNetwork(Context context){
-		NsdManager manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
-		manager.discoverServices(NetworkUtilities.NSD_SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, discoveryListener);
+		if (!this.searching){
+			NsdManager manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
+			// Create each time new listener, else the NsdManager thinks its the same
+			initializeDiscoveryListener();
+			manager.discoverServices(NetworkUtilities.NSD_SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, discoveryListener);
+			this.searching = true;
+		}else{
+			stopGameSearchInNetwork(context);
+			startGameSearchInNetwork(context);
+		}
 	}
 
 	/**
@@ -91,8 +101,11 @@ public class LocalGamesFinder{
 	 * @param context
 	 */
 	public void stopGameSearchInNetwork(Context context){
-		NsdManager manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
-		manager.stopServiceDiscovery(discoveryListener);
+		if (this.searching){
+			NsdManager manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
+			manager.stopServiceDiscovery(discoveryListener);
+			this.searching = false;
+		}
 	}
 
 	/**
