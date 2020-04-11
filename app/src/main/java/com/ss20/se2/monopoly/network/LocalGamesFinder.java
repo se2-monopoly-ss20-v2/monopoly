@@ -33,6 +33,10 @@ public class LocalGamesFinder{
 		return instance;
 	}
 
+	public boolean isSearching(){
+		return searching;
+	}
+
 	private void initializeDiscoveryListener(){
 		discoveryListener = new NsdManager.DiscoveryListener(){
 			@Override
