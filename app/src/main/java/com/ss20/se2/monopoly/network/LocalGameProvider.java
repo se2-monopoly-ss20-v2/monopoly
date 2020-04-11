@@ -19,8 +19,8 @@ public class LocalGameProvider{
 	 * Use the getInstance() method to get the instance of this class
 	 */
 	private LocalGameProvider(){
-		this.serviceInfo = createServiceInfo(serviceName);
 		this.serviceName = NetworkUtilities.NSD_SERVICE_NAME;
+		this.serviceInfo = createServiceInfo(this.serviceName);
 		this.published = false;
 	}
 
@@ -29,6 +29,10 @@ public class LocalGameProvider{
 			instance = new LocalGameProvider();
 		}
 		return instance;
+	}
+
+	public boolean isPublished(){
+		return published;
 	}
 
 	private NsdServiceInfo createServiceInfo(String serviceName){
