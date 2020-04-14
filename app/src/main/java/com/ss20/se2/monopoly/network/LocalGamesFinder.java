@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
 
+import com.ss20.se2.monopoly.pojo.LocalGame;
+
 import java.util.ArrayList;
 import java.util.List;
 

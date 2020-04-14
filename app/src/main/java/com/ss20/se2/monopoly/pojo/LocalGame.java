@@ -1,4 +1,4 @@
-package com.ss20.se2.monopoly.network;
+package com.ss20.se2.monopoly.pojo;
 
 import java.net.InetAddress;
 
