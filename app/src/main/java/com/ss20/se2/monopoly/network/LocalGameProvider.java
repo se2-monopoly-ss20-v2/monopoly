@@ -78,17 +78,13 @@ public class LocalGameProvider{
 
 	/**
 	 * Makes the game visible in the local network. Other users can then discover the IP address of
-	 * the server. If this method is called again even though the game is already visible on the
-	 * network, the game will be re-published.
+	 * the server.
 	 *
 	 * @param context
 	 * @param port    Port on which the server on this device is accessible
 	 */
 	public void showGameInNetwork(Context context, int port){
-		if (this.published){
-			hideGameInNetwork(context);
-			showGameInNetwork(context, port);
-		}else{
+		if (!this.published){
 			NsdManager manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
 			// Possible that the server has been terminated and has been assigned a new port
 			serviceInfo.setPort(port);
