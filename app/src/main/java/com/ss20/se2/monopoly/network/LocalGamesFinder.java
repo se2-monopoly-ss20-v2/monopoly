@@ -81,7 +81,7 @@ public class LocalGamesFinder{
 	}
 
 	/**
-	 * Starts the search for games in the area. Search will be restarted if it is currently
+	 * Starts the search for games in the area.
 	 * running and has not been closed.
 	 *
 	 * @param context
@@ -93,9 +93,6 @@ public class LocalGamesFinder{
 			initializeDiscoveryListener();
 			manager.discoverServices(NetworkUtilities.NSD_SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, discoveryListener);
 			this.searching = true;
-		}else{
-			stopGameSearchInNetwork(context);
-			startGameSearchInNetwork(context);
 		}
 	}
 
