@@ -3,6 +3,7 @@ package com.ss20.se2.monopoly.network;
 import android.content.Context;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
+import android.util.Log;
 
 import com.ss20.se2.monopoly.pojo.LocalGame;
 
@@ -40,17 +41,19 @@ public class LocalGamesFinder{
 	}
 
 	private void initializeDiscoveryListener(){
-		discoveryListener = new NsdManager.DiscoveryListener(){
+		this.discoveryListener = new NsdManager.DiscoveryListener(){
 			@Override
 			public void onStartDiscoveryFailed(String serviceType, int errorCode){
 			}
 
 			@Override
 			public void onStopDiscoveryFailed(String serviceType, int errorCode){
+				Log.i("MonopolyApp", "onDiscoveryFailed");
 			}
 
 			@Override
 			public void onDiscoveryStarted(String serviceType){
+				Log.i("MonopolyApp", "onDiscoveryStart");
 			}
 
 			@Override
@@ -58,25 +61,37 @@ public class LocalGamesFinder{
 			}
 
 			@Override
-			public void onServiceFound(NsdServiceInfo serviceInfo){
+			public void onServiceFound(final NsdServiceInfo serviceInfo){
 				// Check if the found service is provided by a monopoly app
 				// If there are several services called monopoly, then an incrementing number is
 				// always added to the end of the name. Therefore, we do not look at an exact match
 				if (serviceInfo.getServiceName().contains(NetworkUtilities.NSD_SERVICE_NAME)){
-					foundLocalGames.add(new LocalGame(serviceInfo.getHost(), serviceInfo.getPort()));
-					notifyListeners();
+					boolean containsObject = false;
+					for (LocalGame game : foundLocalGames){
+						if (game.getAddress() == serviceInfo.getHost() && game.getPort() == serviceInfo.getPort()){
+							containsObject = true;
+						}
+					}
+					if (!containsObject){
+						foundLocalGames.add(new LocalGame(serviceInfo.getHost(), serviceInfo.getPort()));
+						notifyListeners();
+					}
 				}
 			}
 
 			@Override
 			public void onServiceLost(final NsdServiceInfo serviceInfo){
 				if (serviceInfo.getServiceName().contains(NetworkUtilities.NSD_SERVICE_NAME)){
+					boolean objectDeleted = false;
 					for (LocalGame game : foundLocalGames){
 						if (game.getAddress() == serviceInfo.getHost() && game.getPort() == serviceInfo.getPort()){
 							foundLocalGames.remove(game);
+							objectDeleted = true;
 						}
 					}
-					notifyListeners();
+					if (objectDeleted){
+						notifyListeners();
+					}
 				}
 			}
 		};
