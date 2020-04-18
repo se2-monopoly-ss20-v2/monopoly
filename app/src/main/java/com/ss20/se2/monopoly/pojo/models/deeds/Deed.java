@@ -1,21 +1,21 @@
 package com.ss20.se2.monopoly.pojo.models.deeds;
 
-public abstract class Deed extends GameTile {
-    private int price;
-    private int mortgage;
+public abstract class Deed extends GameTile{
 
-    Deed(String name, int price, int mortgage) {
-        super(name);
+	private int price;
+	private int mortgage;
 
-        this.price = price;
-        this.mortgage = mortgage;
-    }
+	Deed(String name, int price, int mortgage){
+		super(name);
+		this.price = price;
+		this.mortgage = mortgage;
+	}
 
-    public int getPrice() {
-        return price;
-    }
+	public int getPrice(){
+		return price;
+	}
 
-    public int getMortgage() {
-        return mortgage;
-    }
+	public int getMortgage(){
+		return mortgage;
+	}
 }
