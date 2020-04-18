@@ -1,14 +1,9 @@
 package com.ss20.se2.monopoly.pojo.models.deeds;
 
-public class ChanceCard extends Deed {
+public class ChanceCard extends Card {
 
-    private String description;
+    public ChanceCard(String name, String description) {
+        super(name, description);
 
-    public ChanceCard(String name) {
-        super(name);
-    }
-
-    public String getDescription() {
-        return description;
     }
 }

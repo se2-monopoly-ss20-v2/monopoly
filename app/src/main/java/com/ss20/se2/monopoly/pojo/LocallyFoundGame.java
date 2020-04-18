@@ -2,12 +2,12 @@ package com.ss20.se2.monopoly.pojo;
 
 import java.net.InetAddress;
 
-public class LocalGame{
+public class LocallyFoundGame {
 
 	private InetAddress address;
 	private int port;
 
-	public LocalGame(InetAddress address, int port){
+	public LocallyFoundGame(InetAddress address, int port){
 		this.address = address;
 		this.port = port;
 	}

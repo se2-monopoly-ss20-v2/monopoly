@@ -7,8 +7,8 @@ public class Street extends Deed {
     private int housePrice;
     private int hotelPrice;
 
-    public Street(String name, int balance, int mortgage, int housePrice, int hotelPrice) {
-        super(name, balance, mortgage);
+    public Street(String name, int price, int mortgage, int housePrice, int hotelPrice) {
+        super(name, price, mortgage);
 
         this.housePrice = housePrice;
         this.hotelPrice = hotelPrice;
