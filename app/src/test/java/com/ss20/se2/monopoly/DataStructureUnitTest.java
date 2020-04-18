@@ -1,12 +1,12 @@
 package com.ss20.se2.monopoly;
 
-import com.ss20.se2.monopoly.pojo.models.GamePiece;
-import com.ss20.se2.monopoly.pojo.models.Player;
-import com.ss20.se2.monopoly.pojo.models.deeds.ChanceCard;
-import com.ss20.se2.monopoly.pojo.models.deeds.CommunityCard;
-import com.ss20.se2.monopoly.pojo.models.deeds.Railroad;
-import com.ss20.se2.monopoly.pojo.models.deeds.Street;
-import com.ss20.se2.monopoly.pojo.models.deeds.Utility;
+import com.ss20.se2.monopoly.models.GamePiece;
+import com.ss20.se2.monopoly.models.Player;
+import com.ss20.se2.monopoly.models.deeds.ChanceCard;
+import com.ss20.se2.monopoly.models.deeds.CommunityCard;
+import com.ss20.se2.monopoly.models.deeds.Railroad;
+import com.ss20.se2.monopoly.models.deeds.Street;
+import com.ss20.se2.monopoly.models.deeds.Utility;
 
 import org.junit.Test;
 

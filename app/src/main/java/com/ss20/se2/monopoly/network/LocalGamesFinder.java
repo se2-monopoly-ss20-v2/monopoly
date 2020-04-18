@@ -5,7 +5,7 @@ import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
 
-import com.ss20.se2.monopoly.pojo.LocallyFoundGame;
+import com.ss20.se2.monopoly.models.LocallyFoundGame;
 
 import java.util.ArrayList;
 import java.util.List;

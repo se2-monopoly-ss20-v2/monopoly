@@ -37,10 +37,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
 
     sourceDirectories = files([mainSrc])
     classDirectories = files([debugTree])
-    executionData = fileTree(dir: "$buildDir", includes: [
-            "jacoco/testPlayDebugUnitTest.exec",
-            "outputs/code-coverage/playDebugAndroidTest/connected/*coverage.ec"
-    ])
+    executionData = files("${buildDir}/jacoco/testDebugUnitTest.exec")
 }
 task getCoverage(type: Exec, dependsOn: 'codeCoverageReport') {
     group = "Reporting"

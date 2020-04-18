@@ -1,4 +1,4 @@
-package com.ss20.se2.monopoly.pojo.models.deeds;
+package com.ss20.se2.monopoly.models.deeds;
 
 public class ChanceCard extends Card{
 
