@@ -5,8 +5,6 @@ public class Player {
     private String name;
     private int balance;
     private GamePiece selectedPiece;
-    //private ArrayList<Deed> deeds;
-    //private ArrayList<> cards;
     private int currentPosition;
 
     public Player(String name, int balance, GamePiece selectedPiece, int currentPosition) {
@@ -17,4 +15,27 @@ public class Player {
     }
 
 
+    public String getName() {
+        return name;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public GamePiece getSelectedPiece() {
+        return selectedPiece;
+    }
+
+    public int getCurrentPosition() {
+        return currentPosition;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    public void setCurrentPosition(int currentPosition) {
+        this.currentPosition = currentPosition;
+    }
 }
