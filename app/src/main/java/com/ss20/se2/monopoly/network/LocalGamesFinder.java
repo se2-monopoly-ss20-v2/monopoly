@@ -5,7 +5,7 @@ import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
 
-import com.ss20.se2.monopoly.pojo.LocalGame;
+import com.ss20.se2.monopoly.pojo.LocallyFoundGame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class LocalGamesFinder{
 	// Instance variables
 	private NsdManager.DiscoveryListener discoveryListener;
 	private List<OnLocalGamesChangedListener> listeners;
-	private List<LocalGame> foundLocalGames;
+	private List<LocallyFoundGame> foundLocalGames;
 	private boolean searching;
 
 	/**
@@ -67,13 +67,13 @@ public class LocalGamesFinder{
 				// always added to the end of the name. Therefore, we do not look at an exact match
 				if (serviceInfo.getServiceName().contains(NetworkUtilities.NSD_SERVICE_NAME)){
 					boolean containsObject = false;
-					for (LocalGame game : foundLocalGames){
+					for (LocallyFoundGame game : foundLocalGames){
 						if (game.getAddress() == serviceInfo.getHost() && game.getPort() == serviceInfo.getPort()){
 							containsObject = true;
 						}
 					}
 					if (!containsObject){
-						foundLocalGames.add(new LocalGame(serviceInfo.getHost(), serviceInfo.getPort()));
+						foundLocalGames.add(new LocallyFoundGame(serviceInfo.getHost(), serviceInfo.getPort()));
 						notifyListeners();
 					}
 				}
@@ -83,7 +83,7 @@ public class LocalGamesFinder{
 			public void onServiceLost(final NsdServiceInfo serviceInfo){
 				if (serviceInfo.getServiceName().contains(NetworkUtilities.NSD_SERVICE_NAME)){
 					boolean objectDeleted = false;
-					for (LocalGame game : foundLocalGames){
+					for (LocallyFoundGame game : foundLocalGames){
 						if (game.getAddress() == serviceInfo.getHost() && game.getPort() == serviceInfo.getPort()){
 							foundLocalGames.remove(game);
 							objectDeleted = true;
