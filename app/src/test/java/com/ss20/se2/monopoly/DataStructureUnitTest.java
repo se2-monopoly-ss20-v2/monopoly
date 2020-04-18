@@ -57,5 +57,22 @@ public class DataStructureUnitTest{
 		p1.setCurrentPosition(8);
 		assertEquals(8, p1.getCurrentPosition());
 		assertEquals(gp, p1.getSelectedPiece());
+		Utility u1 = new Utility("Wasserwerk", 200, 100);
+		Railroad r1 = new Railroad("Hauptbahnhof", 200, 100);
+		Street s1 = new Street("Esterhazy", 100, 50, 175, 300);
+		p1.addDeedToPlayer(u1);
+		p1.addDeedToPlayer(r1);
+		assertEquals(2, p1.getPlayersDeeds().size());
+		p1.addDeedToPlayer(s1);
+		assertEquals(3, p1.getPlayersDeeds().size());
+		p1.removeDeedFromPlayer(r1);
+		assertEquals(2, p1.getPlayersDeeds().size());
+		ChanceCard cc1 = new ChanceCard("Go To Go", "Go to Go and earn XY.");
+		CommunityCard co1 = new CommunityCard("Go To", "no desc");
+		p1.addCardToPlayer(cc1);
+		p1.addCardToPlayer(co1);
+		assertEquals(2, p1.getPlayersCards().size());
+		p1.removeCardFromPlayer(co1);
+		assertEquals(1, p1.getPlayersCards().size());
 	}
 }
