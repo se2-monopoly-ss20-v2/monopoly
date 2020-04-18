@@ -18,15 +18,8 @@ public class Street extends Deed {
         return housePrice;
     }
 
-    public void setHousePrice(int housePrice) {
-        this.housePrice = housePrice;
-    }
-
     public int getHotelPrice() {
         return hotelPrice;
     }
-
-    public void setHotelPrice(int hotelPrice) {
-        this.hotelPrice = hotelPrice;
-    }
+    
 }
