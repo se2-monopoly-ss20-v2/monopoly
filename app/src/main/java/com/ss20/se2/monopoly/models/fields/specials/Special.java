@@ -10,4 +10,8 @@ public class Special extends GameTile{
 		super(name);
 		this.type = type;
 	}
+
+	public SpecialFieldType getType(){
+		return type;
+	}
 }

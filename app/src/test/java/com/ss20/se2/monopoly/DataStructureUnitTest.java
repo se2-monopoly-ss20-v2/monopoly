@@ -7,6 +7,8 @@ import com.ss20.se2.monopoly.models.fields.cards.CommunityCard;
 import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
+import com.ss20.se2.monopoly.models.fields.specials.Special;
+import com.ss20.se2.monopoly.models.fields.specials.SpecialFieldType;
 
 import org.junit.Test;
 
@@ -42,6 +44,8 @@ public class DataStructureUnitTest{
 		assertEquals("Wasserwerk", u1.getName());
 		assertEquals(200, u2.getPrice());
 		assertEquals(15, u2.getMortgage());
+		Special special = new Special("Free Parking", SpecialFieldType.FREEPARKING);
+		assertEquals(SpecialFieldType.FREEPARKING, special.getType());
 	}
 
 	@Test
