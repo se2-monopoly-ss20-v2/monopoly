@@ -4,6 +4,7 @@ import com.ss20.se2.monopoly.pojo.models.deeds.Card;
 import com.ss20.se2.monopoly.pojo.models.deeds.Deed;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player{
 
@@ -11,8 +12,8 @@ public class Player{
 	private int balance;
 	private GamePiece selectedPiece;
 	private int currentPosition;
-	private ArrayList<Deed> playersDeeds;
-	private ArrayList<Card> playersCards;
+	private List<Deed> playersDeeds;
+	private List<Card> playersCards;
 
 	public Player(String name, int balance, GamePiece selectedPiece, int currentPosition){
 		this.name = name;
@@ -47,7 +48,7 @@ public class Player{
 		this.currentPosition = currentPosition;
 	}
 
-    public ArrayList<Deed> getPlayersDeeds(){
+    public List<Deed> getPlayersDeeds(){
         return playersDeeds;
     }
 
@@ -59,7 +60,7 @@ public class Player{
 	    this.playersDeeds.remove(deed);
     }
 
-    public ArrayList<Card> getPlayersCards(){
+    public List<Card> getPlayersCards(){
         return playersCards;
     }
 
