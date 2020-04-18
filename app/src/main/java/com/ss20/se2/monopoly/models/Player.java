@@ -1,7 +1,7 @@
 package com.ss20.se2.monopoly.models;
 
-import com.ss20.se2.monopoly.models.deeds.Card;
-import com.ss20.se2.monopoly.models.deeds.Deed;
+import com.ss20.se2.monopoly.models.fields.cards.Card;
+import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 
 import java.util.ArrayList;
 import java.util.List;

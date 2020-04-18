@@ -1,4 +1,6 @@
-package com.ss20.se2.monopoly.models.fields;
+package com.ss20.se2.monopoly.models.fields.deeds;
+
+import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 
 public class Street extends Deed{
 

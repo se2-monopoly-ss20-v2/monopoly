@@ -1,10 +1,10 @@
-package com.ss20.se2.monopoly.models.deeds;
+package com.ss20.se2.monopoly.models.fields;
 
 public abstract class GameTile{
 
 	private String name;
 
-	GameTile(String name){
+	public GameTile(String name){
 		this.name = name;
 	}
 

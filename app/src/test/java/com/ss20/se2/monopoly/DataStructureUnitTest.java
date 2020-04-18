@@ -2,11 +2,11 @@ package com.ss20.se2.monopoly;
 
 import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.Player;
-import com.ss20.se2.monopoly.models.deeds.ChanceCard;
-import com.ss20.se2.monopoly.models.deeds.CommunityCard;
-import com.ss20.se2.monopoly.models.deeds.Railroad;
-import com.ss20.se2.monopoly.models.deeds.Street;
-import com.ss20.se2.monopoly.models.deeds.Utility;
+import com.ss20.se2.monopoly.models.fields.cards.ChanceCard;
+import com.ss20.se2.monopoly.models.fields.cards.CommunityCard;
+import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
+import com.ss20.se2.monopoly.models.fields.deeds.Street;
+import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 
 import org.junit.Test;
 
@@ -74,5 +74,7 @@ public class DataStructureUnitTest{
 		assertEquals(2, p1.getPlayersCards().size());
 		p1.removeCardFromPlayer(co1);
 		assertEquals(1, p1.getPlayersCards().size());
+		s1.setOwner(p1);
+		assertEquals(p1, s1.getOwner());
 	}
 }
