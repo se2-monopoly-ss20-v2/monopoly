@@ -4,14 +4,10 @@ import com.ss20.se2.monopoly.models.fields.GameTile;
 
 public class Special extends GameTile{
 
-	private SpecialFieldType fieldType;
+	private SpecialFieldType type;
 
-	public Special(String name, SpecialFieldType fieldType){
+	public Special(String name, SpecialFieldType type){
 		super(name);
-		this.fieldType = fieldType;
-	}
-
-	public SpecialFieldType getFieldType(){
-		return fieldType;
+		this.type = type;
 	}
 }
