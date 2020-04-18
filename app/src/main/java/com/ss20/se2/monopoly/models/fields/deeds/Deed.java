@@ -1,8 +1,4 @@
-package com.ss20.se2.monopoly.models.fields.deeds;
-
-import com.ss20.se2.monopoly.models.Player;
-import com.ss20.se2.monopoly.models.fields.GameTile;
-
+package com.ss20.se2.monopoly.models.fields;
 /*
  * Deed definition:
  * A deed for each property is given to a player to signify ownership, and specifies purchase price, mortgage value,
@@ -15,7 +11,6 @@ public abstract class Deed extends GameTile{
 
 	private int price;
 	private int mortgage;
-	private Player owner;
 
 	Deed(String name, int price, int mortgage){
 		super(name);
@@ -29,13 +24,5 @@ public abstract class Deed extends GameTile{
 
 	public int getMortgage(){
 		return mortgage;
-	}
-
-	public Player getOwner(){
-		return owner;
-	}
-
-	public void setOwner(Player owner){
-		this.owner = owner;
 	}
 }

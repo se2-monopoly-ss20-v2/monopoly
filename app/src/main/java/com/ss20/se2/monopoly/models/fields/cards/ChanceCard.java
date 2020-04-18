@@ -1,4 +1,4 @@
-package com.ss20.se2.monopoly.models.fields.cards;
+package com.ss20.se2.monopoly.models.fields;
 
 public class ChanceCard extends Card{
 

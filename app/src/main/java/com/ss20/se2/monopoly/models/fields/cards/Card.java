@@ -1,6 +1,4 @@
-package com.ss20.se2.monopoly.models.fields.cards;
-
-import com.ss20.se2.monopoly.models.fields.GameTile;
+package com.ss20.se2.monopoly.models.fields;
 
 public abstract class Card extends GameTile{
 
