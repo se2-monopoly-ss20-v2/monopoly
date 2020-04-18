@@ -1,7 +1,5 @@
 package com.ss20.se2.monopoly.pojo.models.deeds;
 
-import com.ss20.se2.monopoly.pojo.models.deeds.Deed;
-
 public class Street extends Deed {
 
     private int housePrice;
