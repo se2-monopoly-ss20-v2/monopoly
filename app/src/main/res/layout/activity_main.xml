@@ -288,5 +288,68 @@
             app:layout_constraintTop_toBottomOf="@+id/view_number_dice"
             app:layout_constraintStart_toEndOf="@+id/imageView6" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+    <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp" app:srcCompat="@android:color/holo_blue_dark"
+            android:id="@+id/imageView12"
+            app:layout_constraintTop_toBottomOf="@+id/imageView43"
+            app:layout_constraintBottom_toTopOf="@+id/imageView23" app:layout_constraintEnd_toEndOf="@+id/imageView6"
+            app:layout_constraintStart_toEndOf="@+id/tile_middle"/>
+    <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp" app:srcCompat="@android:color/holo_blue_dark"
+            android:id="@+id/imageView43"
+            app:layout_constraintBottom_toTopOf="@+id/imageView12"
+            app:layout_constraintTop_toBottomOf="@+id/imageView37" app:layout_constraintEnd_toEndOf="@+id/imageView6"
+            app:layout_constraintStart_toEndOf="@+id/tile_middle"/>
+    <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp" app:srcCompat="@android:color/holo_blue_dark"
+            android:id="@+id/imageView23"
+            app:layout_constraintTop_toBottomOf="@+id/imageView12"
+            app:layout_constraintBottom_toTopOf="@+id/imageView35" app:layout_constraintEnd_toEndOf="@+id/imageView6"
+            app:layout_constraintStart_toEndOf="@+id/tile_middle"/>
+    <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp" app:srcCompat="@android:color/holo_blue_dark"
+            android:id="@+id/imageView35"
+            app:layout_constraintTop_toBottomOf="@+id/imageView23"
+            app:layout_constraintBottom_toTopOf="@+id/imageView38" app:layout_constraintEnd_toEndOf="@+id/imageView6"
+            app:layout_constraintStart_toEndOf="@+id/tile_middle"/>
+    <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp" app:srcCompat="@android:color/holo_blue_dark"
+            android:id="@+id/imageView38"
+            app:layout_constraintTop_toBottomOf="@+id/imageView35"
+            app:layout_constraintBottom_toTopOf="@+id/imageView39" app:layout_constraintEnd_toEndOf="@+id/imageView6"
+            app:layout_constraintStart_toEndOf="@+id/tile_middle"/>
+    <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp" app:srcCompat="@android:color/holo_blue_dark"
+            android:id="@+id/imageView39"
+            app:layout_constraintTop_toBottomOf="@+id/imageView38"
+            app:layout_constraintBottom_toTopOf="@+id/imageView40" app:layout_constraintEnd_toEndOf="@+id/imageView6"
+            app:layout_constraintStart_toEndOf="@+id/tile_middle"/>
+    <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp" app:srcCompat="@android:color/holo_blue_dark"
+            android:id="@+id/imageView40"
+            app:layout_constraintTop_toBottomOf="@+id/imageView39"
+            app:layout_constraintBottom_toTopOf="@+id/imageView41" app:layout_constraintEnd_toEndOf="@+id/imageView6"
+            app:layout_constraintStart_toEndOf="@+id/tile_middle"/>
+    <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp" app:srcCompat="@android:color/holo_blue_dark"
+            android:id="@+id/imageView41"
+            app:layout_constraintTop_toBottomOf="@+id/imageView40"
+            app:layout_constraintBottom_toTopOf="@+id/imageView42" app:layout_constraintEnd_toEndOf="@+id/imageView6"
+            app:layout_constraintStart_toEndOf="@+id/tile_middle"/>
+    <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp" app:srcCompat="@android:color/holo_blue_dark"
+            android:id="@+id/imageView42"
+            app:layout_constraintTop_toBottomOf="@+id/imageView41"
+            app:layout_constraintBottom_toTopOf="@+id/imageView34" app:layout_constraintEnd_toEndOf="@+id/imageView6"
+            app:layout_constraintStart_toEndOf="@+id/tile_middle"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
