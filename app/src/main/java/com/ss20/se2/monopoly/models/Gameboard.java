@@ -8,6 +8,7 @@ public class Gameboard{
 		gameboardArray = new GamePiece[40];
 	}
 
+
 	public void move(String name, int diceroll){
 		GamePiece temp = null;
 		int position = 0;
