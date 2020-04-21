@@ -41,32 +41,32 @@ public class MainActivity extends AppCompatActivity {
                 gameboard.move("Player 1", amount);
 
 
-                float originalX = findViewById(R.id.imageView55).getX();
-                float originalY = findViewById(R.id.imageView55).getY();
+                float originalX = findViewById(R.id.playericon).getX();
+                float originalY = findViewById(R.id.playericon).getY();
 
 
                 for (int i = 0; i < amount; i++) {
 
                     int x = gameboard.moveUI("Player 1", amount, i);
-                    float xaxis = findViewById(R.id.imageView55).getX();
-                    float yaxis = findViewById(R.id.imageView55).getY();
+                    float xaxis = findViewById(R.id.playericon).getX();
+                    float yaxis = findViewById(R.id.playericon).getY();
 
 
                     switch (x) {
                         case 1: {
-                            findViewById(R.id.imageView55).setX(xaxis - 70);
+                            findViewById(R.id.playericon).setX(xaxis - 70);
                             break;
                         }
                         case 2: {
-                            findViewById(R.id.imageView55).setY(yaxis - 70);
+                            findViewById(R.id.playericon).setY(yaxis - 70);
                             break;
                         }
                         case 3: {
-                            findViewById(R.id.imageView55).setX(xaxis + 70);
+                            findViewById(R.id.playericon).setX(xaxis + 70);
                             break;
                         }
                         case 4: {
-                            findViewById(R.id.imageView55).setY(yaxis + 70);
+                            findViewById(R.id.playericon).setY(yaxis + 70);
                             break;
                         }
                         default:
