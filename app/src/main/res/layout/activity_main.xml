@@ -305,7 +305,7 @@
             app:layout_constraintStart_toEndOf="@+id/tile_middle"/>
     <ImageView
             android:layout_width="0dp"
-            android:layout_height="0dp" app:srcCompat="@android:color/holo_blue_dark"
+            android:layout_height="0dp" app:srcCompat="@android:color/white"
             android:id="@+id/tile_35"
             app:layout_constraintTop_toBottomOf="@+id/tile_34"
             app:layout_constraintBottom_toTopOf="@+id/tile_36" app:layout_constraintEnd_toEndOf="@+id/view_background"
