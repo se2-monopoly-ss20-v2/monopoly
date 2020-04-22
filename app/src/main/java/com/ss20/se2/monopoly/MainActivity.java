@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 amount = dice.roll();
 
-                gameboard.move("Player 1", amount);
 
 
                 float originalX = findViewById(R.id.playericon).getX();
@@ -47,26 +46,31 @@ public class MainActivity extends AppCompatActivity {
 
                 for (int i = 0; i < amount; i++) {
 
+                    if (gameboard.getPosition("Player 1") - amount + i == 40) {
+                        i = 0;
+                    }
+
                     int x = gameboard.moveUI("Player 1", amount, i);
+
                     float xaxis = findViewById(R.id.playericon).getX();
                     float yaxis = findViewById(R.id.playericon).getY();
 
 
                     switch (x) {
                         case 1: {
-                            findViewById(R.id.playericon).setX(xaxis - 70);
+                            findViewById(R.id.playericon).setX(xaxis - 72);
                             break;
                         }
                         case 2: {
-                            findViewById(R.id.playericon).setY(yaxis - 70);
+                            findViewById(R.id.playericon).setY(yaxis - 72);
                             break;
                         }
                         case 3: {
-                            findViewById(R.id.playericon).setX(xaxis + 70);
+                            findViewById(R.id.playericon).setX(xaxis + 72);
                             break;
                         }
                         case 4: {
-                            findViewById(R.id.playericon).setY(yaxis + 70);
+                            findViewById(R.id.playericon).setY(yaxis + 72);
                             break;
                         }
                         default:
@@ -74,14 +78,12 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
+                gameboard.move("Player 1", amount);
 
                 view_numberDice.setText(Integer.toString(amount));
                 view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
 
             }
         });
-
-        //TODO: Spielerposition auf Ursprung zurücksetzen um Verschiebung entgegenzuwirken. -> originalx,y
-
     }
 }

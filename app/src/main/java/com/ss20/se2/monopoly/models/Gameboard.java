@@ -45,18 +45,39 @@ public class Gameboard {
 
     public int moveUI(String name, int diceroll, int i) {
         int oldPosition = getPosition(name) - diceroll;
-        if (oldPosition + i < 10) {
+        int position = getPosition(name);
+        if (position + i >= 40) {
             return 1;
         }
-        if (oldPosition + i < 20) {
+        if (position + i < 10) {
+            return 1;
+        }
+        if (position + i < 20) {
             return 2;
         }
-        if (oldPosition + i < 30) {
+        if (position + i < 30) {
             return 3;
         }
-        if (oldPosition + i < 40) {
+        if (position + i < 40) {
             return 4;
         }
         return -1;
     }
+
+/*        public int moveUI(String name, int diceroll){
+            int pos = getPosition(name);
+            if(pos + 1 <= 10) {
+                return 1;
+            }
+            if (pos + 1 <= 20) {
+                return 2;
+            }
+            if (pos + 1 <= 30) {
+                return 3;
+            }
+            if (pos + 1 <= 40) {
+                return 4;
+            }
+            return -1;
+        }*/
 }
