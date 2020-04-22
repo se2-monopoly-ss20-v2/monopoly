@@ -16,12 +16,10 @@ public class MainActivity extends AppCompatActivity {
     TextView view_numberDice;
     TextView view_position;
 
-
     Dice dice = new Dice();
     Gameboard gameboard = new Gameboard();
 
     int amount;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,19 +36,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 amount = dice.roll();
 
-
-
-                float originalX = findViewById(R.id.playericon).getX();
-                float originalY = findViewById(R.id.playericon).getY();
-
-
                 for (int i = 0; i < amount; i++) {
 
                     if (gameboard.getPosition("Player 1") - amount + i == 40) {
                         i = 0;
                     }
 
-                    int x = gameboard.moveUI("Player 1", amount, i);
+                    int x = gameboard.moveUI("Player 1", i);
 
                     float xaxis = findViewById(R.id.playericon).getX();
                     float yaxis = findViewById(R.id.playericon).getY();

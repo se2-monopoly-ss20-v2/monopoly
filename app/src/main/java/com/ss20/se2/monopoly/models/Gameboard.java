@@ -9,7 +9,6 @@ public class Gameboard {
     }
 
     public int getPosition(String name) {
-        int position = 0;
         for (int i = 0; i < 40; i++) {
             if (gameboardArray[i] != null && name.equals(gameboardArray[i].getName())) {
                 return i;
@@ -43,8 +42,7 @@ public class Gameboard {
         }
     }
 
-    public int moveUI(String name, int diceroll, int i) {
-        int oldPosition = getPosition(name) - diceroll;
+    public int moveUI(String name, int i) {
         int position = getPosition(name);
         if (position + i >= 40) {
             return 1;
@@ -63,21 +61,4 @@ public class Gameboard {
         }
         return -1;
     }
-
-/*        public int moveUI(String name, int diceroll){
-            int pos = getPosition(name);
-            if(pos + 1 <= 10) {
-                return 1;
-            }
-            if (pos + 1 <= 20) {
-                return 2;
-            }
-            if (pos + 1 <= 30) {
-                return 3;
-            }
-            if (pos + 1 <= 40) {
-                return 4;
-            }
-            return -1;
-        }*/
 }
