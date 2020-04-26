@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nav_graph"
+        app:startDestination="@id/MainFragment">
+
+    <fragment
+            android:id="@+id/MainFragment"
+            android:label="fragment_main"
+            android:name="com.ss20.se2.monopoly.view.MainFragment"
+            tools:layout="@layout/fragment_main">
+        <action
+                android:id="@+id/action_fragment_Main_to_fragment_Search"
+                app:destination="@id/SearchFragment" />
+        <action
+                android:id="@+id/action_fragment_Main_to_fragment_Settings"
+                app:destination="@id/SettingsFragment" />
+        <action
+                android:id="@+id/action_MainFragment_to_CreateGameFragment"
+                app:destination="@id/CreateGameFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/SearchFragment"
+            android:label="fragment_search"
+            android:name="com.ss20.se2.monopoly.view.SearchFragment"
+            tools:layout="@layout/fragment_search" >
+        <action
+                android:id="@+id/action_SearchFragment_to_LobbyFragment"
+                app:destination="@id/LobbyFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/SettingsFragment"
+            android:label="fragment_settings"
+            android:name="com.ss20.se2.monopoly.view.SettingsFragment"
+            tools:layout="@layout/fragment_settings" />
+    <fragment
+            android:id="@+id/CreateGameFragment"
+            android:name="com.ss20.se2.monopoly.view.CreateGameFragment"
+            android:label="fragment_creategame"
+            tools:layout="@layout/fragment_creategame" >
+        <action
+                android:id="@+id/action_CreateGameFragment_to_LobbyFragment"
+                app:destination="@id/LobbyFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/GameFragment"
+            android:name="com.ss20.se2.monopoly.view.GameFragment"
+            android:label="fragment_game"
+            tools:layout="@layout/fragment_game" />
+    <fragment
+            android:id="@+id/LobbyFragment"
+            android:name="com.ss20.se2.monopoly.view.LobbyFragment"
+            android:label="fragment_lobby"
+            tools:layout="@layout/fragment_lobby" >
+        <action
+                android:id="@+id/action_LobbyFragment_to_GameFragment"
+                app:destination="@id/GameFragment" />
+    </fragment>
+</navigation>

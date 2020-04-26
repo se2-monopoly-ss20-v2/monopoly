@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Esterhazystraße",
+    "type": "Street",
+    "price": 200,
+    "mortgage": 100,
+    "housePrice": 150,
+    "hotelPrice": 300
+  },
+  {
+    "name": "Römerstraße",
+    "type": "Street",
+    "price": 200,
+    "mortgage": 100,
+    "housePrice": 150,
+    "hotelPrice": 300
+  },
+  {
+    "name": "Hauptbahnhof",
+    "type": "Railroad",
+    "price": 200,
+    "mortgage": 100
+  },
+  {
+    "name": "Wasserwerk",
+    "type": "Utility",
+    "price": 200,
+    "mortgage": 100
+  }
+]
