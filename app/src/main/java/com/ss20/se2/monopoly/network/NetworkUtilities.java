@@ -1,7 +1,9 @@
 package com.ss20.se2.monopoly.network;
 
-class NetworkUtilities{
+public class NetworkUtilities{
 
-	static final String NSD_SERVICE_TYPE = "_http._tcp";
-	static final String NSD_SERVICE_NAME = "monopoly";
+	public static final String NSD_SERVICE_TYPE = "_http._tcp";
+	public static final String NSD_SERVICE_NAME = "monopoly";
+	public static final String TAG = "MonopolyApp";
+	public static final int MAX_PLAYERS = 8;
 }
