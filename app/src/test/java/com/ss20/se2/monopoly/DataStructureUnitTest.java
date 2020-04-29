@@ -45,7 +45,7 @@ public class DataStructureUnitTest{
 		assertEquals(200, u2.getPrice());
 		assertEquals(15, u2.getMortgage());
 		Special special = new Special("Free Parking", SpecialFieldType.FREEPARKING);
-		assertEquals(SpecialFieldType.FREEPARKING, special.getType());
+		assertEquals(SpecialFieldType.FREEPARKING, special.getFieldType());
 	}
 
 	@Test
