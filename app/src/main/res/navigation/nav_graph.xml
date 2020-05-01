@@ -18,7 +18,7 @@
                 app:destination="@id/SettingsFragment" />
         <action
                 android:id="@+id/action_MainFragment_to_CreateGameFragment"
-                app:destination="@id/CreateGameFragment" />
+                app:destination="@id/HostLobbyFragment" />
     </fragment>
     <fragment
             android:id="@+id/SearchFragment"
@@ -35,13 +35,13 @@
             android:name="com.ss20.se2.monopoly.view.SettingsFragment"
             tools:layout="@layout/fragment_settings" />
     <fragment
-            android:id="@+id/CreateGameFragment"
-            android:name="com.ss20.se2.monopoly.view.CreateGameFragment"
-            android:label="fragment_creategame"
-            tools:layout="@layout/fragment_creategame" >
+            android:id="@+id/HostLobbyFragment"
+            android:label="fragment_hostobby"
+            android:name="com.ss20.se2.monopoly.view.HostLobbyFragment"
+            tools:layout="@layout/fragment_creategame">
         <action
-                android:id="@+id/action_CreateGameFragment_to_LobbyFragment"
-                app:destination="@id/LobbyFragment" />
+                android:id="@+id/action_HostLobbyFragment_to_GameFragment"
+                app:destination="@id/GameFragment" />
     </fragment>
     <fragment
             android:id="@+id/GameFragment"
@@ -50,7 +50,7 @@
             tools:layout="@layout/fragment_game" />
     <fragment
             android:id="@+id/LobbyFragment"
-            android:name="com.ss20.se2.monopoly.view.LobbyFragment"
+            android:name="com.ss20.se2.monopoly.view.ClientLobbyFragment"
             android:label="fragment_lobby"
             tools:layout="@layout/fragment_lobby" >
         <action

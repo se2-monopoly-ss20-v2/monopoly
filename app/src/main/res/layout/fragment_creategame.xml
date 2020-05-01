@@ -2,20 +2,20 @@
 <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.CreateGameFragment"
+        tools:context=".view.HostLobbyFragment"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
 
         <TextView
                 android:id="@+id/textView"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
+                android:layout_width="wrap_content"
                 android:text="@string/HostScreen"
                 android:textAlignment="center"
                 android:textSize="24sp"
@@ -26,23 +26,35 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-                android:id="@+id/hostBtn"
-                android:layout_width="wrap_content"
+                android:enabled="false"
+                android:id="@+id/startGameBtn"
                 android:layout_height="wrap_content"
-                android:text="@string/btnHostNew"
+                android:layout_marginStart="124dp"
+                android:layout_width="wrap_content"
+                android:text="Start Game"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.551" />
 
         <ImageButton
                 android:id="@+id/backBtn"
-                android:layout_width="69dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="36dp"
+                android:layout_width="69dp"
                 android:src="@drawable/abc_vector_test"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/partnersTxt"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="34dp"
+                android:layout_marginTop="92dp"
+                android:layout_width="wrap_content"
+                android:text="Partners"
+                app:layout_constraintEnd_toEndOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -15,7 +15,7 @@ import com.ss20.se2.monopoly.network.LocalGamePublisher;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
 import com.ss20.se2.monopoly.network.server.GameServer;
 
-public class LobbyFragment extends Fragment implements View.OnClickListener{
+public class ClientLobbyFragment extends Fragment implements View.OnClickListener{
 
 	Button startBtn;
 	private ImageButton backBtn;
@@ -43,12 +43,6 @@ public class LobbyFragment extends Fragment implements View.OnClickListener{
 				break;
 			case R.id.backBtn:
 				MainActivity.getNavController().navigateUp();
-				try{
-					GameServer.getInstance().shutdownServer(v.getContext());
-				}catch (Exception e){
-					Log.e(NetworkUtilities.TAG, e.getMessage());
-				}
-				LocalGamePublisher.getInstance().hideGameInNetwork(this.getContext());
 				break;
 		}
 	}
