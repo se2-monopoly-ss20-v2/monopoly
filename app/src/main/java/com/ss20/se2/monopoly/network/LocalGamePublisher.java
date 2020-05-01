@@ -92,6 +92,7 @@ public class LocalGamePublisher{
 			initializeRegistrationListener();
 			// Publish this service to all people on the network who are looking for a service
 			manager.registerService(serviceInfo, NsdManager.PROTOCOL_DNS_SD, registrationListener);
+			Log.d("LocalGameProvider", "Local game published");
 			this.published = true;
 		}
 	}
@@ -107,6 +108,7 @@ public class LocalGamePublisher{
 			NsdManager manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
 			// Make the service no longer available to people in the network who are looking for services
 			manager.unregisterService(registrationListener);
+			Log.d("LocalGameProvider", "Local game unpublished");
 			this.published = false;
 		}
 	}
