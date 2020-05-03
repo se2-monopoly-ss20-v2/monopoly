@@ -2,8 +2,17 @@ package com.ss20.se2.monopoly.network.client;
 
 import android.util.Log;
 
-import com.google.gson.JsonObject;
+import com.ss20.se2.monopoly.models.GamePiece;
+import com.ss20.se2.monopoly.models.Lobby;
+import com.ss20.se2.monopoly.models.LobbyPlayer;
+import com.ss20.se2.monopoly.models.Player;
+import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
+import com.ss20.se2.monopoly.network.server.GameServer;
+import com.ss20.se2.monopoly.network.server.LobbyResponse;
+import com.ss20.se2.monopoly.network.server.NetworkResponse;
+import com.ss20.se2.monopoly.network.shared.GameActions;
+import com.ss20.se2.monopoly.network.shared.GameResponses;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -13,10 +22,12 @@ class ResponseHandler implements Runnable{
 
 	private final AtomicBoolean running = new AtomicBoolean(false);
 	private static ResponseHandler instance;
-	private BlockingQueue<JsonObject> queue;
+	private GameActionProcessor gameActionProcessor;
+	private BlockingQueue<NetworkResponse> queue;
 
 	private ResponseHandler(){
-		this.queue = new LinkedBlockingDeque<>();
+		this.queue = new LinkedBlockingDeque<NetworkResponse>();
+		gameActionProcessor = new GameActionProcessor();
 		start();
 	}
 
@@ -45,7 +56,7 @@ class ResponseHandler implements Runnable{
 	public void run(){
 		while (running.get()){
 			try{
-				JsonObject response = queue.take(); //blocks the thread until new response in queue
+				NetworkResponse response = queue.take(); //blocks the thread until new response in queue
 				processResponse(response);
 			}catch (InterruptedException e){
 				Log.d(NetworkUtilities.TAG, e.toString());
@@ -59,7 +70,7 @@ class ResponseHandler implements Runnable{
 	 *
 	 * @param response
 	 */
-	public synchronized void handleRequest(JsonObject response){
+	public synchronized void handleRequest(NetworkResponse response){
 		try{
 			Log.d(NetworkUtilities.TAG, "Handle response called");
 			queue.put(response);
@@ -78,9 +89,22 @@ class ResponseHandler implements Runnable{
 	 *
 	 * @param response
 	 */
-	private void processResponse(JsonObject response){
+	private void processResponse(NetworkResponse response){
 		Log.d(NetworkUtilities.TAG, "Processing of response started");
+		if (response instanceof LobbyResponse){
+			gameActionProcessor.lobby((LobbyResponse) response);
+		}
 		// TODO: First update database and then call the appropriate method(s) (using the response type)
 		//  of the OnGameDataChangedListener for every type
+	}
+
+	private class GameActionProcessor implements GameResponses{
+
+		@Override
+		public void lobby(LobbyResponse response){
+			Lobby.getInstance().setPlayers(response.getLobby().getPlayers());
+			Lobby.getInstance().setReady(response.getLobby().isReady());
+			Lobby.getInstance().notifyListeners();
+		}
 	}
 }

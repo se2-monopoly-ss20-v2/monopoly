@@ -8,15 +8,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.ss20.se2.monopoly.R;
+import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.models.LocallyFoundGame;
 import com.ss20.se2.monopoly.network.LocalGamesFinder;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
 import com.ss20.se2.monopoly.network.OnLocalGamesChangedListener;
+import com.ss20.se2.monopoly.network.client.GameController;
+import com.ss20.se2.monopoly.network.server.GameServer;
 
 import java.util.List;
 
@@ -41,7 +45,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener{
 		return myView;
 	}
 
-	public void startSearching(View myView){
+	public void startSearching(final View myView){
 		final LinearLayout foundGamesLayout = (LinearLayout) myView.findViewById(R.id.foundGamesLayout);
 		LocalGamesFinder.getInstance().startGameSearchInNetwork(this.getContext());
 		onLocalGamesChangedListener = new OnLocalGamesChangedListener(){
@@ -52,10 +56,31 @@ public class SearchFragment extends Fragment implements View.OnClickListener{
 					@Override
 					public void run(){
 						foundGamesLayout.removeAllViews();
-						for (LocallyFoundGame foundGame : foundGames){
+						for (final LocallyFoundGame foundGame : foundGames){
 							Log.d(NetworkUtilities.TAG, "Found game at: " + foundGame.getAddress() + ":" + foundGame.getPort());
 							final String text = "Game: " + foundGame.getAddress() + ":" + foundGame.getPort() + "\n";
-							Button joinGame = new Button(activity.getBaseContext());
+							final Button joinGame = new Button(activity.getBaseContext());
+							joinGame.setOnClickListener(new View.OnClickListener(){
+								@Override
+								public void onClick(View view){
+									GameController.getInstance().joinGame(foundGame.getAddress(), foundGame.getPort());
+									try{
+										GameController.getInstance().waitForEstablishedConnection();
+									}catch (Exception e){
+										Log.e(NetworkUtilities.TAG, e.getMessage());
+									}
+									Lobby.getInstance().addSelf(GameController.getInstance());
+									Lobby.getInstance().openLobby();
+									if(GameController.getInstance().isJoined()){
+										LocalGamesFinder.getInstance().stopGameSearchInNetwork(activity);
+										LocalGamesFinder.getInstance().unsubscribe(onLocalGamesChangedListener);
+										MainActivity.getNavController().navigate(R.id.ClientLobbyFragment);
+									}else {
+										TextView message = myView.findViewById(R.id.searchMsgTxt);
+										message.setText("Could not join Server");
+									}
+								}
+							});
 							joinGame.setText(text);
 							foundGamesLayout.addView(joinGame);
 						}

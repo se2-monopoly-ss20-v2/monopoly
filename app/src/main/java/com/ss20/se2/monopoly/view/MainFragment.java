@@ -10,6 +10,7 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import com.ss20.se2.monopoly.R;
+import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.network.LocalGamePublisher;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
 import com.ss20.se2.monopoly.network.server.GameServer;
@@ -50,7 +51,10 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 				MainActivity.getNavController().navigate(R.id.HostLobbyFragment);
 				try{
 					GameServer.getInstance().startServer();
+					GameServer.getInstance().allowJoining(this.getContext());
 					LocalGamePublisher.getInstance().showGameInNetwork(this.getContext(), GameServer.getInstance().getPort());
+					Lobby.getInstance().addSelf(GameServer.getInstance());
+					Lobby.getInstance().openLobby();
 				}catch (Exception e){
 					Log.e(NetworkUtilities.TAG, e.getMessage());
 				}

@@ -2,13 +2,13 @@ package com.ss20.se2.monopoly.network.client;
 
 import android.util.Log;
 
-import com.google.gson.JsonParser;
+import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
+import com.ss20.se2.monopoly.network.server.NetworkResponse;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 
 class ClientListeningThread implements Runnable{
 
@@ -24,14 +24,17 @@ class ClientListeningThread implements Runnable{
 		Log.d(NetworkUtilities.TAG, "Client thread Starting");
 		while (running){
 			try{
-				BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-				String inputLine;
-				while ((inputLine = in.readLine()) != null){
-					Log.d(NetworkUtilities.TAG, "Client thread received message: " + inputLine + " from Server");
-					ResponseHandler.getInstance().handleRequest(JsonParser.parseString(inputLine).getAsJsonObject());
+				ObjectInputStream in = new ObjectInputStream(inputStream);
+				NetworkResponse response;
+				while ((response = (NetworkResponse) in.readObject()) != null){
+					Log.d(NetworkUtilities.TAG, "Client thread received message: " + response + " from Server");
+					ResponseHandler.getInstance().handleRequest(response);
 				}
-			}catch (IOException e){
-				Log.d(NetworkUtilities.TAG, e.toString());
+			}catch (Exception e){
+				if (Lobby.getInstance().isActive()){
+					Lobby.getInstance().closeLobby();
+				}
+				Log.e(NetworkUtilities.TAG, e.toString());
 				running = false;
 				break;
 			}

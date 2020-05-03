@@ -1,6 +1,5 @@
 package com.ss20.se2.monopoly.network.client;
 
-import com.google.gson.JsonObject;
 import com.ss20.se2.monopoly.network.shared.SendingThread;
 
 import java.io.IOException;
@@ -10,6 +9,7 @@ import java.util.Collections;
 class ClientToServerCommunicator{
 
 	private SendingThread sendingThread;
+	private Thread sendingThreadObject;
 	private ClientListeningThread listeningThread;
 	private Socket socket;
 
@@ -21,16 +21,25 @@ class ClientToServerCommunicator{
 		new Thread(listeningThread).start();
 	}
 
-	public void sendMessage(JsonObject object){
-		sendingThread.setJsonObject(object);
-		new Thread(sendingThread).start();
+	public void sendMessage(NetworkMessage message){
+		sendingThread.setObject(message);
+		sendingThreadObject = new Thread(sendingThread);
+		sendingThreadObject.start();
 	}
 
 	public void closeListeningThread() throws IOException{
 		listeningThread.stop();
 	}
 
+	public void waitForSendingThread() throws InterruptedException{
+		sendingThreadObject.join();
+	}
+
 	public Socket getSocket(){
 		return socket;
+	}
+
+	public SendingThread getSendingThread(){
+		return sendingThread;
 	}
 }

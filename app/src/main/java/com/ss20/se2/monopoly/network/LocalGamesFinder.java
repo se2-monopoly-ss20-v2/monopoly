@@ -121,6 +121,7 @@ public class LocalGamesFinder{
 	 */
 	public void subscribe(OnLocalGamesChangedListener listener){
 		listeners.add(listener);
+		notifyListeners();
 	}
 
 	/**
@@ -131,6 +132,7 @@ public class LocalGamesFinder{
 	 */
 	public void unsubscribe(OnLocalGamesChangedListener listener){
 		listeners.remove(listener);
+		notifyListeners();
 	}
 
 	/**

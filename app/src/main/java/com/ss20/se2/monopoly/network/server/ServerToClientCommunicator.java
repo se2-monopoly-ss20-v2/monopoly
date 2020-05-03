@@ -16,12 +16,12 @@ class ServerToClientCommunicator{
 	public ServerToClientCommunicator(Socket socket) throws IOException{
 		this.socket = socket;
 		sendingThread = new SendingThread(Collections.singletonList(socket.getOutputStream()));
-		listeningThread = new ServerListeningThread(socket.getInputStream());
+		listeningThread = new ServerListeningThread(socket.getInputStream(), socket);
 		new Thread(listeningThread).start();
 	}
 
-	public void sendMessage(JsonObject object){
-		sendingThread.setJsonObject(object);
+	public void sendMessage(NetworkResponse object){
+		sendingThread.setObject(object);
 		new Thread(sendingThread).start();
 	}
 

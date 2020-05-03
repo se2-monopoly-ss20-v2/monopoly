@@ -1,24 +1,32 @@
 package com.ss20.se2.monopoly.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.ss20.se2.monopoly.R;
-import com.ss20.se2.monopoly.network.LocalGamePublisher;
-import com.ss20.se2.monopoly.network.NetworkUtilities;
-import com.ss20.se2.monopoly.network.server.GameServer;
+import com.ss20.se2.monopoly.models.Lobby;
+import com.ss20.se2.monopoly.models.LobbyPlayer;
+import com.ss20.se2.monopoly.models.OnLobbyDataChangedListener;
+import com.ss20.se2.monopoly.network.client.GameController;
+import com.ss20.se2.monopoly.network.client.JoinLobbyNetworkMessage;
+import com.ss20.se2.monopoly.network.client.LeaveLobbyNetworkMessage;
+import com.ss20.se2.monopoly.network.shared.RequestType;
 
 public class ClientLobbyFragment extends Fragment implements View.OnClickListener{
 
-	Button startBtn;
+	private Button startBtn;
 	private ImageButton backBtn;
+	private TextView partnerTxt;
+	private FragmentActivity activity;
+	private OnLobbyDataChangedListener onLobbyDataChangedListener;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -27,12 +35,36 @@ public class ClientLobbyFragment extends Fragment implements View.OnClickListene
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-		View myView = inflater.inflate(R.layout.fragment_lobby, container, false);
+		View myView = inflater.inflate(R.layout.fragment_clientlobby, container, false);
 		startBtn = myView.findViewById(R.id.startBtn);
 		startBtn.setOnClickListener(this);
 		backBtn = myView.findViewById(R.id.backBtn);
 		backBtn.setOnClickListener(this);
-		return myView;
+		partnerTxt = myView.findViewById(R.id.clientPartnersTxt);
+		activity = getActivity();
+		repaintPartners();
+		onLobbyDataChangedListener = new OnLobbyDataChangedListener(){
+			@Override
+			public void onLobbyDataChanged(Lobby lobby){
+				if(lobby.isActive()){
+					repaintPartners();
+				}else {
+					Lobby.getInstance().unsubscribe(onLobbyDataChangedListener);
+					GameController.getInstance().leaveGame();
+					MainActivity.getNavController().navigateUp();
+				}
+			}
+		};
+		Lobby.getInstance().subscribe(onLobbyDataChangedListener);
+
+		JoinLobbyNetworkMessage message = new JoinLobbyNetworkMessage();
+		message.setSenderName(Lobby.getInstance().getSelf().getName());
+		message.setSenderAddress(Lobby.getInstance().getSelf().getAddress());
+		message.setSenderPort(Lobby.getInstance().getSelf().getPort());
+		message.setType(RequestType.JOIN_GAME);
+		message.setGamePiece(Lobby.getInstance().getSelf().getGamePiece());
+		GameController.getInstance().joinLobby(message);
+	return myView;
 	}
 
 	@Override
@@ -42,8 +74,30 @@ public class ClientLobbyFragment extends Fragment implements View.OnClickListene
 				MainActivity.getNavController().navigate(R.id.GameFragment);
 				break;
 			case R.id.backBtn:
+				LeaveLobbyNetworkMessage message = new LeaveLobbyNetworkMessage();
+				message.setSenderName(Lobby.getInstance().getSelf().getName());
+				message.setSenderAddress(Lobby.getInstance().getSelf().getAddress());
+				message.setSenderPort(Lobby.getInstance().getSelf().getPort());
+				message.setType(RequestType.JOIN_GAME);
+				GameController.getInstance().leaveLobby(message);
+				Lobby.getInstance().unsubscribe(onLobbyDataChangedListener);
+				GameController.getInstance().leaveGame();
 				MainActivity.getNavController().navigateUp();
 				break;
 		}
+	}
+
+	public void repaintPartners(){
+		activity.runOnUiThread(new Runnable(){
+			@Override
+			public void run(){
+				partnerTxt.setText("");
+				String out = "";
+				for (LobbyPlayer player : Lobby.getInstance().getPlayers()){
+					out = out + player.getName() + " " + player.getAddress() + " " + player.getPort() + " " + player.getGamePiece().getName() + "\n\n";
+				}
+				partnerTxt.setText(out);
+			}
+		});
 	}
 }

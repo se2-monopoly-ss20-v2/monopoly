@@ -2,17 +2,18 @@ package com.ss20.se2.monopoly.network.shared;
 
 import android.util.Log;
 
-import com.google.gson.JsonObject;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
+import com.ss20.se2.monopoly.network.client.NetworkMessage;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.List;
 
 public class SendingThread implements Runnable{
 
 	private List<OutputStream> outputStreamList;
-	private JsonObject jsonObject;
+	private NetworkObject object;
 
 	public SendingThread(List<OutputStream> outputStreamList){
 		this.outputStreamList = outputStreamList;
@@ -22,18 +23,23 @@ public class SendingThread implements Runnable{
 	public void run(){
 		Log.d(NetworkUtilities.TAG, "Communication thread starting");
 		for (OutputStream outStream : outputStreamList){
-			PrintWriter out = new PrintWriter(outStream, true);
-			Log.d(NetworkUtilities.TAG, "Sent " + jsonObject);
-			out.println(jsonObject);
+			ObjectOutputStream out = null;
+			try{
+				out = new ObjectOutputStream(outStream);
+				Log.d(NetworkUtilities.TAG, "Sent " + object);
+				out.writeObject(object);
+			}catch (IOException e){
+				e.printStackTrace();
+			}
 		}
 	}
 
-	public JsonObject getJsonObject(){
-		return jsonObject;
+	public NetworkObject getObject(){
+		return object;
 	}
 
-	public void setJsonObject(JsonObject jsonObject){
-		this.jsonObject = jsonObject;
+	public void setObject(NetworkObject object){
+		this.object = object;
 	}
 
 	public void setOutputStreamList(List<OutputStream> outputStreamList){

@@ -109,7 +109,7 @@ public class GameServer implements Runnable{
 		return communicators;
 	}
 
-	void sendResponseToAll(JsonObject response){
+	void sendResponseToAll(NetworkResponse response){
 		for (ServerToClientCommunicator communicator : communicators){
 			communicator.sendMessage(response);
 		}

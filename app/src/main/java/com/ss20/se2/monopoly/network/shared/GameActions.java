@@ -3,8 +3,8 @@ package com.ss20.se2.monopoly.network.shared;
 import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
-
-import java.net.InetAddress;
+import com.ss20.se2.monopoly.network.client.JoinLobbyNetworkMessage;
+import com.ss20.se2.monopoly.network.client.LeaveLobbyNetworkMessage;
 
 /**
  * This interface defines all possible user interactions. It is implemented on the client side to
@@ -14,9 +14,9 @@ import java.net.InetAddress;
  */
 public interface GameActions{
 
-	void joinGame(InetAddress address, int port);
+	void joinLobby(JoinLobbyNetworkMessage message);
 
-	void leaveGame();
+	void leaveLobby(LeaveLobbyNetworkMessage message);
 
 	void changeGamePiece(Player player, GamePiece gamePiece);
 
