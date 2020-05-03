@@ -3,6 +3,7 @@ package com.ss20.se2.monopoly.network.client;
 import com.ss20.se2.monopoly.network.shared.SendingThread;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Collections;
 
@@ -15,7 +16,7 @@ class ClientToServerCommunicator{
 
 	public ClientToServerCommunicator(Socket socket) throws IOException{
 		this.socket = socket;
-		sendingThread = new SendingThread(Collections.singletonList(socket.getOutputStream()));
+		sendingThread = new SendingThread(Collections.singletonList(new ObjectOutputStream(socket.getOutputStream())));
 		listeningThread = new ClientListeningThread(socket.getInputStream());
 		listeningThread.setRunning(true);
 		new Thread(listeningThread).start();

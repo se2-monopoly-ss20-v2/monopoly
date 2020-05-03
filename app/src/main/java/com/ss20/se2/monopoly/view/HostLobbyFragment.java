@@ -87,7 +87,13 @@ public class HostLobbyFragment extends Fragment implements View.OnClickListener{
 				partnerTxt.setText("");
 				String out = "";
 				for (LobbyPlayer player : Lobby.getInstance().getPlayers()){
-					out = out + player.getName() + " " + player.getAddress() + " " + player.getPort() + " " + player.getGamePiece().getName() + "\n\n";
+					out = out + player.getName() + " (" + player.getAddress() + ":" + player.getPort() + ") " + player.getGamePiece().getName();
+					if(player.isReady()){
+						out = out + " Ready";
+					}else{
+						out = out + " Not Ready";
+					}
+					out = out + "\n\n";
 				}
 				partnerTxt.setText(out);
 			}

@@ -18,11 +18,12 @@ import com.ss20.se2.monopoly.models.OnLobbyDataChangedListener;
 import com.ss20.se2.monopoly.network.client.GameController;
 import com.ss20.se2.monopoly.network.client.JoinLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.LeaveLobbyNetworkMessage;
+import com.ss20.se2.monopoly.network.client.ReadyLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.shared.RequestType;
 
 public class ClientLobbyFragment extends Fragment implements View.OnClickListener{
 
-	private Button startBtn;
+	private Button readyBtn;
 	private ImageButton backBtn;
 	private TextView partnerTxt;
 	private FragmentActivity activity;
@@ -36,8 +37,8 @@ public class ClientLobbyFragment extends Fragment implements View.OnClickListene
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		View myView = inflater.inflate(R.layout.fragment_clientlobby, container, false);
-		startBtn = myView.findViewById(R.id.startBtn);
-		startBtn.setOnClickListener(this);
+		readyBtn = myView.findViewById(R.id.readyBtn);
+		readyBtn.setOnClickListener(this);
 		backBtn = myView.findViewById(R.id.backBtn);
 		backBtn.setOnClickListener(this);
 		partnerTxt = myView.findViewById(R.id.clientPartnersTxt);
@@ -46,9 +47,9 @@ public class ClientLobbyFragment extends Fragment implements View.OnClickListene
 		onLobbyDataChangedListener = new OnLobbyDataChangedListener(){
 			@Override
 			public void onLobbyDataChanged(Lobby lobby){
-				if(lobby.isActive()){
+				if (lobby.isActive()){
 					repaintPartners();
-				}else {
+				}else{
 					Lobby.getInstance().unsubscribe(onLobbyDataChangedListener);
 					GameController.getInstance().leaveGame();
 					MainActivity.getNavController().navigateUp();
@@ -56,7 +57,6 @@ public class ClientLobbyFragment extends Fragment implements View.OnClickListene
 			}
 		};
 		Lobby.getInstance().subscribe(onLobbyDataChangedListener);
-
 		JoinLobbyNetworkMessage message = new JoinLobbyNetworkMessage();
 		message.setSenderName(Lobby.getInstance().getSelf().getName());
 		message.setSenderAddress(Lobby.getInstance().getSelf().getAddress());
@@ -64,14 +64,19 @@ public class ClientLobbyFragment extends Fragment implements View.OnClickListene
 		message.setType(RequestType.JOIN_GAME);
 		message.setGamePiece(Lobby.getInstance().getSelf().getGamePiece());
 		GameController.getInstance().joinLobby(message);
-	return myView;
+		return myView;
 	}
 
 	@Override
 	public void onClick(View v){
 		switch (v.getId()){
-			case R.id.startBtn:
-				MainActivity.getNavController().navigate(R.id.GameFragment);
+			case R.id.readyBtn:
+				ReadyLobbyNetworkMessage readymessage = new ReadyLobbyNetworkMessage();
+				readymessage.setSenderName(Lobby.getInstance().getSelf().getName());
+				readymessage.setSenderAddress(Lobby.getInstance().getSelf().getAddress());
+				readymessage.setSenderPort(Lobby.getInstance().getSelf().getPort());
+				readymessage.setType(RequestType.JOIN_GAME);
+				GameController.getInstance().changeReadyLobby(readymessage);
 				break;
 			case R.id.backBtn:
 				LeaveLobbyNetworkMessage message = new LeaveLobbyNetworkMessage();
@@ -94,7 +99,13 @@ public class ClientLobbyFragment extends Fragment implements View.OnClickListene
 				partnerTxt.setText("");
 				String out = "";
 				for (LobbyPlayer player : Lobby.getInstance().getPlayers()){
-					out = out + player.getName() + " " + player.getAddress() + " " + player.getPort() + " " + player.getGamePiece().getName() + "\n\n";
+					out = out + player.getName() + " (" + player.getAddress() + ":" + player.getPort() + ") " + player.getGamePiece().getName();
+					if (player.isReady()){
+						out = out + " Ready";
+					}else{
+						out = out + " Not Ready";
+					}
+					out = out + "\n\n";
 				}
 				partnerTxt.setText(out);
 			}

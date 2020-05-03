@@ -12,22 +12,21 @@ import java.util.List;
 
 public class SendingThread implements Runnable{
 
-	private List<OutputStream> outputStreamList;
+	private List<ObjectOutputStream> outputStreamList;
 	private NetworkObject object;
 
-	public SendingThread(List<OutputStream> outputStreamList){
+	public SendingThread(List<ObjectOutputStream> outputStreamList){
 		this.outputStreamList = outputStreamList;
 	}
 
 	@Override
 	public void run(){
 		Log.d(NetworkUtilities.TAG, "Communication thread starting");
-		for (OutputStream outStream : outputStreamList){
-			ObjectOutputStream out = null;
+		for (ObjectOutputStream outStream : outputStreamList){
 			try{
-				out = new ObjectOutputStream(outStream);
 				Log.d(NetworkUtilities.TAG, "Sent " + object);
-				out.writeObject(object);
+				outStream.writeUnshared(object);
+				outStream.reset();
 			}catch (IOException e){
 				e.printStackTrace();
 			}
@@ -42,7 +41,7 @@ public class SendingThread implements Runnable{
 		this.object = object;
 	}
 
-	public void setOutputStreamList(List<OutputStream> outputStreamList){
+	public void setOutputStreamList(List<ObjectOutputStream> outputStreamList){
 		this.outputStreamList = outputStreamList;
 	}
 }

@@ -3,6 +3,7 @@ package com.ss20.se2.monopoly.network.client;
 import android.util.Log;
 
 import com.ss20.se2.monopoly.models.GamePiece;
+import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.models.OnGameDataChangedListener;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
@@ -104,6 +105,14 @@ public class GameController implements Runnable, GameActions{
 	@Override
 	public void changeGamePiece(Player player, GamePiece gamePiece){
 		communicator.sendMessage(null);
+	}
+
+	@Override
+	public void changeReadyLobby(ReadyLobbyNetworkMessage message){
+		boolean newVal = !(Lobby.getInstance().getSelf().isReady());
+		Lobby.getInstance().getSelf().setReady(newVal);
+		message.setValue(newVal);
+		communicator.sendMessage(message);
 	}
 
 	@Override

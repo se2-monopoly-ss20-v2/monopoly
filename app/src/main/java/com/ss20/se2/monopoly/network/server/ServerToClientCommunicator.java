@@ -1,9 +1,9 @@
 package com.ss20.se2.monopoly.network.server;
 
-import com.google.gson.JsonObject;
 import com.ss20.se2.monopoly.network.shared.SendingThread;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Collections;
 
@@ -15,7 +15,7 @@ class ServerToClientCommunicator{
 
 	public ServerToClientCommunicator(Socket socket) throws IOException{
 		this.socket = socket;
-		sendingThread = new SendingThread(Collections.singletonList(socket.getOutputStream()));
+		sendingThread = new SendingThread(Collections.singletonList(new ObjectOutputStream(socket.getOutputStream())));
 		listeningThread = new ServerListeningThread(socket.getInputStream(), socket);
 		new Thread(listeningThread).start();
 	}

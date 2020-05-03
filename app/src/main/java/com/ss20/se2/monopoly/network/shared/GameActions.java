@@ -5,6 +5,7 @@ import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 import com.ss20.se2.monopoly.network.client.JoinLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.LeaveLobbyNetworkMessage;
+import com.ss20.se2.monopoly.network.client.ReadyLobbyNetworkMessage;
 
 /**
  * This interface defines all possible user interactions. It is implemented on the client side to
@@ -19,6 +20,8 @@ public interface GameActions{
 	void leaveLobby(LeaveLobbyNetworkMessage message);
 
 	void changeGamePiece(Player player, GamePiece gamePiece);
+
+	void changeReadyLobby(ReadyLobbyNetworkMessage message);
 
 	void rollDice();
 

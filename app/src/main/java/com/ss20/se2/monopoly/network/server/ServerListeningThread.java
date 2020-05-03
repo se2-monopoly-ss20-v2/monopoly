@@ -39,10 +39,11 @@ class ServerListeningThread implements Runnable{
 				while ((message = (NetworkMessage) in.readObject()) != null){
 					Log.d(NetworkUtilities.TAG, "Server thread received message: " + message + " from " + inputStream.toString());
 					RequestHandler.getInstance().handleRequest(message);
-			}
+					message = null;
+				}
 			}catch (Exception e){
 				running = false;
-				if(Lobby.getInstance().isActive()){
+				if (Lobby.getInstance().isActive()){
 					LeaveLobbyNetworkMessage networkMessage = new LeaveLobbyNetworkMessage();
 					networkMessage.setSenderName("");
 					networkMessage.setSenderAddress(socket.getInetAddress());

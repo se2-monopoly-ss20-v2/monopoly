@@ -9,6 +9,7 @@ import com.ss20.se2.monopoly.network.server.NetworkResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 class ClientListeningThread implements Runnable{
 
@@ -25,7 +26,7 @@ class ClientListeningThread implements Runnable{
 		while (running){
 			try{
 				ObjectInputStream in = new ObjectInputStream(inputStream);
-				NetworkResponse response;
+				NetworkResponse response = null;
 				while ((response = (NetworkResponse) in.readObject()) != null){
 					Log.d(NetworkUtilities.TAG, "Client thread received message: " + response + " from Server");
 					ResponseHandler.getInstance().handleRequest(response);
