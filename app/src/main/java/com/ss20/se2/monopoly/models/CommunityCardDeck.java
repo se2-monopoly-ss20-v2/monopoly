@@ -26,26 +26,11 @@ public class CommunityCardDeck extends CardDeck {
     CommunityCard card15 = new CommunityCard("15", "Du erbst 100€.");
     CommunityCard card16 = new CommunityCard("16", "2. Rücke vor bis auf Los.");
 
-
+    CommunityCard[] cards = new CommunityCard[]{card1,card2,card3,card4,card5,card6,card7,card8,card9,card10,card11,card12,card13,card14,card15,card16};
 
     public void initializeDeck(){
-        stackOfCards.push(card1);
-        stackOfCards.push(card2);
-        stackOfCards.push(card3);
-        stackOfCards.push(card4);
-        stackOfCards.push(card5);
-        stackOfCards.push(card6);
-        stackOfCards.push(card7);
-        stackOfCards.push(card8);
-        stackOfCards.push(card9);
-        stackOfCards.push(card10);
-        stackOfCards.push(card11);
-        stackOfCards.push(card12);
-        stackOfCards.push(card13);
-        stackOfCards.push(card14);
-        stackOfCards.push(card15);
-        stackOfCards.push(card16);
-
+        for (int i = 0; i < cards.length; i++) {
+        }
         Collections.shuffle(stackOfCards);
     }
 
