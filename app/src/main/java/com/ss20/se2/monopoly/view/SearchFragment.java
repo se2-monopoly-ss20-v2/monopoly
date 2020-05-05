@@ -58,7 +58,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener{
 						foundGamesLayout.removeAllViews();
 						for (final LocallyFoundGame foundGame : foundGames){
 							Log.d(NetworkUtilities.TAG, "Found game at: " + foundGame.getAddress() + ":" + foundGame.getPort());
-							final String text = "Game: " + foundGame.getAddress() + ":" + foundGame.getPort() + "\n";
+							final String text = "Game @ " + foundGame.getAddress() + ":" + foundGame.getPort() + "\n";
 							final Button joinGame = new Button(activity.getBaseContext());
 							joinGame.setOnClickListener(new View.OnClickListener(){
 								@Override

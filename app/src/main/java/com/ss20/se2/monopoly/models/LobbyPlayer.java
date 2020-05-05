@@ -15,13 +15,15 @@ public class LobbyPlayer implements Serializable{
 	private int port;
 	private GamePiece gamePiece;
 	private boolean ready;
+	private boolean isHost;
 
-	public LobbyPlayer(String name, InetAddress address, int port, GamePiece gamePiece){
+	public LobbyPlayer(String name, InetAddress address, int port, GamePiece gamePiece, boolean isHost){
 		this.name = name;
 		this.address = address;
 		this.port = port;
 		this.gamePiece = gamePiece;
 		this.ready = false;
+		this.isHost = isHost;
 	}
 
 	public String getName(){
@@ -62,5 +64,13 @@ public class LobbyPlayer implements Serializable{
 
 	public void setReady(boolean ready){
 		this.ready = ready;
+	}
+
+	public boolean isHost(){
+		return isHost;
+	}
+
+	public void setHost(boolean host){
+		isHost = host;
 	}
 }

@@ -46,13 +46,13 @@ public class Lobby implements Serializable{
 	}
 
 	public void addSelf(GameServer gameServer){
-		LobbyPlayer lobbyPlayer = new LobbyPlayer("SERVER", gameServer.getAddress(), gameServer.getPort(), new GamePiece("Cool"));
+		LobbyPlayer lobbyPlayer = new LobbyPlayer("SERVER", gameServer.getAddress(), gameServer.getPort(), new GamePiece("Dino"),true);
 		self = lobbyPlayer;
 		players.add(lobbyPlayer);
 	}
 
 	public void addSelf(GameController gameController){
-		LobbyPlayer lobbyPlayer = new LobbyPlayer("CLIENT", gameController.getSocket().getLocalAddress(), gameController.getSocket().getLocalPort(), new GamePiece("Cool"));;
+		LobbyPlayer lobbyPlayer = new LobbyPlayer("CLIENT", gameController.getSocket().getLocalAddress(), gameController.getSocket().getLocalPort(), new GamePiece("Ente"), false);;
 		self = lobbyPlayer;
 		players.add(lobbyPlayer);
 	}

@@ -106,7 +106,7 @@ class RequestHandler implements Runnable{
 
 		@Override
 		public void joinLobby(JoinLobbyNetworkMessage message){
-			LobbyPlayer player = new LobbyPlayer(message.getSenderName(), message.getSenderAddress(), message.getSenderPort(), message.getGamePiece());
+			LobbyPlayer player = new LobbyPlayer(message.getSenderName(), message.getSenderAddress(), message.getSenderPort(), message.getGamePiece(), false);
 			Lobby.getInstance().addPlayer(player);
 			LobbyResponse lobbyResponse = new LobbyResponse();
 			lobbyResponse.setLobby(Lobby.getInstance());

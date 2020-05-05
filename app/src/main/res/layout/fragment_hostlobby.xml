@@ -26,7 +26,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-                android:enabled="false"
+                android:enabled="true"
                 android:id="@+id/startGameBtn"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="124dp"

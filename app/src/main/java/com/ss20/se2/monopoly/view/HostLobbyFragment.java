@@ -1,5 +1,6 @@
 package com.ss20.se2.monopoly.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,6 +62,8 @@ public class HostLobbyFragment extends Fragment implements View.OnClickListener{
 		switch (v.getId()){
 			case R.id.startGameBtn:
 				MainActivity.getNavController().navigate(R.id.GameFragment);
+				Intent intent = new Intent(activity, OldActivity2.class);
+				startActivity(intent);
 				break;
 			case R.id.backBtn:
 				MainActivity.getNavController().navigateUp();
@@ -87,11 +90,15 @@ public class HostLobbyFragment extends Fragment implements View.OnClickListener{
 				partnerTxt.setText("");
 				String out = "";
 				for (LobbyPlayer player : Lobby.getInstance().getPlayers()){
-					out = out + player.getName() + " (" + player.getAddress() + ":" + player.getPort() + ") " + player.getGamePiece().getName();
-					if(player.isReady()){
-						out = out + " Ready";
+					out = out + player.getName() + " (" + player.getGamePiece().getName() + ")";
+					if (player.isHost()){
+						out = out + " [Host]";
 					}else{
-						out = out + " Not Ready";
+						if (player.isReady()){
+							out = out + " [Ready]";
+						}else{
+							out = out + " [Not Ready]";
+						}
 					}
 					out = out + "\n\n";
 				}

@@ -99,11 +99,15 @@ public class ClientLobbyFragment extends Fragment implements View.OnClickListene
 				partnerTxt.setText("");
 				String out = "";
 				for (LobbyPlayer player : Lobby.getInstance().getPlayers()){
-					out = out + player.getName() + " (" + player.getAddress() + ":" + player.getPort() + ") " + player.getGamePiece().getName();
-					if (player.isReady()){
-						out = out + " Ready";
+					out = out + player.getName() + " (" + player.getGamePiece().getName() + ") ";
+					if (player.isHost()){
+						out = out + " [Host]";
 					}else{
-						out = out + " Not Ready";
+						if (player.isReady()){
+							out = out + " [Ready]";
+						}else{
+							out = out + " [Not Ready]";
+						}
 					}
 					out = out + "\n\n";
 				}
