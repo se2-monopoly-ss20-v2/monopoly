@@ -1,11 +1,24 @@
 package com.ss20.se2.monopoly.models;
 
+import android.content.Context;
+
+import com.ss20.se2.monopoly.FieldDeserializer;
+import com.ss20.se2.monopoly.Utils;
+import com.ss20.se2.monopoly.models.fields.GameTile;
+
+import java.util.ArrayList;
+
 public class Gameboard {
 
 	public GamePiece[] gameboardArray;
+	public ArrayList<GameTile> gameTiles;
 
-	public Gameboard() {
+	public Gameboard(Context context) {
 		gameboardArray = new GamePiece[40];
+
+		Utils utils = new Utils();
+		String inputString = utils.getJSONFromAssets(context, "en");
+		gameTiles = (ArrayList<GameTile>) utils.getGameTilesRelativeFrom(inputString);
 	}
 
 	public int getPosition(String name) {

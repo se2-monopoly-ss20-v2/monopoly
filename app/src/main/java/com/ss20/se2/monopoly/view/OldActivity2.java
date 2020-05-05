@@ -1,8 +1,11 @@
 package com.ss20.se2.monopoly.view;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,15 +14,22 @@ import com.ss20.se2.monopoly.R;
 import com.ss20.se2.monopoly.models.Dice;
 import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.Gameboard;
+import com.ss20.se2.monopoly.models.Player;
+import com.ss20.se2.monopoly.models.fields.GameTile;
+import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
+import com.ss20.se2.monopoly.models.fields.deeds.Street;
+import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 
 public class OldActivity2 extends AppCompatActivity{
 
 	Button button_rollDice;
 	TextView view_numberDice;
 	TextView view_position;
+	TextView view_balance;
 
 	Dice dice = new Dice();
-	Gameboard gameboard = new Gameboard();
+	Gameboard gameboard;
 
 	int amount;
 
@@ -28,11 +38,15 @@ public class OldActivity2 extends AppCompatActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_old2);
 
+		final Player p = new Player("Wutzi", 1000, new GamePiece("shoe"), 0);
+
+		gameboard = new Gameboard(getApplicationContext());
 		gameboard.gameboardArray[0] = new GamePiece("Player 1");
 		button_rollDice = findViewById(R.id.button_roll_dice);
 		view_numberDice = findViewById(R.id.view_number_dice);
 		view_position = findViewById(R.id.number_playerposition);
-
+		view_balance = findViewById(R.id.text_balance);
+		view_balance.setText("Balance: " + p.getBalance());
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -74,11 +88,61 @@ public class OldActivity2 extends AppCompatActivity{
 				}
 				gameboard.move("Player 1", amount);
 
+				p.setCurrentPosition(gameboard.getPosition("Player 1"));
+				checkPlayersPosition(p);
+
 				view_numberDice.setText(Integer.toString(amount));
 				view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
 
 			}
 		});
+	}
+
+	public void checkPlayersPosition(final Player player) {
+		GameTile currentTile = gameboard.gameTiles.get(player.getCurrentPosition());
+
+		//i know not that performant, but currently i only want to proof our concept.
+		if (currentTile instanceof Street) {
+			final Street street = (Street) currentTile;
+			if (street.getOwner() == null) {
+				AlertDialog dialog = new AlertDialog.Builder(OldActivity2.this).create();
+				dialog.setTitle("Buy Deed?");
+				dialog.setMessage("You are about to buy " + "'" + street.getName() + "' for €" + street.getPrice());
+				dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener(){
+					@Override
+					public void onClick(DialogInterface dialog, int which){
+						dialog.dismiss();
+						//TODO: START AUCTION - OR NOT
+					}
+				});
+				dialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener(){
+					@Override
+					public void onClick(DialogInterface dialog, int which){
+						performAcquiringDeed(street, player);
+					}
+				});
+
+				dialog.show();
+			}
+
+
+		}else if (currentTile instanceof Railroad) {
+
+		}else if (currentTile instanceof Utility) {
+
+		}
+	}
+
+	public void performAcquiringDeed(Deed deed, Player player) {
+		if (deed.getPrice() <= player.getBalance()) {
+			//PLAYER CAN BUY IT
+			int newBalance = player.getBalance() - deed.getPrice();
+			player.updateBalance(newBalance);
+			player.addDeedToPlayer(deed);
+
+			view_balance.setText("Balance: " + player.getBalance());
+		}
+		//TODO: HANDLE CASE IF PLAYER HAS NOT ENOUGH MONEY
 	}
 }
 
