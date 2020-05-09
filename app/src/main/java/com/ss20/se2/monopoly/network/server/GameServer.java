@@ -4,8 +4,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
+import com.ss20.se2.monopoly.models.GamePiece;
+import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.network.LocalGamePublisher;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
+import com.ss20.se2.monopoly.network.client.ChangeGamePieceNetworkMessage;
+import com.ss20.se2.monopoly.network.shared.RequestType;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -74,6 +78,10 @@ public class GameServer implements Runnable{
 	public void startGame(Context context) throws GameServerNotRunningException{
 		if (running){
 			refuseJoining(context);
+			Lobby.getInstance().setStarted(true);
+			LobbyResponse lobbyResponse = new LobbyResponse();
+			lobbyResponse.setLobby(Lobby.getInstance());
+			GameServer.getInstance().sendResponseToAll(lobbyResponse);
 		}else{
 			throw new GameServerNotRunningException(SERVER_NOT_RUNNING);
 		}
@@ -155,5 +163,15 @@ public class GameServer implements Runnable{
 			Log.e(NetworkUtilities.TAG, e.toString());
 		}
 		Log.i(NetworkUtilities.TAG, "Server closed discovery");
+	}
+
+	public void changeGamePiece(String name){
+		ChangeGamePieceNetworkMessage networkMessage = new ChangeGamePieceNetworkMessage();
+		networkMessage.setSenderName(Lobby.getInstance().getSelf().getName());
+		networkMessage.setSenderAddress(Lobby.getInstance().getSelf().getAddress());
+		networkMessage.setSenderPort(Lobby.getInstance().getSelf().getPort());
+		networkMessage.setType(RequestType.CHANGE_GAME_PIECE);
+		networkMessage.setGamePiece(new GamePiece(name));
+		RequestHandler.getInstance().handleRequest(networkMessage);
 	}
 }

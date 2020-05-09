@@ -8,6 +8,7 @@ import com.ss20.se2.monopoly.models.LobbyPlayer;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
+import com.ss20.se2.monopoly.network.client.ChangeGamePieceNetworkMessage;
 import com.ss20.se2.monopoly.network.client.JoinLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.LeaveLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.NetworkMessage;
@@ -73,7 +74,7 @@ class RequestHandler implements Runnable{
 	 *
 	 * @param message
 	 */
-	synchronized void handleRequest(NetworkMessage message){
+	public synchronized void handleRequest(NetworkMessage message){
 		try{
 			Log.d(NetworkUtilities.TAG, "Handle request called");
 			queue.put(message);
@@ -98,6 +99,8 @@ class RequestHandler implements Runnable{
 			gameActionProcessor.joinLobby((JoinLobbyNetworkMessage) request);
 		}else if (request instanceof ReadyLobbyNetworkMessage){
 			gameActionProcessor.changeReadyLobby((ReadyLobbyNetworkMessage) request);
+		}else if (request instanceof ChangeGamePieceNetworkMessage){
+			gameActionProcessor.changeGamePiece((ChangeGamePieceNetworkMessage) request);
 		}
 		// TODO: Use the classes of the request and the type to call the specific action method
 	}
@@ -108,6 +111,7 @@ class RequestHandler implements Runnable{
 		public void joinLobby(JoinLobbyNetworkMessage message){
 			LobbyPlayer player = new LobbyPlayer(message.getSenderName(), message.getSenderAddress(), message.getSenderPort(), message.getGamePiece(), false);
 			Lobby.getInstance().addPlayer(player);
+			Lobby.getInstance().calculateReadyState();
 			LobbyResponse lobbyResponse = new LobbyResponse();
 			lobbyResponse.setLobby(Lobby.getInstance());
 			Lobby.getInstance().notifyListeners();
@@ -126,6 +130,7 @@ class RequestHandler implements Runnable{
 			if (lobbyPlayer != null){
 				Lobby.getInstance().removePlayer(lobbyPlayer);
 			}
+			Lobby.getInstance().calculateReadyState();
 			LobbyResponse lobbyResponse = new LobbyResponse();
 			lobbyResponse.setLobby(Lobby.getInstance());
 			Lobby.getInstance().notifyListeners();
@@ -133,7 +138,22 @@ class RequestHandler implements Runnable{
 		}
 
 		@Override
-		public void changeGamePiece(Player player, GamePiece gamePiece){
+		public void changeGamePiece(ChangeGamePieceNetworkMessage message){
+			LobbyPlayer lobbyPlayer = null;
+			for (LobbyPlayer player : Lobby.getInstance().getPlayers()){
+				if (player.getAddress().equals(message.getSenderAddress()) && player.getPort() == message.getSenderPort()){
+					lobbyPlayer = player;
+					break;
+				}
+			}
+			if (lobbyPlayer != null){
+				Lobby.getInstance().changeGamePieceOfPlayer(lobbyPlayer, message.getGamePiece());
+			}
+			Lobby.getInstance().calculateReadyState();
+			LobbyResponse lobbyResponse = new LobbyResponse();
+			lobbyResponse.setLobby(Lobby.getInstance());
+			Lobby.getInstance().notifyListeners();
+			GameServer.getInstance().sendResponseToAll(lobbyResponse);
 		}
 
 		@Override
@@ -145,6 +165,7 @@ class RequestHandler implements Runnable{
 					break;
 				}
 			}
+			Lobby.getInstance().calculateReadyState();
 			LobbyResponse lobbyResponse = new LobbyResponse();
 			lobbyResponse.setLobby(Lobby.getInstance());
 			Lobby.getInstance().notifyListeners();

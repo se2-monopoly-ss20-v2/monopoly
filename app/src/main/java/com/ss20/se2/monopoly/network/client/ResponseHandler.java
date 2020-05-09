@@ -104,6 +104,7 @@ class ResponseHandler implements Runnable{
 		public void lobby(LobbyResponse response){
 			Lobby.getInstance().setPlayers(response.getLobby().getPlayers());
 			Lobby.getInstance().setReady(response.getLobby().isReady());
+			Lobby.getInstance().setStarted(response.getLobby().isStarted());
 			Lobby.getInstance().notifyListeners();
 		}
 	}

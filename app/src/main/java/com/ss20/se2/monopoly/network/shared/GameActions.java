@@ -3,6 +3,7 @@ package com.ss20.se2.monopoly.network.shared;
 import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.network.client.ChangeGamePieceNetworkMessage;
 import com.ss20.se2.monopoly.network.client.JoinLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.LeaveLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.ReadyLobbyNetworkMessage;
@@ -19,7 +20,7 @@ public interface GameActions{
 
 	void leaveLobby(LeaveLobbyNetworkMessage message);
 
-	void changeGamePiece(Player player, GamePiece gamePiece);
+	void changeGamePiece(ChangeGamePieceNetworkMessage message);
 
 	void changeReadyLobby(ReadyLobbyNetworkMessage message);
 

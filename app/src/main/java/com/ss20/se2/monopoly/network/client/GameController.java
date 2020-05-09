@@ -103,8 +103,8 @@ public class GameController implements Runnable, GameActions{
 	}
 
 	@Override
-	public void changeGamePiece(Player player, GamePiece gamePiece){
-		communicator.sendMessage(null);
+	public void changeGamePiece(ChangeGamePieceNetworkMessage message){
+		communicator.sendMessage(message);
 	}
 
 	@Override

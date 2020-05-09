@@ -1,5 +1,6 @@
 package com.ss20.se2.monopoly.models;
 
+import com.ss20.se2.monopoly.network.NetworkUtilities;
 import com.ss20.se2.monopoly.network.client.GameController;
 import com.ss20.se2.monopoly.network.server.GameServer;
 
@@ -13,6 +14,7 @@ public class Lobby implements Serializable{
 	private LobbyPlayer self;
 	private List<LobbyPlayer> players;
 	private boolean ready;
+	private boolean started;
 	private boolean active;
 	private static Lobby instance;
 	private transient List<OnLobbyDataChangedListener> listeners;
@@ -46,13 +48,14 @@ public class Lobby implements Serializable{
 	}
 
 	public void addSelf(GameServer gameServer){
-		LobbyPlayer lobbyPlayer = new LobbyPlayer("SERVER", gameServer.getAddress(), gameServer.getPort(), new GamePiece("Dino"),true);
+		LobbyPlayer lobbyPlayer = new LobbyPlayer("SERVER", gameServer.getAddress(), gameServer.getPort(), new GamePiece(""), true);
 		self = lobbyPlayer;
 		players.add(lobbyPlayer);
 	}
 
 	public void addSelf(GameController gameController){
-		LobbyPlayer lobbyPlayer = new LobbyPlayer("CLIENT", gameController.getSocket().getLocalAddress(), gameController.getSocket().getLocalPort(), new GamePiece("Ente"), false);;
+		LobbyPlayer lobbyPlayer = new LobbyPlayer("CLIENT", gameController.getSocket().getLocalAddress(), gameController.getSocket().getLocalPort(), new GamePiece(""), false);
+		;
 		self = lobbyPlayer;
 		players.add(lobbyPlayer);
 	}
@@ -100,7 +103,45 @@ public class Lobby implements Serializable{
 		this.self = null;
 		notifyListeners();
 	}
+
 	public void openLobby(){
 		this.active = true;
+	}
+
+	public void changeGamePieceOfPlayer(LobbyPlayer lobbyPlayer, GamePiece gamePiece){
+		for (LobbyPlayer player : players){
+			if (player.equals(lobbyPlayer)){
+				player.setGamePiece(gamePiece);
+				break;
+			}
+		}
+	}
+
+	public void calculateReadyState(){
+		boolean ready = true;
+		if (players.size() >= 2 || players.size() <= NetworkUtilities.MAX_PLAYERS){
+			for (LobbyPlayer player : players){
+				if (!player.isHost() && !player.isReady()){
+					ready = false;
+					break;
+				}
+				for (LobbyPlayer lobbyPlayer : players){
+					if (!lobbyPlayer.equals(player) && player.getGamePiece().getName().equals(lobbyPlayer.getGamePiece().getName())){
+						ready = false;
+					}
+				}
+			}
+		}else{
+			ready = false;
+		}
+		this.ready = ready;
+	}
+
+	public boolean isStarted(){
+		return started;
+	}
+
+	public void setStarted(boolean started){
+		this.started = started;
 	}
 }

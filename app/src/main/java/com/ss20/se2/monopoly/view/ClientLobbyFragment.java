@@ -1,33 +1,42 @@
 package com.ss20.se2.monopoly.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.ss20.se2.monopoly.R;
+import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.models.LobbyPlayer;
 import com.ss20.se2.monopoly.models.OnLobbyDataChangedListener;
+import com.ss20.se2.monopoly.network.NetworkUtilities;
+import com.ss20.se2.monopoly.network.client.ChangeGamePieceNetworkMessage;
 import com.ss20.se2.monopoly.network.client.GameController;
 import com.ss20.se2.monopoly.network.client.JoinLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.LeaveLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.ReadyLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.shared.RequestType;
 
-public class ClientLobbyFragment extends Fragment implements View.OnClickListener{
+public class ClientLobbyFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 
 	private Button readyBtn;
 	private ImageButton backBtn;
 	private TextView partnerTxt;
 	private FragmentActivity activity;
 	private OnLobbyDataChangedListener onLobbyDataChangedListener;
+	private Spinner gamePieceSpinner;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -43,6 +52,11 @@ public class ClientLobbyFragment extends Fragment implements View.OnClickListene
 		backBtn.setOnClickListener(this);
 		partnerTxt = myView.findViewById(R.id.clientPartnersTxt);
 		activity = getActivity();
+		gamePieceSpinner = (Spinner) myView.findViewById(R.id.gamePieceSpinnerClient);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(activity, R.array.gamePieceArray, android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		gamePieceSpinner.setAdapter(adapter);
+		gamePieceSpinner.setOnItemSelectedListener(this);
 		repaintPartners();
 		onLobbyDataChangedListener = new OnLobbyDataChangedListener(){
 			@Override
@@ -53,6 +67,12 @@ public class ClientLobbyFragment extends Fragment implements View.OnClickListene
 					Lobby.getInstance().unsubscribe(onLobbyDataChangedListener);
 					GameController.getInstance().leaveGame();
 					MainActivity.getNavController().navigateUp();
+				}
+				if(lobby.isStarted()){
+					Lobby.getInstance().unsubscribe(onLobbyDataChangedListener);
+					MainActivity.getNavController().navigate(R.id.GameFragment);
+					Intent intent = new Intent(activity, OldActivity2.class);
+					startActivity(intent);
 				}
 			}
 		};
@@ -114,5 +134,25 @@ public class ClientLobbyFragment extends Fragment implements View.OnClickListene
 				partnerTxt.setText(out);
 			}
 		});
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> adapterView, View v, int i, long l){
+		switch (adapterView.getId()){
+			case R.id.gamePieceSpinnerClient:
+				ChangeGamePieceNetworkMessage changeGamePieceNetworkMessage = new ChangeGamePieceNetworkMessage();
+				changeGamePieceNetworkMessage.setSenderName(Lobby.getInstance().getSelf().getName());
+				changeGamePieceNetworkMessage.setSenderAddress(Lobby.getInstance().getSelf().getAddress());
+				changeGamePieceNetworkMessage.setSenderPort(Lobby.getInstance().getSelf().getPort());
+				changeGamePieceNetworkMessage.setType(RequestType.CHANGE_GAME_PIECE);
+				changeGamePieceNetworkMessage.setGamePiece(new GamePiece(adapterView.getItemAtPosition(i).toString()));
+				GameController.getInstance().changeGamePiece(changeGamePieceNetworkMessage);
+				Log.d(NetworkUtilities.TAG, adapterView.getItemAtPosition(i).toString());
+				break;
+		}
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> adapterView){
 	}
 }

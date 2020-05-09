@@ -6,8 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -20,16 +23,18 @@ import com.ss20.se2.monopoly.models.OnLobbyDataChangedListener;
 import com.ss20.se2.monopoly.network.LocalGamePublisher;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
 import com.ss20.se2.monopoly.network.server.GameServer;
+import com.ss20.se2.monopoly.network.server.GameServerNotRunningException;
 
 import java.util.LinkedList;
 
-public class HostLobbyFragment extends Fragment implements View.OnClickListener{
+public class HostLobbyFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 
 	private Button hostBtn;
 	private ImageButton backBtn;
 	private TextView partnerTxt;
 	private FragmentActivity activity;
 	private OnLobbyDataChangedListener onLobbyDataChangedListener;
+	private Spinner gamePieceSpinner;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -46,11 +51,22 @@ public class HostLobbyFragment extends Fragment implements View.OnClickListener{
 		backBtn.setOnClickListener(this);
 		partnerTxt = myView.findViewById(R.id.partnersTxtHost);
 		activity = getActivity();
+		gamePieceSpinner = (Spinner) myView.findViewById(R.id.gamePieceSpinnerHost);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(activity, R.array.gamePieceArray, android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		gamePieceSpinner.setAdapter(adapter);
+		gamePieceSpinner.setOnItemSelectedListener(this);
 		repaintPartners();
 		onLobbyDataChangedListener = new OnLobbyDataChangedListener(){
 			@Override
-			public void onLobbyDataChanged(Lobby lobby){
+			public void onLobbyDataChanged(final Lobby lobby){
 				repaintPartners();
+				activity.runOnUiThread(new Runnable(){
+					@Override
+					public void run(){
+						hostBtn.setEnabled(lobby.isReady());
+					}
+				});
 			}
 		};
 		Lobby.getInstance().subscribe(onLobbyDataChangedListener);
@@ -61,6 +77,11 @@ public class HostLobbyFragment extends Fragment implements View.OnClickListener{
 	public void onClick(View v){
 		switch (v.getId()){
 			case R.id.startGameBtn:
+				try{
+					GameServer.getInstance().startGame(activity.getBaseContext());
+				}catch (GameServerNotRunningException e){
+					Log.e(NetworkUtilities.TAG, e.getMessage());
+				}
 				MainActivity.getNavController().navigate(R.id.GameFragment);
 				Intent intent = new Intent(activity, OldActivity2.class);
 				startActivity(intent);
@@ -75,6 +96,7 @@ public class HostLobbyFragment extends Fragment implements View.OnClickListener{
 					Lobby.getInstance().setSelf(null);
 					Lobby.getInstance().setReady(false);
 					Lobby.getInstance().closeLobby();
+					Lobby.getInstance().setReady(false);
 					MainActivity.getNavController().navigateUp();
 				}catch (Exception e){
 					Log.e(NetworkUtilities.TAG, e.getMessage());
@@ -105,5 +127,19 @@ public class HostLobbyFragment extends Fragment implements View.OnClickListener{
 				partnerTxt.setText(out);
 			}
 		});
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> adapterView, View v, int i, long l){
+		switch (adapterView.getId()){
+			case R.id.gamePieceSpinnerHost:
+				GameServer.getInstance().changeGamePiece(adapterView.getItemAtPosition(i).toString());
+				Log.d(NetworkUtilities.TAG, adapterView.getItemAtPosition(i).toString());
+				break;
+		}
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> adapterView){
 	}
 }
