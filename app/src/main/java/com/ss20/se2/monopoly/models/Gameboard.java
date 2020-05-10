@@ -1,5 +1,7 @@
 package com.ss20.se2.monopoly.models;
 
+import com.ss20.se2.monopoly.MainActivity;
+
 public class Gameboard {
 
     public GamePiece[] gameboardArray;
@@ -42,6 +44,10 @@ public class Gameboard {
         }
     }
 
+    public void initializeUI(){
+
+    }
+
     public int moveUI(String name, int i) {
         int position = getPosition(name);
         if (position + i >= 40) {
@@ -61,4 +67,13 @@ public class Gameboard {
         }
         return -1;
     }
+
+    public void newMoveUI(String name){
+        int position = getPosition(name);
+
+
+    }
+
+
+
 }
