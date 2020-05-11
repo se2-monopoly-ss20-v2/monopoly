@@ -30,6 +30,7 @@ public class CommunityCardDeck extends CardDeck {
 
     public void initializeDeck(){
         for (int i = 0; i < cards.length; i++) {
+            stackOfCards.push(cards[i]);
         }
         Collections.shuffle(stackOfCards);
     }
