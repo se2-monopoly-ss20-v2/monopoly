@@ -8,6 +8,8 @@ import com.ss20.se2.monopoly.models.fields.GameTile;
 
 import java.util.ArrayList;
 
+import com.ss20.se2.monopoly.MainActivity;
+
 public class Gameboard {
 
 	public GamePiece[] gameboardArray;
@@ -55,7 +57,9 @@ public class Gameboard {
 		}
 	}
 
-	public int moveUI(String name, int i) {
+	public void initializeUI(){
+
+    }public int moveUI(String name, int i) {
 		int position = getPosition(name);
 		if (position + i >= 40) {
 			return 1;
@@ -73,5 +77,11 @@ public class Gameboard {
 			return 4;
 		}
 		return -1;
-	}
+	}public void newMoveUI(String name){
+        int position = getPosition(name);
+
+
+    }
+
+
 }
