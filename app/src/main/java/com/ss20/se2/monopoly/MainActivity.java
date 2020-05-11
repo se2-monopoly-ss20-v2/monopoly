@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     TextView view_position;
 
     Dice dice = new Dice();
-    Gameboard gameboard = new Gameboard();
+    Gameboard gameboard = new Gameboard(this.getApplicationContext());
 
     int amount;
 
