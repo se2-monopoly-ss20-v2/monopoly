@@ -1,5 +1,6 @@
 package com.ss20.se2.monopoly.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 	private Button searchBtn;
 	private Button settingsBtn;
 	private Button hostBtn;
+	private Button oldBtn;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -35,6 +37,8 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 		settingsBtn.setOnClickListener(this);
 		hostBtn = myView.findViewById(R.id.hostGameBtn);
 		hostBtn.setOnClickListener(this);
+		oldBtn = myView.findViewById(R.id.buttonOldActivity);
+		oldBtn.setOnClickListener(this);
 		return myView;
 	}
 
@@ -59,6 +63,9 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 					Log.e(NetworkUtilities.TAG, e.getMessage());
 				}
 				break;
+			case R.id.buttonOldActivity:
+				Intent i = new Intent(getActivity(), OldActivity2.class);
+				startActivity(i);
 		}
 	}
 }

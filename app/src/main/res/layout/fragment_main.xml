@@ -58,6 +58,14 @@
                 app:layout_constraintStart_toEndOf="@+id/searchBtn"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
+        <Button
+                android:id="@+id/buttonOldActivity"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Go To OldActivity"
+                tools:layout_editor_absoluteX="62dp"
+                tools:layout_editor_absoluteY="77dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

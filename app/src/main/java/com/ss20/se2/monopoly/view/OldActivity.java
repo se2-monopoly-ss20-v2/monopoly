@@ -18,7 +18,7 @@ public class OldActivity extends AppCompatActivity{
 	TextView view_numberDice;
 	TextView view_position;
 	Dice dice = new Dice();
-	Gameboard gameboard = new Gameboard();
+	Gameboard gameboard;
 	int amount;
 
 	@Override

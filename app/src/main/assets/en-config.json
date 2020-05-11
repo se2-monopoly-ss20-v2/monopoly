@@ -13,12 +13,21 @@
     "hotelPrice": 60
   },
   {
+    "name": "Community Chest",
+    "type": "CommunityCard"
+  },
+  {
     "name": "Whitechapel Road",
     "type": "Street",
     "price": 60,
     "mortgage": 30,
     "housePrice": 30,
     "hotelPrice": 60
+  },
+  {
+    "name": "Income Tax",
+    "type": "Special",
+    "fieldType": "INCOME_TAX"
   },
   {
     "name": "King's Cross Station",
@@ -33,6 +42,10 @@
     "mortgage": 50,
     "housePrice": 50,
     "hotelPrice": 100
+  },
+  {
+    "name": "Chance",
+    "type": "ChanceCard"
   },
   {
     "name": "Euston Road",
@@ -51,12 +64,23 @@
     "hotelPrice": 120
   },
   {
+    "name": "Just Visiting",
+    "type": "Special",
+    "fieldType": "JAIL_VISITOR"
+  },
+  {
     "name": "Pall Mall",
     "type": "Street",
     "price": 140,
     "mortgage": 70,
     "housePrice": 70,
     "hotelPrice": 140
+  },
+  {
+    "name": "Electric Company",
+    "type": "Utility",
+    "price": 140,
+    "mortgage": 70
   },
   {
     "name": "Whitehall",
@@ -89,6 +113,10 @@
     "hotelPrice": 180
   },
   {
+    "name": "Community Chest",
+    "type": "CommunityCard"
+  },
+  {
     "name": "Great Marlborough Street",
     "type": "Street",
     "price": 180,
@@ -105,12 +133,21 @@
     "hotelPrice": 200
   },
   {
+    "name": "Free Parking",
+    "type": "Special",
+    "fieldType": "FREEPARKING"
+  },
+  {
     "name": "Strand",
     "type": "Street",
     "price": 220,
     "mortgage": 110,
     "housePrice": 110,
     "hotelPrice": 220
+  },
+  {
+    "name": "Chance",
+    "type": "ChanceCard"
   },
   {
     "name": "Fleet Street",
@@ -151,12 +188,23 @@
     "hotelPrice": 260
   },
   {
+    "name": "Water Company",
+    "type": "Utility",
+    "price": 140,
+    "mortgage": 70
+  },
+  {
     "name": "Piccadilly",
     "type": "Street",
     "price": 280,
     "mortgage": 140,
     "housePrice": 140,
     "hotelPrice": 280
+  },
+  {
+    "name": "Free Parking",
+    "type": "Special",
+    "fieldType": "JAIL"
   },
   {
     "name": "Regent Street",
@@ -175,6 +223,10 @@
     "hotelPrice": 300
   },
   {
+    "name": "Community Chest",
+    "type": "CommunityCard"
+  },
+  {
     "name": "Bond Street",
     "type": "Street",
     "price": 320,
@@ -189,12 +241,21 @@
     "mortgage": 100
   },
   {
+    "name": "Chance",
+    "type": "ChanceCard"
+  },
+  {
     "name": "Park Lane",
     "type": "Street",
     "price": 350,
     "mortgage": 175,
     "housePrice": 175,
     "hotelPrice": 350
+  },
+  {
+    "name": "Free Parking",
+    "type": "Special",
+    "fieldType": "LUXURY_TAX"
   },
   {
     "name": "Mayfair",

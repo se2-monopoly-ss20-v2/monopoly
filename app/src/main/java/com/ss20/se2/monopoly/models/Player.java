@@ -71,4 +71,6 @@ public class Player{
     public void removeCardFromPlayer(Card card){
 	    this.playersCards.remove(card);
     }
+
+    public void updateBalance(int balance) { this.balance = balance;}
 }
