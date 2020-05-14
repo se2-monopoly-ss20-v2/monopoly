@@ -186,4 +186,8 @@ public class GameController implements Runnable, GameActions{
 	public boolean isJoined(){
 		return joined;
 	}
+
+	public void setSocket(Socket socket){
+		this.socket = socket;
+	}
 }

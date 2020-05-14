@@ -173,4 +173,12 @@ public class GameServer implements Runnable{
 		networkMessage.setGamePiece(new GamePiece(name));
 		RequestHandler.getInstance().handleRequest(networkMessage);
 	}
+
+	public void setAddress(InetAddress address){
+		this.address = address;
+	}
+
+	public void setPort(int port){
+		this.port = port;
+	}
 }

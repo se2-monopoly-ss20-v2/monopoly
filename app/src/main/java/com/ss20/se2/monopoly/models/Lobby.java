@@ -143,4 +143,8 @@ public class Lobby implements Serializable{
 	public void setStarted(boolean started){
 		this.started = started;
 	}
+
+	public List<OnLobbyDataChangedListener> getListeners(){
+		return listeners;
+	}
 }
