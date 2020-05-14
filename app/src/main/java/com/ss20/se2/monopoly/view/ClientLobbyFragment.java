@@ -119,7 +119,7 @@ public class ClientLobbyFragment extends Fragment implements View.OnClickListene
 							out = String.format("%s [Not Ready]", out);
 						}
 					}
-					out = String.format("%s\n\n", out);
+					out = String.format("%s%n%n", out);
 				}
 				partnerTxt.setText(out);
 			}

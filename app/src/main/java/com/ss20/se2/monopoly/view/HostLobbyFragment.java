@@ -35,11 +35,6 @@ public class HostLobbyFragment extends Fragment implements View.OnClickListener,
 	private OnLobbyDataChangedListener onLobbyDataChangedListener;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState){
-		super.onCreate(savedInstanceState);
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		// Inflate the layout for this fragment
 		View myView = inflater.inflate(R.layout.fragment_hostlobby, container, false);
@@ -118,7 +113,7 @@ public class HostLobbyFragment extends Fragment implements View.OnClickListener,
 							out = String.format("%s [Not Ready]", out);
 						}
 					}
-					out = String.format("%s\n\n", out);
+					out = String.format("%s%n%n", out);
 				}
 				partnerTxt.setText(out);
 			}

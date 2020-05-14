@@ -2,7 +2,6 @@ package com.ss20.se2.monopoly.network.server;
 
 import android.util.Log;
 
-import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.models.LobbyPlayer;
 import com.ss20.se2.monopoly.models.Player;
@@ -27,7 +26,7 @@ class RequestHandler implements Runnable{
 	private BlockingQueue<NetworkMessage> queue;
 
 	private RequestHandler(){
-		this.queue = new LinkedBlockingDeque<NetworkMessage>();
+		this.queue = new LinkedBlockingDeque<>();
 		this.gameActionProcessor = new GameActionProcessor();
 		start();
 	}

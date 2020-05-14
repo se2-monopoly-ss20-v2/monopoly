@@ -3,7 +3,6 @@ package com.ss20.se2.monopoly.network.server;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.gson.JsonObject;
 import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.network.LocalGamePublisher;
