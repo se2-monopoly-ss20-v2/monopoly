@@ -25,7 +25,7 @@ import static org.junit.Assert.assertTrue;
 public class RequestHandlerInstrumentedTest{
 
 	@Test
-	public void testJoinLobby(){
+	public void testRequestHandler(){
 		Lobby lobby = Lobby.getInstance();
 		RequestHandler requestHandler = RequestHandler.getInstance();
 
