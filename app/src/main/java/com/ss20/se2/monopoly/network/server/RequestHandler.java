@@ -18,7 +18,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-class RequestHandler implements Runnable{
+public class RequestHandler implements Runnable{
 
 	private final AtomicBoolean running = new AtomicBoolean(false);
 	private static RequestHandler instance;
@@ -36,7 +36,7 @@ class RequestHandler implements Runnable{
 	 *
 	 * @return
 	 */
-	static RequestHandler getInstance(){
+	public static RequestHandler getInstance(){
 		if (instance == null){
 			instance = new RequestHandler();
 		}

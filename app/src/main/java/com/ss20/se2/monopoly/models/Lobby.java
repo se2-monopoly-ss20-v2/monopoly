@@ -117,23 +117,23 @@ public class Lobby implements Serializable{
 	}
 
 	public void calculateReadyState(){
-		boolean ready = true;
+		boolean calculateReady = true;
 		if (players.size() >= 2 && players.size() <= NetworkUtilities.MAX_PLAYERS){
 			for (LobbyPlayer player : players){
 				if (!player.isHost() && !player.isReady()){
-					ready = false;
+					calculateReady = false;
 					break;
 				}
 				for (LobbyPlayer lobbyPlayer : players){
 					if (!lobbyPlayer.equals(player) && player.getGamePiece().getName().equals(lobbyPlayer.getGamePiece().getName())){
-						ready = false;
+						calculateReady = false;
 					}
 				}
 			}
 		}else{
-			ready = false;
+			calculateReady = false;
 		}
-		this.ready = ready;
+		this.ready = calculateReady;
 	}
 
 	public boolean isStarted(){
