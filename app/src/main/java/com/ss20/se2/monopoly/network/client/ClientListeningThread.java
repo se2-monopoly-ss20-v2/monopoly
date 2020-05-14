@@ -9,7 +9,6 @@ import com.ss20.se2.monopoly.network.server.NetworkResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 class ClientListeningThread implements Runnable{
 

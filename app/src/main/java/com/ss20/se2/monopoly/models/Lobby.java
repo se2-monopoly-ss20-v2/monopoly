@@ -55,7 +55,6 @@ public class Lobby implements Serializable{
 
 	public void addSelf(GameController gameController){
 		LobbyPlayer lobbyPlayer = new LobbyPlayer("CLIENT", gameController.getSocket().getLocalAddress(), gameController.getSocket().getLocalPort(), new GamePiece(""), false);
-		;
 		self = lobbyPlayer;
 		players.add(lobbyPlayer);
 	}
@@ -118,23 +117,26 @@ public class Lobby implements Serializable{
 	}
 
 	public void calculateReadyState(){
-		boolean ready = true;
-		if (players.size() >= 2 || players.size() <= NetworkUtilities.MAX_PLAYERS){
+		boolean calcReady = true;
+		if (players.size() >= 2 && players.size() <= NetworkUtilities.MAX_PLAYERS){
 			for (LobbyPlayer player : players){
 				if (!player.isHost() && !player.isReady()){
-					ready = false;
+					calcReady = false;
 					break;
 				}
+			}
+			for (LobbyPlayer player : players){
 				for (LobbyPlayer lobbyPlayer : players){
 					if (!lobbyPlayer.equals(player) && player.getGamePiece().getName().equals(lobbyPlayer.getGamePiece().getName())){
-						ready = false;
+						calcReady = false;
+						break;
 					}
 				}
 			}
 		}else{
-			ready = false;
+			calcReady = false;
 		}
-		this.ready = ready;
+		this.ready = calcReady;
 	}
 
 	public boolean isStarted(){

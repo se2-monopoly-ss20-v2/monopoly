@@ -3,11 +3,9 @@ package com.ss20.se2.monopoly.network.shared;
 import android.util.Log;
 
 import com.ss20.se2.monopoly.network.NetworkUtilities;
-import com.ss20.se2.monopoly.network.client.NetworkMessage;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.util.List;
 
 public class SendingThread implements Runnable{
@@ -28,7 +26,7 @@ public class SendingThread implements Runnable{
 				outStream.writeUnshared(object);
 				outStream.reset();
 			}catch (IOException e){
-				e.printStackTrace();
+				Log.e(NetworkUtilities.TAG, e.getMessage());
 			}
 		}
 	}

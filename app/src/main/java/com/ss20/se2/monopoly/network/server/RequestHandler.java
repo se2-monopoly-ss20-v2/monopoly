@@ -158,7 +158,6 @@ class RequestHandler implements Runnable{
 
 		@Override
 		public void changeReadyLobby(ReadyLobbyNetworkMessage message){
-			LobbyPlayer lobbyPlayer = null;
 			for (LobbyPlayer player : Lobby.getInstance().getPlayers()){
 				if (player.getAddress().equals(message.getSenderAddress()) && player.getPort() == message.getSenderPort()){
 					player.setReady(message.isValue());
@@ -174,54 +173,67 @@ class RequestHandler implements Runnable{
 
 		@Override
 		public void rollDice(){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void skipTurn(){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void buyDeed(Deed deed){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void sellDeed(Deed deed){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void buyHouse(Deed deed){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void sellHouse(Deed deed){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void buyHotel(Deed deed){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void sellHotel(Deed deed){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void raiseMortgage(Deed deed){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void redeemMortgage(Deed deed){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void tradeDeed(Deed deed, Player player){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void bidAtAuction(int amount){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void cheat(){
+			throw new UnsupportedOperationException();
 		}
 	}
 }

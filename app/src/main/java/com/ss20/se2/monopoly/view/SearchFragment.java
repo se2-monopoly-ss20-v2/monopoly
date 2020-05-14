@@ -20,7 +20,6 @@ import com.ss20.se2.monopoly.network.LocalGamesFinder;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
 import com.ss20.se2.monopoly.network.OnLocalGamesChangedListener;
 import com.ss20.se2.monopoly.network.client.GameController;
-import com.ss20.se2.monopoly.network.server.GameServer;
 
 import java.util.List;
 
@@ -71,11 +70,11 @@ public class SearchFragment extends Fragment implements View.OnClickListener{
 									}
 									Lobby.getInstance().addSelf(GameController.getInstance());
 									Lobby.getInstance().openLobby();
-									if(GameController.getInstance().isJoined()){
+									if (GameController.getInstance().isJoined()){
 										LocalGamesFinder.getInstance().stopGameSearchInNetwork(activity);
 										LocalGamesFinder.getInstance().unsubscribe(onLocalGamesChangedListener);
 										MainActivity.getNavController().navigate(R.id.ClientLobbyFragment);
-									}else {
+									}else{
 										TextView message = myView.findViewById(R.id.searchMsgTxt);
 										message.setText("Could not join Server");
 									}

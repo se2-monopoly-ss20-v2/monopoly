@@ -1,6 +1,5 @@
 package com.ss20.se2.monopoly.network.shared;
 
-import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 import com.ss20.se2.monopoly.network.client.ChangeGamePieceNetworkMessage;

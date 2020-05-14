@@ -33,13 +33,14 @@ class ServerListeningThread implements Runnable{
 		}catch (IOException e){
 			Log.e(NetworkUtilities.TAG, e.getMessage());
 		}
-		NetworkMessage message = null;
+		NetworkMessage message;
 		while (running){
 			try{
-				while ((message = (NetworkMessage) in.readObject()) != null){
-					Log.d(NetworkUtilities.TAG, "Server thread received message: " + message + " from " + inputStream.toString());
-					RequestHandler.getInstance().handleRequest(message);
-					message = null;
+				if (in != null){
+					while ((message = (NetworkMessage) in.readObject()) != null){
+						Log.d(NetworkUtilities.TAG, "Server thread received message: " + message + " from " + inputStream.toString());
+						RequestHandler.getInstance().handleRequest(message);
+					}
 				}
 			}catch (Exception e){
 				running = false;
