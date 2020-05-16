@@ -17,4 +17,10 @@
     <string name="btnStart">Start Game</string>
     <string name="btnHostNew">Host new game</string>
     <string name="yourDeeds">Your owned Deeds</string>
+    <string name="buyDeed">You are about to buy %1$s for € %2$d</string>
+    <string name="buyHouseOnDeed">You are about to buy a house on %1$s for € %2$d</string>
+    <string name="buyDeedTitle">Buy Deed?</string>
+    <string name="buyHouseTitle">Buy new House?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

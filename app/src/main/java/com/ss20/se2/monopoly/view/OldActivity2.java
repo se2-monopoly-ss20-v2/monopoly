@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.ss20.se2.monopoly.DeedManager;
 import com.ss20.se2.monopoly.R;
 import com.ss20.se2.monopoly.models.Dice;
 import com.ss20.se2.monopoly.models.GamePiece;
@@ -22,6 +23,8 @@ import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.view.playerdeeds.PlayersDeedsFragment;
 
+import java.util.ArrayList;
+
 public class OldActivity2 extends AppCompatActivity{
 
 	Button button_rollDice;
@@ -33,6 +36,7 @@ public class OldActivity2 extends AppCompatActivity{
 
 	Dice dice = new Dice();
 	Gameboard gameboard;
+	DeedManager deedManager;
 
 	int amount;
 
@@ -42,7 +46,6 @@ public class OldActivity2 extends AppCompatActivity{
 		setContentView(R.layout.activity_old2);
 
 		final Player p = new Player("Wutzi", 1000, new GamePiece("shoe"), 0);
-		playersDeedsFragment = findViewById(R.id.playersDeedsfragment);
 
 		gameboard = new Gameboard(getApplicationContext());
 		gameboard.gameboardArray[0] = new GamePiece("Player 1");
@@ -52,6 +55,7 @@ public class OldActivity2 extends AppCompatActivity{
 		view_balance = findViewById(R.id.text_balance);
 		view_balance.setText("Balance: " + p.getBalance());
 		showDeeds = findViewById(R.id.buttonShowDeeds);
+		deedManager = new DeedManager(gameboard);
 
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -115,26 +119,47 @@ public class OldActivity2 extends AppCompatActivity{
 			//does it belong to someone?
 			if (street.getOwner() == null) {
 				AlertDialog dialog = new AlertDialog.Builder(OldActivity2.this).create();
-				dialog.setTitle("Buy Deed?");
-				dialog.setMessage("You are about to buy " + "'" + street.getName() + "' for €" + street.getPrice());
-				dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener(){
+				dialog.setTitle(getString(R.string.buyDeedTitle));
+				dialog.setMessage(getString(R.string.buyDeed, street.getName(), street.getPrice()));
+				dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener(){
 					@Override
 					public void onClick(DialogInterface dialog, int which){
 						dialog.dismiss();
 						//TODO: START AUCTION - OR NOT
 					}
 				});
-				dialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener(){
+				dialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener(){
 					@Override
 					public void onClick(DialogInterface dialog, int which){
-						performAcquiringDeed(street, player);
+						int balance = deedManager.performAcquiringDeed(street, player);
+						view_balance.setText("Balance: " + balance);
 					}
 				});
 
 				dialog.show();
-			} else if (street.getOwner() == player) {
-				//player owns it.
-				//does he own all streets of the same color?
+			} else if (street.getOwner() == player && deedManager.playerOwnsAllStreetsOf(street.getColor(), player)) {
+
+				final AlertDialog dialog = new AlertDialog.Builder(OldActivity2.this).create();
+				dialog.setTitle(getString(R.string.buyHouseTitle));
+				dialog.setMessage(getString(R.string.buyHouseOnDeed, street.getName(), street.getHousePrice()));
+
+				dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener(){
+					@Override
+					public void onClick(DialogInterface dialogInterface, int i){
+						dialog.dismiss();
+					}
+				});
+
+				dialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener(){
+					@Override
+					public void onClick(DialogInterface dialog, int which){
+						int balance = deedManager.performAcquiringHouseFor(street, player);
+						view_balance.setText("Balance: " + balance);
+					}
+				});
+
+
+
 			} else {
 				//hostile owns it.
 			}
@@ -145,24 +170,6 @@ public class OldActivity2 extends AppCompatActivity{
 		}else if (currentTile instanceof Utility) {
 
 		}
-	}
-
-	public void displayPlayersDeeds(View view) {
-		playersDeedsFragment.setVisibility(View.VISIBLE);
-
-
-	}
-
-	public void performAcquiringDeed(Deed deed, Player player) {
-		if (deed.getPrice() <= player.getBalance()) {
-			//PLAYER CAN BUY IT
-			int newBalance = player.getBalance() - deed.getPrice();
-			player.updateBalance(newBalance);
-			player.addDeedToPlayer(deed);
-
-			view_balance.setText("Balance: " + player.getBalance());
-		}
-		//TODO: HANDLE CASE IF PLAYER HAS NOT ENOUGH MONEY
 	}
 }
 
