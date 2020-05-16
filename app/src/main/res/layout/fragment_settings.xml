@@ -11,7 +11,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+        <ImageView
+                android:alpha="1"
+                android:id="@+id/lobby_background2"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:scaleType="fitStart"
+                android:src="@drawable/lobby_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         <ImageButton
+                style="@style/Widget.AppCompat.Button"
+                android:background="@drawable/monoploy_button"
                 android:id="@+id/backBtn"
                 android:layout_width="69dp"
                 android:layout_height="40dp"
@@ -36,24 +48,26 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-                android:id="@+id/editText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:ems="10"
+                android:id="@+id/editText"
                 android:inputType="textPersonName"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="46dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="104dp"
+                android:layout_width="400dp"
                 app:layout_constraintEnd_toStartOf="@+id/changeBtn"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.323"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <Button
+                style="@style/Widget.AppCompat.Button"
+                android:background="@drawable/monoploy_button"
                 android:id="@+id/changeBtn"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="48dp"
+                android:layout_marginEnd="156dp"
+                android:layout_width="wrap_content"
                 android:text="@string/btnChange"
                 app:layout_constraintBaseline_toBaselineOf="@+id/editText"
                 app:layout_constraintEnd_toEndOf="parent" />

@@ -80,6 +80,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener{
 									}
 								}
 							});
+							joinGame.setBackground(getContext().getResources().getDrawable(R.drawable.monoploy_button));
 							joinGame.setText(text);
 							foundGamesLayout.addView(joinGame);
 						}

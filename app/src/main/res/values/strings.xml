@@ -16,6 +16,7 @@
     <string name="LobbyScreen">5 - Lobby</string>
     <string name="btnStart">Start Game</string>
     <string name="btnHostNew">Host new game</string>
+    <string name="lobbyBackgroundDescription">The monopolyman as background</string>
 
     <string-array name="gamePieceArray">
         <item>Dino</item>

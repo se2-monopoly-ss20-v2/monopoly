@@ -11,33 +11,51 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent">
 
+        <ImageView
+                android:alpha="1"
+                android:id="@+id/lobby_background5"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:scaleType="fitStart"
+                android:src="@drawable/lobby_background"
+                app:layout_constraintStart_toStartOf="@+id/backBtn"
+                app:layout_constraintTop_toTopOf="parent" />
+
         <Spinner
+                android:background="#EDEDED"
+                android:backgroundTint="#EDEDED"
                 android:id="@+id/gamePieceSpinnerClient"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="78dp"
+                android:layout_marginBottom="31dp"
+                android:layout_marginEnd="37dp"
+                android:layout_marginTop="99dp"
                 android:layout_width="200dp"
+                android:popupBackground="#EDEDED"
                 app:layout_constraintBottom_toTopOf="@+id/clientPartnersTxt"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                app:layout_constraintEnd_toEndOf="@+id/textView6"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <Button
+                style="@style/Widget.AppCompat.Button"
+                android:background="@drawable/monoploy_button"
                 android:id="@+id/readyBtn"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
-                android:layout_marginEnd="47dp"
+                android:layout_marginStart="148dp"
                 android:layout_width="wrap_content"
                 android:text="Bereit"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/clientPartnersTxt"
+                app:layout_constraintStart_toStartOf="@+id/clientPartnersTxt"
                 app:layout_constraintTop_toBottomOf="@+id/clientPartnersTxt" />
 
         <ImageButton
+                style="@style/Widget.AppCompat.Button"
+                android:background="@drawable/monoploy_button"
                 android:id="@+id/backBtn"
-                android:layout_height="40dp"
-                android:layout_marginEnd="229dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="162dp"
                 android:layout_marginTop="24dp"
-                android:layout_width="0dp"
+                android:layout_width="79dp"
                 android:src="@drawable/abc_vector_test"
                 app:layout_constraintEnd_toStartOf="@+id/textView6"
                 app:layout_constraintStart_toStartOf="parent"
@@ -46,28 +64,31 @@
         <TextView
                 android:id="@+id/textView6"
                 android:layout_height="0dp"
-                android:layout_marginBottom="28dp"
-                android:layout_marginEnd="295dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginBottom="267dp"
+                android:layout_marginEnd="265dp"
+                android:layout_marginTop="34dp"
                 android:layout_width="0dp"
                 android:text="@string/LobbyScreen"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/gamePieceSpinnerClient"
+                app:layout_constraintBottom_toTopOf="@+id/readyBtn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/backBtn"
                 app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+                android:background="#EDEDED"
                 android:id="@+id/clientPartnersTxt"
-                android:layout_height="0dp"
-                android:layout_marginBottom="80dp"
-                android:layout_width="188dp"
+                android:layout_height="176dp"
+                android:layout_marginBottom="51dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginStart="12dp"
+                android:layout_width="399dp"
                 android:text="Partners"
                 app:layout_constraintBottom_toTopOf="@+id/readyBtn"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/gamePieceSpinnerClient"
+                app:layout_constraintStart_toStartOf="@+id/textView6"
                 app:layout_constraintTop_toBottomOf="@+id/gamePieceSpinnerClient" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
