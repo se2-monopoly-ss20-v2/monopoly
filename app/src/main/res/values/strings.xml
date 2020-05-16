@@ -16,4 +16,5 @@
     <string name="LobbyScreen">5 - Lobby</string>
     <string name="btnStart">Start Game</string>
     <string name="btnHostNew">Host new game</string>
+    <string name="yourDeeds">Your owned Deeds</string>
 </resources>

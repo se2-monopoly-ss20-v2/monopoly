@@ -10,7 +10,8 @@
     "price": 60,
     "mortgage": 30,
     "housePrice": 30,
-    "hotelPrice": 60
+    "hotelPrice": 60,
+    "color": "brown"
   },
   {
     "name": "Community Chest",
@@ -22,7 +23,8 @@
     "price": 60,
     "mortgage": 30,
     "housePrice": 30,
-    "hotelPrice": 60
+    "hotelPrice": 60,
+    "color": "brown"
   },
   {
     "name": "Income Tax",
@@ -41,7 +43,8 @@
     "price": 100,
     "mortgage": 50,
     "housePrice": 50,
-    "hotelPrice": 100
+    "hotelPrice": 100,
+    "color": "lightBlue"
   },
   {
     "name": "Chance",
@@ -53,7 +56,8 @@
     "price": 100,
     "mortgage": 50,
     "housePrice": 50,
-    "hotelPrice": 100
+    "hotelPrice": 100,
+    "color": "lightBlue"
   },
   {
     "name": "Pentonville Road",
@@ -61,7 +65,8 @@
     "price": 120,
     "mortgage": 60,
     "housePrice": 60,
-    "hotelPrice": 120
+    "hotelPrice": 120,
+    "color": "lightBlue"
   },
   {
     "name": "Just Visiting",
@@ -74,7 +79,8 @@
     "price": 140,
     "mortgage": 70,
     "housePrice": 70,
-    "hotelPrice": 140
+    "hotelPrice": 140,
+    "color": "pink"
   },
   {
     "name": "Electric Company",
@@ -88,7 +94,8 @@
     "price": 140,
     "mortgage": 70,
     "housePrice": 70,
-    "hotelPrice": 140
+    "hotelPrice": 140,
+    "color": "pink"
   },
   {
     "name": "Northumberland Avenue",
@@ -96,7 +103,8 @@
     "price": 160,
     "mortgage": 80,
     "housePrice": 80,
-    "hotelPrice": 160
+    "hotelPrice": 160,
+    "color": "pink"
   },
   {
     "name": "Marylebone Station",
@@ -110,7 +118,8 @@
     "price": 180,
     "mortgage": 90,
     "housePrice": 90,
-    "hotelPrice": 180
+    "hotelPrice": 180,
+    "color": "orange"
   },
   {
     "name": "Community Chest",
@@ -122,7 +131,8 @@
     "price": 180,
     "mortgage": 90,
     "housePrice": 90,
-    "hotelPrice": 180
+    "hotelPrice": 180,
+    "color": "orange"
   },
   {
     "name": "Vine Street",
@@ -130,7 +140,8 @@
     "price": 200,
     "mortgage": 100,
     "housePrice": 100,
-    "hotelPrice": 200
+    "hotelPrice": 200,
+    "color": "orange"
   },
   {
     "name": "Free Parking",
@@ -143,7 +154,8 @@
     "price": 220,
     "mortgage": 110,
     "housePrice": 110,
-    "hotelPrice": 220
+    "hotelPrice": 220,
+    "color": "red"
   },
   {
     "name": "Chance",
@@ -155,7 +167,8 @@
     "price": 220,
     "mortgage": 110,
     "housePrice": 110,
-    "hotelPrice": 200
+    "hotelPrice": 200,
+    "color": "red"
   },
   {
     "name": "Trafalgar Square",
@@ -163,7 +176,8 @@
     "price": 240,
     "mortgage": 120,
     "housePrice": 120,
-    "hotelPrice": 240
+    "hotelPrice": 240,
+    "color": "red"
   },
   {
     "name": "Fenchurch Street Station",
@@ -177,7 +191,8 @@
     "price": 260,
     "mortgage": 130,
     "housePrice": 130,
-    "hotelPrice": 260
+    "hotelPrice": 260,
+    "color": "yellow"
   },
   {
     "name": "Coventry Street",
@@ -185,7 +200,8 @@
     "price": 260,
     "mortgage": 130,
     "housePrice": 130,
-    "hotelPrice": 260
+    "hotelPrice": 260,
+    "color": "yellow"
   },
   {
     "name": "Water Company",
@@ -199,10 +215,11 @@
     "price": 280,
     "mortgage": 140,
     "housePrice": 140,
-    "hotelPrice": 280
+    "hotelPrice": 280,
+    "color": "yellow"
   },
   {
-    "name": "Free Parking",
+    "name": "Jail",
     "type": "Special",
     "fieldType": "JAIL"
   },
@@ -212,7 +229,8 @@
     "price": 300,
     "mortgage": 150,
     "housePrice": 150,
-    "hotelPrice": 300
+    "hotelPrice": 300,
+    "color": "green"
   },
   {
     "name": "Oxford Street",
@@ -220,7 +238,8 @@
     "price": 300,
     "mortgage": 150,
     "housePrice": 150,
-    "hotelPrice": 300
+    "hotelPrice": 300,
+    "color": "green"
   },
   {
     "name": "Community Chest",
@@ -232,7 +251,8 @@
     "price": 320,
     "mortgage": 160,
     "housePrice": 160,
-    "hotelPrice": 320
+    "hotelPrice": 320,
+    "color": "green"
   },
   {
     "name": "Liverpool Street Station",
@@ -250,7 +270,8 @@
     "price": 350,
     "mortgage": 175,
     "housePrice": 175,
-    "hotelPrice": 350
+    "hotelPrice": 350,
+    "color": "darkBlue"
   },
   {
     "name": "Free Parking",
@@ -263,6 +284,7 @@
     "price": 400,
     "mortgage": 200,
     "housePrice": 200,
-    "hotelPrice": 400
+    "hotelPrice": 400,
+    "color": "darkBlue"
   }
 ]

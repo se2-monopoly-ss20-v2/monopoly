@@ -2,10 +2,10 @@ package com.ss20.se2.monopoly.view;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,6 +20,7 @@ import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
+import com.ss20.se2.monopoly.view.playerdeeds.PlayersDeedsFragment;
 
 public class OldActivity2 extends AppCompatActivity{
 
@@ -27,6 +28,8 @@ public class OldActivity2 extends AppCompatActivity{
 	TextView view_numberDice;
 	TextView view_position;
 	TextView view_balance;
+	Button showDeeds;
+	View playersDeedsFragment;
 
 	Dice dice = new Dice();
 	Gameboard gameboard;
@@ -39,6 +42,7 @@ public class OldActivity2 extends AppCompatActivity{
 		setContentView(R.layout.activity_old2);
 
 		final Player p = new Player("Wutzi", 1000, new GamePiece("shoe"), 0);
+		playersDeedsFragment = findViewById(R.id.playersDeedsfragment);
 
 		gameboard = new Gameboard(getApplicationContext());
 		gameboard.gameboardArray[0] = new GamePiece("Player 1");
@@ -47,9 +51,12 @@ public class OldActivity2 extends AppCompatActivity{
 		view_position = findViewById(R.id.number_playerposition);
 		view_balance = findViewById(R.id.text_balance);
 		view_balance.setText("Balance: " + p.getBalance());
+		showDeeds = findViewById(R.id.buttonShowDeeds);
+
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+
 				amount = dice.roll();
 
 				for (int i = 0; i < amount; i++) {
@@ -104,6 +111,8 @@ public class OldActivity2 extends AppCompatActivity{
 		//i know not that performant, but currently i only want to proof our concept.
 		if (currentTile instanceof Street) {
 			final Street street = (Street) currentTile;
+
+			//does it belong to someone?
 			if (street.getOwner() == null) {
 				AlertDialog dialog = new AlertDialog.Builder(OldActivity2.this).create();
 				dialog.setTitle("Buy Deed?");
@@ -123,6 +132,11 @@ public class OldActivity2 extends AppCompatActivity{
 				});
 
 				dialog.show();
+			} else if (street.getOwner() == player) {
+				//player owns it.
+				//does he own all streets of the same color?
+			} else {
+				//hostile owns it.
 			}
 
 
@@ -131,6 +145,12 @@ public class OldActivity2 extends AppCompatActivity{
 		}else if (currentTile instanceof Utility) {
 
 		}
+	}
+
+	public void displayPlayersDeeds(View view) {
+		playersDeedsFragment.setVisibility(View.VISIBLE);
+
+
 	}
 
 	public void performAcquiringDeed(Deed deed, Player player) {

@@ -500,6 +500,18 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Balance:"
-            tools:layout_editor_absoluteX="35dp"
-            tools:layout_editor_absoluteY="350dp" />
+            tools:layout_editor_absoluteX="18dp"
+            tools:layout_editor_absoluteY="268dp" />
+
+    <Button
+            android:id="@+id/buttonShowDeeds"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_width="wrap_content"
+            android:onClick="displayPlayersDeeds"
+            android:text="Show Deeds"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
