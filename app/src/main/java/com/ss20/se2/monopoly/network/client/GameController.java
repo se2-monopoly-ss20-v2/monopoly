@@ -51,14 +51,18 @@ public class GameController implements Runnable, GameActions{
 			socket = new Socket(address, port);
 			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			String message = in.readLine();
-			if (message.equals("locked")){
-				Log.d(NetworkUtilities.TAG, "Client cant connect because Server does not allow join");
-			}else if (message.equals("full")){
-				Log.d(NetworkUtilities.TAG, "Client cant connect because Server full");
-			}else if (message.equals("ok")){
-				communicator = new ClientToServerCommunicator(socket);
-				joined = true;
-				Log.d(NetworkUtilities.TAG, "Client connection ok");
+			switch (message){
+				case "locked":
+					Log.d(NetworkUtilities.TAG, "Client cant connect because Server does not allow join");
+					break;
+				case "full":
+					Log.d(NetworkUtilities.TAG, "Client cant connect because Server full");
+					break;
+				case "ok":
+					communicator = new ClientToServerCommunicator(socket);
+					joined = true;
+					Log.d(NetworkUtilities.TAG, "Client connection ok");
+					break;
 			}
 		}catch (IOException e){
 			Log.d(NetworkUtilities.TAG, e.toString());

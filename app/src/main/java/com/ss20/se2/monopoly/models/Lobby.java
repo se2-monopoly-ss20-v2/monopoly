@@ -127,7 +127,11 @@ public class Lobby implements Serializable{
 				for (LobbyPlayer lobbyPlayer : players){
 					if (!lobbyPlayer.equals(player) && player.getGamePiece().getName().equals(lobbyPlayer.getGamePiece().getName())){
 						calculateReady = false;
+						break;
 					}
+				}
+				if(!calculateReady){
+					break;
 				}
 			}
 		}else{

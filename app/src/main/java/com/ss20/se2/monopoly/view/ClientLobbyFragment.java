@@ -94,7 +94,7 @@ public class ClientLobbyFragment extends Fragment implements View.OnClickListene
 			message.setSenderName(Lobby.getInstance().getSelf().getName());
 			message.setSenderAddress(Lobby.getInstance().getSelf().getAddress());
 			message.setSenderPort(Lobby.getInstance().getSelf().getPort());
-			message.setType(RequestType.JOIN_GAME);
+			message.setType(RequestType.LEAVE_GAME);
 			GameController.getInstance().leaveLobby(message);
 			Lobby.getInstance().unsubscribe(onLobbyDataChangedListener);
 			GameController.getInstance().leaveGame();
