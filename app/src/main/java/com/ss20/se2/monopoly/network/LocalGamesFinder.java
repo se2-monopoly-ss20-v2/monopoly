@@ -8,6 +8,7 @@ import android.util.Log;
 import com.ss20.se2.monopoly.models.LocallyFoundGame;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class LocalGamesFinder{
@@ -40,7 +41,7 @@ public class LocalGamesFinder{
 		return searching;
 	}
 
-	private void initializeDiscoveryListener(){
+	private void initializeDiscoveryListener(final NsdManager manager){
 		this.discoveryListener = new NsdManager.DiscoveryListener(){
 			@Override
 			public void onStartDiscoveryFailed(String serviceType, int errorCode){
@@ -66,32 +67,16 @@ public class LocalGamesFinder{
 				// If there are several services called monopoly, then an incrementing number is
 				// always added to the end of the name. Therefore, we do not look at an exact match
 				if (serviceInfo.getServiceName().contains(NetworkUtilities.NSD_SERVICE_NAME)){
-					boolean containsObject = false;
-					for (LocallyFoundGame game : foundLocalGames){
-						if (game.getAddress() == serviceInfo.getHost() && game.getPort() == serviceInfo.getPort()){
-							containsObject = true;
-						}
-					}
-					if (!containsObject){
-						foundLocalGames.add(new LocallyFoundGame(serviceInfo.getHost(), serviceInfo.getPort()));
-						notifyListeners();
-					}
+					manager.resolveService(serviceInfo, makeResolveListener());
+					Log.d(NetworkUtilities.TAG, "Game found");
 				}
 			}
 
 			@Override
 			public void onServiceLost(final NsdServiceInfo serviceInfo){
 				if (serviceInfo.getServiceName().contains(NetworkUtilities.NSD_SERVICE_NAME)){
-					boolean objectDeleted = false;
-					for (LocallyFoundGame game : foundLocalGames){
-						if (game.getAddress() == serviceInfo.getHost() && game.getPort() == serviceInfo.getPort()){
-							foundLocalGames.remove(game);
-							objectDeleted = true;
-						}
-					}
-					if (objectDeleted){
-						notifyListeners();
-					}
+					manager.resolveService(serviceInfo, makeResolveListener());
+					Log.d(NetworkUtilities.TAG, "Game lost");
 				}
 			}
 		};
@@ -107,9 +92,10 @@ public class LocalGamesFinder{
 		if (!this.searching){
 			NsdManager manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
 			// Create each time new listener, else the NsdManager thinks its the same
-			initializeDiscoveryListener();
+			initializeDiscoveryListener(manager);
 			manager.discoverServices(NetworkUtilities.NSD_SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, discoveryListener);
 			this.searching = true;
+			Log.d(NetworkUtilities.TAG, "Game search started");
 		}
 	}
 
@@ -120,6 +106,7 @@ public class LocalGamesFinder{
 	 */
 	public void stopGameSearchInNetwork(Context context){
 		if (this.searching){
+			foundLocalGames = new LinkedList<>();
 			NsdManager manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
 			manager.stopServiceDiscovery(discoveryListener);
 			this.searching = false;
@@ -134,6 +121,7 @@ public class LocalGamesFinder{
 	 */
 	public void subscribe(OnLocalGamesChangedListener listener){
 		listeners.add(listener);
+		notifyListeners();
 	}
 
 	/**
@@ -144,6 +132,7 @@ public class LocalGamesFinder{
 	 */
 	public void unsubscribe(OnLocalGamesChangedListener listener){
 		listeners.remove(listener);
+		notifyListeners();
 	}
 
 	/**
@@ -153,5 +142,32 @@ public class LocalGamesFinder{
 		for (OnLocalGamesChangedListener listener : listeners){
 			listener.onGamesChanged(foundLocalGames);
 		}
+	}
+
+	private NsdManager.ResolveListener makeResolveListener(){
+		return new NsdManager.ResolveListener(){
+			@Override
+			public void onResolveFailed(NsdServiceInfo serviceInfo, int errorCode){
+				// Called when the resolve fails. Use the error code to debug.
+				Log.e(NetworkUtilities.TAG, "Resolve failed: " + errorCode);
+			}
+
+			@Override
+			public void onServiceResolved(NsdServiceInfo serviceInfo){
+				Log.e(NetworkUtilities.TAG, "Resolve Succeeded. " + serviceInfo);
+				LocallyFoundGame game = null;
+				for (LocallyFoundGame foundLocalGame : foundLocalGames){
+					if (serviceInfo.getHost().equals(foundLocalGame.getAddress()) && serviceInfo.getPort() == foundLocalGame.getPort()){
+						game = foundLocalGame;
+					}
+				}
+				if (game == null){
+					foundLocalGames.add(new LocallyFoundGame(serviceInfo.getHost(), serviceInfo.getPort()));
+				}else{
+					foundLocalGames.remove(game);
+				}
+				notifyListeners();
+			}
+		};
 	}
 }

@@ -1,19 +1,16 @@
 package com.ss20.se2.monopoly.view;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-
 import com.ss20.se2.monopoly.R;
 import com.ss20.se2.monopoly.models.Dice;
 import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.Gameboard;
-
-import android.os.Bundle;
 
 public class OldActivity extends AppCompatActivity{
 

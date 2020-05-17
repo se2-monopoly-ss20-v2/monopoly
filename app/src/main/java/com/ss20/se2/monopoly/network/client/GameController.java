@@ -2,14 +2,12 @@ package com.ss20.se2.monopoly.network.client;
 
 import android.util.Log;
 
-import com.google.gson.JsonObject;
-import com.ss20.se2.monopoly.models.GamePiece;
+import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.models.OnGameDataChangedListener;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
 import com.ss20.se2.monopoly.network.shared.GameActions;
-import com.ss20.se2.monopoly.network.shared.RequestType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,9 +26,11 @@ public class GameController implements Runnable, GameActions{
 	private ClientToServerCommunicator communicator;
 	private Thread connectingThread;
 	private List<OnGameDataChangedListener> onGameDataChangedListeners;
+	private boolean joined;
 
 	private GameController(){
 		this.onGameDataChangedListeners = new ArrayList<>();
+		this.joined = false;
 	}
 
 	public static GameController getInstance(){
@@ -51,20 +51,24 @@ public class GameController implements Runnable, GameActions{
 			socket = new Socket(address, port);
 			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			String message = in.readLine();
-			if (message.equals("locked")){
-				Log.d(NetworkUtilities.TAG, "Client cant connect because Server does not allow join");
-			}else if (message.equals("full")){
-				Log.d(NetworkUtilities.TAG, "Client cant connect because Server full");
-			}else if (message.equals("ok")){
-				communicator = new ClientToServerCommunicator(socket);
-				Log.d(NetworkUtilities.TAG, "Client connection ok");
+			switch (message){
+				case "locked":
+					Log.d(NetworkUtilities.TAG, "Client cant connect because Server does not allow join");
+					break;
+				case "full":
+					Log.d(NetworkUtilities.TAG, "Client cant connect because Server full");
+					break;
+				case "ok":
+					communicator = new ClientToServerCommunicator(socket);
+					joined = true;
+					Log.d(NetworkUtilities.TAG, "Client connection ok");
+					break;
 			}
 		}catch (IOException e){
 			Log.d(NetworkUtilities.TAG, e.toString());
 		}
 	}
 
-	@Override
 	public void joinGame(InetAddress address, int port){
 		this.port = port;
 		this.address = address;
@@ -72,11 +76,13 @@ public class GameController implements Runnable, GameActions{
 		connectingThread.start();
 	}
 
-	@Override
 	public void leaveGame(){
 		try{
+			communicator.waitForSendingThread();
 			communicator.getSocket().close();
-		}catch (IOException e){
+			communicator = null;
+			joined = false;
+		}catch (Exception e){
 			Log.d(NetworkUtilities.TAG, e.toString());
 		}
 	}
@@ -90,95 +96,102 @@ public class GameController implements Runnable, GameActions{
 	}
 
 	@Override
-	public void changeGamePiece(Player player, GamePiece gamePiece){
-		JsonObject requestObject = buildJSONRequestObject(RequestType.CHANGE_GAME_PIECE, player, gamePiece);
-		communicator.sendMessage(requestObject);
+	public void joinLobby(JoinLobbyNetworkMessage message){
+		communicator.sendMessage(message);
+	}
+
+	@Override
+	public void leaveLobby(LeaveLobbyNetworkMessage message){
+		communicator.sendMessage(message);
+	}
+
+	@Override
+	public void changeGamePiece(ChangeGamePieceNetworkMessage message){
+		communicator.sendMessage(message);
+	}
+
+	@Override
+	public void changeReadyLobby(ReadyLobbyNetworkMessage message){
+		boolean newVal = !(Lobby.getInstance().getSelf().isReady());
+		Lobby.getInstance().getSelf().setReady(newVal);
+		message.setValue(newVal);
+		communicator.sendMessage(message);
 	}
 
 	@Override
 	public void rollDice(){
-		JsonObject requestObject = buildJSONRequestObject(RequestType.ROLL_DICE);
-		communicator.sendMessage(requestObject);
+		communicator.sendMessage(null);
 	}
 
 	@Override
 	public void skipTurn(){
-		JsonObject requestObject = buildJSONRequestObject(RequestType.SKIP_TURN);
-		communicator.sendMessage(requestObject);
+		communicator.sendMessage(null);
 	}
 
 	@Override
 	public void buyDeed(Deed deed){
-		JsonObject requestObject = buildJSONRequestObject(RequestType.BUY_DEED, deed);
-		communicator.sendMessage(requestObject);
+		communicator.sendMessage(null);
 	}
 
 	@Override
 	public void sellDeed(Deed deed){
-		JsonObject requestObject = buildJSONRequestObject(RequestType.SELL_DEED, deed);
-		communicator.sendMessage(requestObject);
+		communicator.sendMessage(null);
 	}
 
 	@Override
 	public void buyHouse(Deed deed){
-		JsonObject requestObject = buildJSONRequestObject(RequestType.BUY_HOUSE, deed);
-		communicator.sendMessage(requestObject);
+		communicator.sendMessage(null);
 	}
 
 	@Override
 	public void sellHouse(Deed deed){
-		JsonObject requestObject = buildJSONRequestObject(RequestType.SELL_HOUSE, deed);
-		communicator.sendMessage(requestObject);
+		communicator.sendMessage(null);
 	}
 
 	@Override
 	public void buyHotel(Deed deed){
-		JsonObject requestObject = buildJSONRequestObject(RequestType.BUY_HOTEL, deed);
-		communicator.sendMessage(requestObject);
+		communicator.sendMessage(null);
 	}
 
 	@Override
 	public void sellHotel(Deed deed){
-		JsonObject requestObject = buildJSONRequestObject(RequestType.SELL_HOTEL, deed);
-		communicator.sendMessage(requestObject);
+		communicator.sendMessage(null);
 	}
 
 	@Override
 	public void raiseMortgage(Deed deed){
-		JsonObject requestObject = buildJSONRequestObject(RequestType.RAISE_MORTGAGE, deed);
-		communicator.sendMessage(requestObject);
+		communicator.sendMessage(null);
 	}
 
 	@Override
 	public void redeemMortgage(Deed deed){
-		JsonObject requestObject = buildJSONRequestObject(RequestType.REDEEM_MORTGAGE, deed);
-		communicator.sendMessage(requestObject);
+		communicator.sendMessage(null);
 	}
 
 	@Override
 	public void tradeDeed(Deed deed, Player player){
-		JsonObject requestObject = buildJSONRequestObject(RequestType.TRADE_DEED, deed, player);
-		communicator.sendMessage(requestObject);
+		communicator.sendMessage(null);
 	}
 
 	@Override
 	public void bidAtAuction(int amount){
-		JsonObject requestObject = buildJSONRequestObject(RequestType.SELL_DEED, amount);
-		communicator.sendMessage(requestObject);
+		communicator.sendMessage(null);
 	}
 
 	@Override
 	public void cheat(){
-		JsonObject requestObject = buildJSONRequestObject(RequestType.CHEAT);
-		communicator.sendMessage(requestObject);
+		communicator.sendMessage(null);
 	}
 
-	public JsonObject buildJSONRequestObject(RequestType identificationCode, Object... parameterClass){
-		JsonObject object = new JsonObject();
-		String type = RequestType.toString(identificationCode);
-		object.addProperty("type", type);
-		// TODO: Insert objects into the request (and add the request type) so that it can be
-		//  de-serialized on the server side
-		return object;
+	public Socket getSocket(){
+		return socket;
+	}
+
+	public boolean isJoined(){
+		return joined;
+	}
+
+	public void setSocket(Socket socket){
+		this.socket = socket;
 	}
 }
