@@ -1,6 +1,7 @@
 package com.ss20.se2.monopoly.models;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.ss20.se2.monopoly.FieldDeserializer;
 import com.ss20.se2.monopoly.Utils;
@@ -17,11 +18,11 @@ public class Gameboard {
 
 	public Gameboard(Context context) {
 		gameboardArray = new GamePiece[40];
+		this.streets = new ArrayList<>();
 
 		Utils utils = new Utils();
 		String inputString = utils.getJSONFromAssets(context, "en");
 		gameTiles = (ArrayList<GameTile>) utils.getGameTilesRelativeFrom(inputString);
-
 
 		for (GameTile tile : gameTiles){
 			if (tile instanceof Street) {

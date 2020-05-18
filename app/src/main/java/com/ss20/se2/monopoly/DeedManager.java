@@ -14,7 +14,8 @@ public class DeedManager{
 
 	public boolean playerOwnsAllStreetsOf(String color, Player player) {
 		for (Street suitableStreet : gameboard.getStreetsRelativeTo(color)) {
-			if (!suitableStreet.getOwner().equals(player)) {
+			System.out.println("Street Owner: " + suitableStreet.getOwner());
+			if (suitableStreet.getOwner() == null || !suitableStreet.getOwner().equals(player)) {
 				return false;
 			}
 		}
@@ -27,7 +28,7 @@ public class DeedManager{
 			int newBalance = player.getBalance() - deed.getPrice();
 			player.updateBalance(newBalance);
 			player.addDeedToPlayer(deed);
-
+			deed.setOwner(player);
 		}
 
 		return player.getBalance();
