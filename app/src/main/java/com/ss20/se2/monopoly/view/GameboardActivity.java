@@ -25,7 +25,7 @@ import com.ss20.se2.monopoly.view.playerdeeds.PlayersDeedsFragment;
 
 import java.util.ArrayList;
 
-public class OldActivity2 extends AppCompatActivity{
+public class GameboardActivity extends AppCompatActivity{
 
 	Button button_rollDice;
 	TextView view_numberDice;
@@ -118,7 +118,7 @@ public class OldActivity2 extends AppCompatActivity{
 
 			//does it belong to someone?
 			if (street.getOwner() == null) {
-				AlertDialog dialog = new AlertDialog.Builder(OldActivity2.this).create();
+				AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 				dialog.setTitle(getString(R.string.buyDeedTitle));
 				dialog.setMessage(getString(R.string.buyDeed, street.getName(), street.getPrice()));
 				dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener(){
@@ -139,7 +139,7 @@ public class OldActivity2 extends AppCompatActivity{
 				dialog.show();
 			} else if (street.getOwner() == player && deedManager.playerOwnsAllStreetsOf(street.getColor(), player)) {
 
-				final AlertDialog dialog = new AlertDialog.Builder(OldActivity2.this).create();
+				final AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 				dialog.setTitle(getString(R.string.buyHouseTitle));
 				dialog.setMessage(getString(R.string.buyHouseOnDeed, street.getName(), street.getHousePrice()));
 

@@ -51,7 +51,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 				MainActivity.getNavController().navigate(R.id.CreateGameFragment);
 				break;
 			case R.id.buttonOldActivity:
-				Intent i = new Intent(getActivity(), OldActivity2.class);
+				Intent i = new Intent(getActivity(), GameboardActivity.class);
 				startActivity(i);
 		}
 	}
