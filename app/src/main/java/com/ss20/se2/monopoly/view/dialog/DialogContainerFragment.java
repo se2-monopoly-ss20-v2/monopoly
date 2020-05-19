@@ -21,15 +21,12 @@ import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 
 public class DialogContainerFragment extends DialogFragment{
 
-	private DialogContainerViewModel viewModel;
 	private Street street;
-	private DeedFragment deedFragment;
 	private DeedFragmentDelegate delegate;
 	private Player player;
-	private Button buy;
-	private Button cancel;
 
 	public DialogContainerFragment() {
+		//Empty because Android needs an constructor without args.
 	}
 
 	public static DialogContainerFragment newInstance(){
@@ -50,8 +47,7 @@ public class DialogContainerFragment extends DialogFragment{
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
 		super.onViewCreated(view, savedInstanceState);
-
-		buy = view.findViewById(R.id.buttonBuy);
+		Button buy = view.findViewById(R.id.buttonBuy);
 		buy.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
@@ -59,23 +55,16 @@ public class DialogContainerFragment extends DialogFragment{
 				dismiss();
 			}
 		});
-
-		cancel = view.findViewById(R.id.buttonCancel);
+		Button cancel = view.findViewById(R.id.buttonCancel);
 		cancel.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
 				dismiss();
 			}
 		});
-
-		deedFragment = new DeedFragment();
+		DeedFragment deedFragment = new DeedFragment();
 		FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
 		transaction.replace(R.id.deedFragmentContainer, deedFragment).commit();
 		deedFragment.createViewModel(street);
-	}
-
-	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState){
-		super.onActivityCreated(savedInstanceState);
 	}
 }

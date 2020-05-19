@@ -1,15 +1,12 @@
 package com.ss20.se2.monopoly.view.deed;
 
-import android.util.Log;
-
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModel;
 
 import com.ss20.se2.monopoly.R;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 
 public class DeedViewModel extends ViewModel{
-	// TODO: Implement the ViewModel
+
 	String title;
 	int deedValue;
 	int deedRent;

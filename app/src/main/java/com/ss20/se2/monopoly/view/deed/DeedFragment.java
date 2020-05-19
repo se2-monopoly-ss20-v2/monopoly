@@ -3,13 +3,11 @@ package com.ss20.se2.monopoly.view.deed;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
-import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +33,10 @@ public class DeedFragment extends DialogFragment{
 	private LinearLayout header;
 
 	public DeedFragment() {
+		//Empty because Android needs an constructor without args.
 	}
 
-	public static DeedFragment newInstance(Street street){
+	public static DeedFragment newInstance(){
 		return new DeedFragment();
 	}
 

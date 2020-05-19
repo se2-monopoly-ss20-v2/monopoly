@@ -1,7 +1,5 @@
 package com.ss20.se2.monopoly.models.fields.deeds;
 
-import android.util.Log;
-
 public class Street extends Deed{
 
 	private int housePrice;
@@ -51,10 +49,20 @@ public class Street extends Deed{
 
 	private void increaseRentRelativeToHouseCount() {
 		switch (houseCount) {
-			case 1: currentRent = currentRent * 5;
-			case 2: currentRent = currentRent * 3;
-			case 3: currentRent = (int)(currentRent * 2.5);
-			case 4: currentRent = (int)(currentRent * 1.25);
+			case 1:
+				currentRent = currentRent * 5;
+				break;
+			case 2:
+				currentRent = currentRent * 3;
+				break;
+			case 3:
+				currentRent = (int)(currentRent * 2.5);
+				break;
+			case 4:
+				currentRent = (int)(currentRent * 1.25);
+				break;
+			default:
+				break;
 		}
 	}
 }

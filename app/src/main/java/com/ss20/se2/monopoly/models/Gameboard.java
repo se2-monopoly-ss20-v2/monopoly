@@ -1,9 +1,6 @@
 package com.ss20.se2.monopoly.models;
 
 import android.content.Context;
-import android.util.Log;
-
-import com.ss20.se2.monopoly.FieldDeserializer;
 import com.ss20.se2.monopoly.Utils;
 import com.ss20.se2.monopoly.models.fields.GameTile;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;

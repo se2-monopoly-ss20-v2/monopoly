@@ -16,7 +16,4 @@ public class DialogContainerViewModel extends ViewModel{
 		return street;
 	}
 
-	public void delegateAcquiring() {
-
-	}
 }

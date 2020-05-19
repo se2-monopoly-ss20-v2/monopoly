@@ -140,20 +140,14 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					@Override
 					public void onClick(DialogInterface dialog, int which){
 						int balance = deedManager.performAcquiringHouseFor(street, player);
-						view_balance.setText("Balance: " + balance);
+						view_balance.setText(getString(R.string.balance,  balance));
 					}
 				});
 
 
 
-			} else {
-				//hostile owns it.
 			}
 
-
-		}else if (currentTile instanceof Railroad) {
-
-		}else if (currentTile instanceof Utility) {
 
 		}
 	}
@@ -162,7 +156,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	public void performAcquiringDeed(Street street, Player player){
 		int newBalance = deedManager.performAcquiringDeed(street, player);
 		player.updateBalance(newBalance);
-		view_balance.setText("Balance: " + newBalance);
+		view_balance.setText(getString(R.string.balance,  newBalance));
 		Toast.makeText(this, "You now own " + street.getName(), Toast.LENGTH_SHORT).show();
 
 	}

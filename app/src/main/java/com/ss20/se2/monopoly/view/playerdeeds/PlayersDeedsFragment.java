@@ -16,12 +16,11 @@ import android.widget.Button;
 
 import com.ss20.se2.monopoly.R;
 
+import java.util.Objects;
+
 import static com.esotericsoftware.jsonbeans.JsonValue.ValueType.object;
 
 public class PlayersDeedsFragment extends Fragment{
-
-	private PlayersDeedsViewModel mViewModel;
-	private Button close;
 
 	public static PlayersDeedsFragment newInstance(){
 		return new PlayersDeedsFragment();
@@ -35,14 +34,13 @@ public class PlayersDeedsFragment extends Fragment{
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
-		mViewModel = ViewModelProviders.of(this).get(PlayersDeedsViewModel.class);
+		PlayersDeedsViewModel mViewModel = ViewModelProviders.of(this).get(PlayersDeedsViewModel.class);
 	}
 
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
 		super.onViewCreated(view, savedInstanceState);
-
-		close = getView().findViewById(R.id.buttonClose);
+		Button close = Objects.requireNonNull(getView()).findViewById(R.id.buttonClose);
 	}
 
 	public void closeFragment(View view) {
