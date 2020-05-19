@@ -27,6 +27,7 @@ public class DialogContainerFragment extends DialogFragment{
 	private DeedFragmentDelegate delegate;
 	private Player player;
 	private Button buy;
+	private Button cancel;
 
 	public DialogContainerFragment() {
 	}
@@ -54,7 +55,16 @@ public class DialogContainerFragment extends DialogFragment{
 		buy.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
-				buyBtnClicked(v);
+				delegate.performAcquiringDeed(street, player);
+				dismiss();
+			}
+		});
+
+		cancel = view.findViewById(R.id.buttonCancel);
+		cancel.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v){
+				dismiss();
 			}
 		});
 
@@ -67,11 +77,5 @@ public class DialogContainerFragment extends DialogFragment{
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
-	}
-
-	public void buyBtnClicked(View view) {
-		delegate.performAcquiringDeed(street, player);
-		this.dismiss();
-
 	}
 }

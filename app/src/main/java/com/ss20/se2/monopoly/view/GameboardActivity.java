@@ -124,27 +124,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 				containerFragment.show(fm, "dialog_container_fragment");
 
-				/*AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
-				dialog.setTitle(getString(R.string.buyDeedTitle));
-				dialog.setMessage(getString(R.string.buyDeed, street.getName(), street.getPrice()));
-				dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener(){
-					@Override
-					public void onClick(DialogInterface dialog, int which){
-						dialog.dismiss();
-						//TODO: START AUCTION - OR NOT
-					}
-				});
-				dialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener(){
-					@Override
-					public void onClick(DialogInterface dialog, int which){
-						int balance = deedManager.performAcquiringDeed(street, player);
-						view_balance.setText("Balance: " + balance);
-					}
-				});
-
-				//dialog.show();
-
-				 */
 			} else if (street.getOwner() == player && deedManager.playerOwnsAllStreetsOf(street.getColor(), player)) {
 
 				final AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
@@ -182,7 +161,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 	@Override
 	public void performAcquiringDeed(Street street, Player player){
-		int newBalance = deedManager.performAcquiringHouseFor(street, player);
+		int newBalance = deedManager.performAcquiringDeed(street, player);
 		player.updateBalance(newBalance);
 		view_balance.setText("Balance: " + newBalance);
 		Toast.makeText(this, "You now own " + street.getName(), Toast.LENGTH_SHORT).show();
