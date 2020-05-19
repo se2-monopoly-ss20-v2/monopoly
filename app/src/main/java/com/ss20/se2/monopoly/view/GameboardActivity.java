@@ -3,6 +3,7 @@ package com.ss20.se2.monopoly.view;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
+import com.ss20.se2.monopoly.view.deed.DeedFragment;
 import com.ss20.se2.monopoly.view.playerdeeds.PlayersDeedsFragment;
 
 import java.util.ArrayList;
@@ -118,6 +120,10 @@ public class GameboardActivity extends AppCompatActivity{
 
 			//does it belong to someone?
 			if (street.getOwner() == null) {
+				FragmentManager fm = getSupportFragmentManager();
+				DeedFragment deedFragment = DeedFragment.newInstance(street);
+				deedFragment.show(fm, "deed_fragment");
+
 				AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 				dialog.setTitle(getString(R.string.buyDeedTitle));
 				dialog.setMessage(getString(R.string.buyDeed, street.getName(), street.getPrice()));
@@ -136,7 +142,7 @@ public class GameboardActivity extends AppCompatActivity{
 					}
 				});
 
-				dialog.show();
+				//dialog.show();
 			} else if (street.getOwner() == player && deedManager.playerOwnsAllStreetsOf(street.getColor(), player)) {
 
 				final AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
