@@ -39,7 +39,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_2"
             app:layout_constraintTop_toTopOf="@+id/tile_5"
-            app:srcCompat="@color/colorPrimaryDark" />
+            app:srcCompat="@color/violet" />
 
     <ImageView
             android:id="@+id/tile_10"
@@ -158,7 +158,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_4"
             app:layout_constraintTop_toTopOf="@+id/tile_5"
-            app:srcCompat="@color/colorPrimaryDark" />
+            app:srcCompat="@color/violet" />
 
     <ImageView
             android:id="@+id/tile_2"
