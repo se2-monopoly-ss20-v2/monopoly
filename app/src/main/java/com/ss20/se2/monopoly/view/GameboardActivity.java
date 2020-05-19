@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentManager;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -43,7 +42,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_old2);
+		setContentView(R.layout.gameboard_activity);
 
 		final Player p = new Player("Wutzi", 1000, new GamePiece("shoe"), 0);
 

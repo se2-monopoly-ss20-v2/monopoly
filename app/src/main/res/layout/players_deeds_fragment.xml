@@ -29,7 +29,6 @@
                     android:id="@+id/buttonClose"
                     android:layout_height="wrap_content"
                     android:layout_width="49dp"
-                    android:onClick="closeFragment"
                     android:text="X"
                     android:width="75pt" />
 
