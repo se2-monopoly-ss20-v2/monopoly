@@ -11,6 +11,10 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import com.ss20.se2.monopoly.R;
+import com.ss20.se2.monopoly.models.Lobby;
+import com.ss20.se2.monopoly.network.LocalGamePublisher;
+import com.ss20.se2.monopoly.network.NetworkUtilities;
+import com.ss20.se2.monopoly.network.server.GameServer;
 
 public class MainFragment extends Fragment implements View.OnClickListener{
 
@@ -31,7 +35,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 		searchBtn.setOnClickListener(this);
 		settingsBtn = myView.findViewById(R.id.settingsBtn);
 		settingsBtn.setOnClickListener(this);
-		hostBtn = myView.findViewById(R.id.hostBtn);
+		hostBtn = myView.findViewById(R.id.hostGameBtn);
 		hostBtn.setOnClickListener(this);
 		oldBtn = myView.findViewById(R.id.buttonOldActivity);
 		oldBtn.setOnClickListener(this);
@@ -47,8 +51,17 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 			case R.id.settingsBtn:
 				MainActivity.getNavController().navigate(R.id.SettingsFragment);
 				break;
-			case R.id.hostBtn:
-				MainActivity.getNavController().navigate(R.id.CreateGameFragment);
+			case R.id.hostGameBtn:
+				MainActivity.getNavController().navigate(R.id.HostLobbyFragment);
+				try{
+					GameServer.getInstance().startServer();
+					GameServer.getInstance().allowJoining(this.getContext());
+					LocalGamePublisher.getInstance().showGameInNetwork(this.getContext(), GameServer.getInstance().getPort());
+					Lobby.getInstance().addSelf(GameServer.getInstance());
+					Lobby.getInstance().openLobby();
+				}catch (Exception e){
+					Log.e(NetworkUtilities.TAG, e.getMessage());
+				}
 				break;
 			case R.id.buttonOldActivity:
 				Intent i = new Intent(getActivity(), GameboardActivity.class);

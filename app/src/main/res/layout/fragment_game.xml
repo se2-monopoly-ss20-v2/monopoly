@@ -12,6 +12,8 @@
             android:layout_height="match_parent">
 
         <ImageButton
+                style="@style/Widget.AppCompat.Button"
+                android:background="@drawable/monoploy_button"
                 android:id="@+id/backBtn"
                 android:layout_width="69dp"
                 android:layout_height="40dp"

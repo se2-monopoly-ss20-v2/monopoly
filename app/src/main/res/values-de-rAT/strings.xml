@@ -21,4 +21,16 @@
     <string name="deedMortgageValue">Der Hypothekenwert des Grundstückes beträgt:</string>
     <string name="buyBtn">Kaufen</string>
     <string name="cancelBtn">Zurück</string>
+    <string name="btnSearch">Spiele Suchen</string>
+    <string name="btnSettings">Einstellungen</string>
+    <string name="btnChange">Ändern</string>
+    <string name="hintPlayerName">Spielername</string>
+    <string name="SettingsScreen">3 - Einstellungen</string>
+    <string name="SearchScreen">2 - Suche</string>
+    <string name="btnHost">Spiel hosten</string>
+    <string name="HostScreen">4 - Hosten</string>
+    <string name="GameScreen">6 - Spiel</string>
+    <string name="LobbyScreen">5 - Lobby</string>
+    <string name="btnStart">Spiel starten</string>
+    <string name="btnHostNew">Neues Spiel hosten</string>
 </resources>
