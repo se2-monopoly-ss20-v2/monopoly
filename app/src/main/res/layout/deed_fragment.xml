@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        tools:context=".view.deed.DeedFragment">
+
+    <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
+
+        <LinearLayout
+                android:background="#FF9800"
+                android:id="@+id/DeedHeader"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="vertical">
+
+            <TextView
+                    android:gravity="center"
+                    android:id="@+id/textView9"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="@string/deedCertificate" />
+
+            <TextView
+                    android:gravity="center"
+                    android:height="20pt"
+                    android:id="@+id/textViewTitle"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="TextView"
+                    android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_margin="10pt"
+                android:layout_width="match_parent"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3pt"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView10"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/deedValue" />
+
+                <TextView
+                        android:gravity="right"
+                        android:id="@+id/textViewDeedValue"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="TextView"
+                        android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3pt"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView14"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/deedRent" />
+
+                <TextView
+                        android:gravity="right"
+                        android:id="@+id/textViewDeedRent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="50€"
+                        android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3pt"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView16"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/deedRent1House" />
+
+                <TextView
+                        android:gravity="right"
+                        android:id="@+id/textViewDeedRent1House"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="TextView"
+                        android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3pt"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView18"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/deedRent2Houses" />
+
+                <TextView
+                        android:gravity="right"
+                        android:id="@+id/textViewDeedRent2Houses"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="TextView"
+                        android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3pt"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView20"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/deedRent3Houses" />
+
+                <TextView
+                        android:gravity="right"
+                        android:id="@+id/textViewDeedRent3Houses"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="TextView"
+                        android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3pt"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView22"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/deedRent4Houses" />
+
+                <TextView
+                        android:gravity="right"
+                        android:id="@+id/textViewDeedRent4Houses"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="TextView"
+                        android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10pt"
+                    android:layout_marginTop="10pt"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView24"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/deedDoubleRent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3pt"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView26"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/deedHousePrice" />
+
+                <TextView
+                        android:id="@+id/textViewHousePrice"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="TextView" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5pt"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView28"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/deedHotelPrice" />
+
+                <TextView
+                        android:id="@+id/textViewDeedHotelPrice"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="TextView" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView30"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/deedMortgageValue" />
+
+                <TextView
+                        android:id="@+id/textViewDeedMortgageValue"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="TextView" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
