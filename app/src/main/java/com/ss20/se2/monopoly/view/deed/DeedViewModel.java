@@ -2,8 +2,10 @@ package com.ss20.se2.monopoly.view.deed;
 
 import android.util.Log;
 
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModel;
 
+import com.ss20.se2.monopoly.R;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 
 public class DeedViewModel extends ViewModel{
@@ -18,9 +20,12 @@ public class DeedViewModel extends ViewModel{
 	int deedHouseCosts;
 	int deedHotelCosts;
 	int deedMortgage;
+	int color;
+
 
 	public DeedViewModel(Street street){
 		this.title = street.getName();
+
 		this.deedValue = street.getPrice();
 
 		double rent = street.getPrice() * 0.1;
@@ -32,6 +37,36 @@ public class DeedViewModel extends ViewModel{
 		this.deedHouseCosts = street.getHousePrice();
 		this.deedHotelCosts = street.getHotelPrice();
 		this.deedMortgage = street.getMortgage();
+
+		switch (street.getColor()) {
+			case "violet":
+				this.color = R.color.violet;
+				break;
+			case "lightBlue":
+				this.color = R.color.lightBlue;
+				break;
+			case "pink":
+				this.color = R.color.pink;
+				break;
+			case "orange":
+				this.color = R.color.orange;
+				break;
+			case "red":
+				this.color = R.color.red;
+				break;
+			case "yellow":
+				this.color = R.color.yellow;
+				break;
+			case "green":
+				this.color = R.color.green;
+				break;
+			case "darkBlue":
+				this.color = R.color.darkBlue;
+				break;
+			default:
+				this.color = R.color.colorAccent;
+				break;
+		}
 	}
 
 

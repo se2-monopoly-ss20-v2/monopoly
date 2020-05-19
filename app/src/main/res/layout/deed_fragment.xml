@@ -13,8 +13,7 @@
             android:orientation="vertical">
 
         <LinearLayout
-                android:background="#FF9800"
-                android:id="@+id/DeedHeader"
+                android:id="@+id/deedHeader"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:orientation="vertical">
@@ -27,6 +26,7 @@
                     android:layout_width="match_parent"
                     android:text="TextView"
                     android:textAllCaps="true"
+                    android:textColor="#FFFFFF"
                     android:textStyle="bold" />
         </LinearLayout>
 

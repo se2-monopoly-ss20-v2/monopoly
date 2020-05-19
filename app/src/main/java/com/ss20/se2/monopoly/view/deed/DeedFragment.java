@@ -1,5 +1,6 @@
 package com.ss20.se2.monopoly.view.deed;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.Dialog;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ss20.se2.monopoly.R;
@@ -30,6 +32,7 @@ public class DeedFragment extends DialogFragment{
 	private TextView housePrice;
 	private TextView hotelPrice;
 	private TextView mortgage;
+	private LinearLayout header;
 
 	public DeedFragment() {
 	}
@@ -52,6 +55,7 @@ public class DeedFragment extends DialogFragment{
 		super.onViewCreated(view, savedInstanceState);
 
 		this.title = view.findViewById(R.id.textViewDeedTitle);
+		this.header = view.findViewById(R.id.deedHeader);
 		this.deedValue = view.findViewById(R.id.textViewDeedValue);
 		this.rent = view.findViewById(R.id.textViewDeedRent);
 		this.rent1House = view.findViewById(R.id.textViewDeedRent1House);
@@ -67,6 +71,8 @@ public class DeedFragment extends DialogFragment{
 
 	public void updateUI() {
 		title.setText(viewModel.title);
+
+		header.setBackgroundColor(ContextCompat.getColor(getContext(), viewModel.color));
 		deedValue.setText(getString(R.string.currencyNumber, viewModel.deedValue));
 		rent.setText(getString(R.string.currencyNumber, viewModel.deedRent));
 		rent1House.setText(getString(R.string.currencyNumber, viewModel.deedRent1House));

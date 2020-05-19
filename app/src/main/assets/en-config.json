@@ -11,7 +11,7 @@
     "mortgage": 30,
     "housePrice": 30,
     "hotelPrice": 60,
-    "color": "brown"
+    "color": "violet"
   },
   {
     "name": "Community Chest",
@@ -24,7 +24,7 @@
     "mortgage": 30,
     "housePrice": 30,
     "hotelPrice": 60,
-    "color": "brown"
+    "color": "violet"
   },
   {
     "name": "Income Tax",
