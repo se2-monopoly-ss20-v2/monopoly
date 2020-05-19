@@ -2,14 +2,15 @@ package com.ss20.se2.monopoly.view;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ss20.se2.monopoly.DeedManager;
 import com.ss20.se2.monopoly.R;
@@ -18,16 +19,13 @@ import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.Gameboard;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.GameTile;
-import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
-import com.ss20.se2.monopoly.view.deed.DeedFragment;
-import com.ss20.se2.monopoly.view.playerdeeds.PlayersDeedsFragment;
+import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
+import com.ss20.se2.monopoly.view.dialog.DialogContainerFragment;
 
-import java.util.ArrayList;
-
-public class GameboardActivity extends AppCompatActivity{
+public class GameboardActivity extends AppCompatActivity implements DeedFragmentDelegate{
 
 	Button button_rollDice;
 	TextView view_numberDice;
@@ -121,10 +119,12 @@ public class GameboardActivity extends AppCompatActivity{
 			//does it belong to someone?
 			if (street.getOwner() == null) {
 				FragmentManager fm = getSupportFragmentManager();
-				DeedFragment deedFragment = DeedFragment.newInstance(street);
-				deedFragment.show(fm, "deed_fragment");
+				DialogContainerFragment containerFragment = DialogContainerFragment.newInstance();
+				containerFragment.setupViewModel(street, player, this);
 
-				AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+				containerFragment.show(fm, "dialog_container_fragment");
+
+				/*AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 				dialog.setTitle(getString(R.string.buyDeedTitle));
 				dialog.setMessage(getString(R.string.buyDeed, street.getName(), street.getPrice()));
 				dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener(){
@@ -143,6 +143,8 @@ public class GameboardActivity extends AppCompatActivity{
 				});
 
 				//dialog.show();
+
+				 */
 			} else if (street.getOwner() == player && deedManager.playerOwnsAllStreetsOf(street.getColor(), player)) {
 
 				final AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
@@ -176,6 +178,15 @@ public class GameboardActivity extends AppCompatActivity{
 		}else if (currentTile instanceof Utility) {
 
 		}
+	}
+
+	@Override
+	public void performAcquiringDeed(Street street, Player player){
+		int newBalance = deedManager.performAcquiringHouseFor(street, player);
+		player.updateBalance(newBalance);
+		view_balance.setText("Balance: " + newBalance);
+		Toast.makeText(this, "You now own " + street.getName(), Toast.LENGTH_SHORT).show();
+
 	}
 }
 

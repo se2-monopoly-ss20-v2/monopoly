@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +20,28 @@ import com.ss20.se2.monopoly.models.fields.deeds.Street;
 public class DeedFragment extends DialogFragment{
 
 	private DeedViewModel viewModel;
+	private TextView title;
+	private TextView deedValue;
+	private TextView rent;
+	private TextView rent1House;
+	private TextView rent2Houses;
+	private TextView rent3Houses;
+	private TextView rent4Houses;
+	private TextView housePrice;
+	private TextView hotelPrice;
+	private TextView mortgage;
 
-	public DeedFragment(Street street) {
-		this.viewModel = new DeedViewModel(street);
-		//Empty constructor is needed for DialogFragment?
+	public DeedFragment() {
 	}
 
 	public static DeedFragment newInstance(Street street){
-		return new DeedFragment(street);
+		return new DeedFragment();
 	}
 
+	public void createViewModel(Street street) {
+		this.viewModel = new DeedViewModel(street);
+
+	}
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
 		return inflater.inflate(R.layout.deed_fragment, container, false);
@@ -38,46 +51,30 @@ public class DeedFragment extends DialogFragment{
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
 		super.onViewCreated(view, savedInstanceState);
 
+		this.title = view.findViewById(R.id.textViewDeedTitle);
+		this.deedValue = view.findViewById(R.id.textViewDeedValue);
+		this.rent = view.findViewById(R.id.textViewDeedRent);
+		this.rent1House = view.findViewById(R.id.textViewDeedRent1House);
+		this.rent2Houses = view.findViewById(R.id.textViewDeedRent2Houses);
+		this.rent3Houses = view.findViewById(R.id.textViewDeedRent3Houses);
+		this.rent4Houses = view.findViewById(R.id.textViewDeedRent4Houses);
+		this.housePrice = view.findViewById(R.id.textViewHousePrice);
+		this.hotelPrice = view.findViewById(R.id.textViewDeedHotelPrice);
+		this.mortgage = view.findViewById(R.id.textViewDeedMortgageValue);
 
-		TextView title = view.findViewById(R.id.textViewDeedTitle);
+		updateUI();
+	}
+
+	public void updateUI() {
 		title.setText(viewModel.title);
-
-		TextView deedValue = view.findViewById(R.id.textViewDeedValue);
 		deedValue.setText(getString(R.string.currencyNumber, viewModel.deedValue));
-
-		TextView rent = view.findViewById(R.id.textViewDeedRent);
 		rent.setText(getString(R.string.currencyNumber, viewModel.deedRent));
-
-		TextView rent1House = view.findViewById(R.id.textViewDeedRent1House);
 		rent1House.setText(getString(R.string.currencyNumber, viewModel.deedRent1House));
-
-		TextView rent2Houses = view.findViewById(R.id.textViewDeedRent2Houses);
 		rent2Houses.setText(getString(R.string.currencyNumber, viewModel.deedRent2Houses));
-
-		TextView rent3Houses = view.findViewById(R.id.textViewDeedRent3Houses);
 		rent3Houses.setText(getString(R.string.currencyNumber, viewModel.deedRent3Houses));
-
-		TextView rent4Houses = view.findViewById(R.id.textViewDeedRent4Houses);
 		rent4Houses.setText(getString(R.string.currencyNumber, viewModel.deedRent4Houses));
-
-		TextView housePrice = view.findViewById(R.id.textViewHousePrice);
 		housePrice.setText(getString(R.string.currencyNumber, viewModel.deedHouseCosts));
-
-		TextView hotelPrice = view.findViewById(R.id.textViewDeedHotelPrice);
 		hotelPrice.setText(getString(R.string.currencyNumber, viewModel.deedHotelCosts));
-
-		TextView mortgage = view.findViewById(R.id.textViewDeedMortgageValue);
 		mortgage.setText(getString(R.string.currencyNumber, viewModel.deedMortgage));
-	}
-
-	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState){
-		super.onActivityCreated(savedInstanceState);
-	}
-
-	@NonNull
-	@Override
-	public Dialog onCreateDialog(@Nullable Bundle savedInstanceState){
-		return super.onCreateDialog(savedInstanceState);
 	}
 }

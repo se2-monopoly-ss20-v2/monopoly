@@ -34,5 +34,7 @@
     <string name="deedHousePrice">1 House costs:</string>
     <string name="deedHotelPrice">1 Hotel costs:</string>
     <string name="deedMortgageValue">The Mortgage for this Street is:</string>
-    <string name="currencyNumber">€ %1$d</string>
+    <string name="currencyNumber" translatable="false">€ %1$d</string>
+    <string name="buyBtn">Buy</string>
+    <string name="cancelBtn">Cancel</string>
 </resources>

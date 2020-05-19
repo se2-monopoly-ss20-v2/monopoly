@@ -19,4 +19,6 @@
     <string name="deedHousePrice">1 Haus kostet:</string>
     <string name="deedHotelPrice">1 Hotel kostet:</string>
     <string name="deedMortgageValue">Der Hypothekenwert des Grundstückes beträgt:</string>
+    <string name="buyBtn">Kaufen</string>
+    <string name="cancelBtn">Zurück</string>
 </resources>
