@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Monopoly</string>
+    <string name="deedCertificate">Besitzurkunde</string>
+    <string name="no">Nein</string>
+    <string name="yes">Ja</string>
+    <string name="buyHouseTitle">Neues Haus kaufen?</string>
+    <string name="buyDeedTitle">Neues Grundstück kaufen?</string>
+    <string name="buyHouseOnDeed">Du bist gerade dabei ein Haus auf %1$s für € %2$d zu kaufen</string>
+    <string name="yourDeeds">Deine Grundstücke</string>
+    <string name="buyDeed">Du bist gerade dabei %1$s für € %2$d zu kaufen</string>
+    <string name="deedValue">Grundstückswert</string>
+    <string name="deedRent">Miete Grundstück allein</string>
+    <string name="deedRent1House">mit 1 Haus</string>
+    <string name="deedRent2Houses">mit 2 Häuser</string>
+    <string name="deedRent3Houses">mit 3 Häuser</string>
+    <string name="deedRent4Houses">mit 4 Häuser</string>
+    <string name="deedDoubleRent">Wenn ein Spieler alle Grundstücke einer Farbengruppe besitzt, so ist die Miete auf den unbebauten Grundstücken dieser Farbengruppe doppelt so hoch.</string>
+    <string name="deedHousePrice">1 Haus kostet:</string>
+    <string name="deedHotelPrice">1 Hotel kostet:</string>
+    <string name="deedMortgageValue">Der Hypothekenwert des Grundstückes beträgt:</string>
+    <string name="buyBtn">Kaufen</string>
+    <string name="cancelBtn">Zurück</string>
+    <string name="btnSearch">Spiele Suchen</string>
+    <string name="btnSettings">Einstellungen</string>
+    <string name="btnChange">Ändern</string>
+    <string name="hintPlayerName">Spielername</string>
+    <string name="SettingsScreen">3 - Einstellungen</string>
+    <string name="SearchScreen">2 - Suche</string>
+    <string name="btnHost">Spiel hosten</string>
+    <string name="HostScreen">4 - Hosten</string>
+    <string name="GameScreen">6 - Spiel</string>
+    <string name="LobbyScreen">5 - Lobby</string>
+    <string name="btnStart">Spiel starten</string>
+    <string name="btnHostNew">Neues Spiel hosten</string>
+</resources>

@@ -3,7 +3,6 @@ package com.ss20.se2.monopoly.network.server;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.gson.JsonObject;
 import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.network.LocalGamePublisher;
@@ -173,5 +172,13 @@ public class GameServer implements Runnable{
 		networkMessage.setType(RequestType.CHANGE_GAME_PIECE);
 		networkMessage.setGamePiece(new GamePiece(name));
 		RequestHandler.getInstance().handleRequest(networkMessage);
+	}
+
+	public void setAddress(InetAddress address){
+		this.address = address;
+	}
+
+	public void setPort(int port){
+		this.port = port;
 	}
 }

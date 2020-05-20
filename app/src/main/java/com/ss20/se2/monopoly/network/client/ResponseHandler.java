@@ -2,16 +2,10 @@ package com.ss20.se2.monopoly.network.client;
 
 import android.util.Log;
 
-import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.Lobby;
-import com.ss20.se2.monopoly.models.LobbyPlayer;
-import com.ss20.se2.monopoly.models.Player;
-import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
-import com.ss20.se2.monopoly.network.server.GameServer;
 import com.ss20.se2.monopoly.network.server.LobbyResponse;
 import com.ss20.se2.monopoly.network.server.NetworkResponse;
-import com.ss20.se2.monopoly.network.shared.GameActions;
 import com.ss20.se2.monopoly.network.shared.GameResponses;
 
 import java.util.concurrent.BlockingQueue;
@@ -26,7 +20,7 @@ class ResponseHandler implements Runnable{
 	private BlockingQueue<NetworkResponse> queue;
 
 	private ResponseHandler(){
-		this.queue = new LinkedBlockingDeque<NetworkResponse>();
+		this.queue = new LinkedBlockingDeque<>();
 		gameActionProcessor = new GameActionProcessor();
 		start();
 	}

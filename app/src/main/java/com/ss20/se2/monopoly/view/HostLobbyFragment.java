@@ -30,16 +30,9 @@ import java.util.LinkedList;
 public class HostLobbyFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 
 	private Button hostBtn;
-	private ImageButton backBtn;
 	private TextView partnerTxt;
 	private FragmentActivity activity;
 	private OnLobbyDataChangedListener onLobbyDataChangedListener;
-	private Spinner gamePieceSpinner;
-
-	@Override
-	public void onCreate(Bundle savedInstanceState){
-		super.onCreate(savedInstanceState);
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -47,11 +40,11 @@ public class HostLobbyFragment extends Fragment implements View.OnClickListener,
 		View myView = inflater.inflate(R.layout.fragment_hostlobby, container, false);
 		hostBtn = myView.findViewById(R.id.startGameBtn);
 		hostBtn.setOnClickListener(this);
-		backBtn = myView.findViewById(R.id.backBtn);
+		ImageButton backBtn = myView.findViewById(R.id.backBtn);
 		backBtn.setOnClickListener(this);
 		partnerTxt = myView.findViewById(R.id.partnersTxtHost);
 		activity = getActivity();
-		gamePieceSpinner = (Spinner) myView.findViewById(R.id.gamePieceSpinnerHost);
+		Spinner gamePieceSpinner = (Spinner) myView.findViewById(R.id.gamePieceSpinnerHost);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(activity, R.array.gamePieceArray, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		gamePieceSpinner.setAdapter(adapter);
@@ -75,33 +68,31 @@ public class HostLobbyFragment extends Fragment implements View.OnClickListener,
 
 	@Override
 	public void onClick(View v){
-		switch (v.getId()){
-			case R.id.startGameBtn:
-				try{
-					GameServer.getInstance().startGame(activity.getBaseContext());
-				}catch (GameServerNotRunningException e){
-					Log.e(NetworkUtilities.TAG, e.getMessage());
-				}
-				MainActivity.getNavController().navigate(R.id.GameFragment);
-				Intent intent = new Intent(activity, OldActivity2.class);
-				startActivity(intent);
-				break;
-			case R.id.backBtn:
+		int id = v.getId();
+		if (id == R.id.startGameBtn){
+			try{
+				GameServer.getInstance().startGame(activity.getBaseContext());
+			}catch (GameServerNotRunningException e){
+				Log.e(NetworkUtilities.TAG, e.getMessage());
+			}
+			MainActivity.getNavController().navigate(R.id.GameFragment);
+			Intent intent = new Intent(activity, GameboardActivity.class);
+			startActivity(intent);
+		}else if (id == R.id.backBtn){
+			MainActivity.getNavController().navigateUp();
+			try{
+				GameServer.getInstance().shutdownServer(v.getContext());
+				LocalGamePublisher.getInstance().hideGameInNetwork(this.getContext());
+				Lobby.getInstance().unsubscribe(onLobbyDataChangedListener);
+				Lobby.getInstance().setPlayers(new LinkedList<LobbyPlayer>());
+				Lobby.getInstance().setSelf(null);
+				Lobby.getInstance().setReady(false);
+				Lobby.getInstance().closeLobby();
+				Lobby.getInstance().setReady(false);
 				MainActivity.getNavController().navigateUp();
-				try{
-					GameServer.getInstance().shutdownServer(v.getContext());
-					LocalGamePublisher.getInstance().hideGameInNetwork(this.getContext());
-					Lobby.getInstance().unsubscribe(onLobbyDataChangedListener);
-					Lobby.getInstance().setPlayers(new LinkedList<LobbyPlayer>());
-					Lobby.getInstance().setSelf(null);
-					Lobby.getInstance().setReady(false);
-					Lobby.getInstance().closeLobby();
-					Lobby.getInstance().setReady(false);
-					MainActivity.getNavController().navigateUp();
-				}catch (Exception e){
-					Log.e(NetworkUtilities.TAG, e.getMessage());
-				}
-				break;
+			}catch (Exception e){
+				Log.e(NetworkUtilities.TAG, e.getMessage());
+			}
 		}
 	}
 
@@ -112,17 +103,17 @@ public class HostLobbyFragment extends Fragment implements View.OnClickListener,
 				partnerTxt.setText("");
 				String out = "";
 				for (LobbyPlayer player : Lobby.getInstance().getPlayers()){
-					out = out + player.getName() + " (" + player.getGamePiece().getName() + ")";
+					out = String.format("%s%s (%s)", out, player.getName(), player.getGamePiece().getName());
 					if (player.isHost()){
-						out = out + " [Host]";
+						out = String.format("%s [Host]", out);
 					}else{
 						if (player.isReady()){
-							out = out + " [Ready]";
+							out = String.format("%s [Ready]", out);
 						}else{
-							out = out + " [Not Ready]";
+							out = String.format("%s [Not Ready]", out);
 						}
 					}
-					out = out + "\n\n";
+					out = String.format("%s%n%n", out);
 				}
 				partnerTxt.setText(out);
 			}
@@ -131,15 +122,14 @@ public class HostLobbyFragment extends Fragment implements View.OnClickListener,
 
 	@Override
 	public void onItemSelected(AdapterView<?> adapterView, View v, int i, long l){
-		switch (adapterView.getId()){
-			case R.id.gamePieceSpinnerHost:
-				GameServer.getInstance().changeGamePiece(adapterView.getItemAtPosition(i).toString());
-				Log.d(NetworkUtilities.TAG, adapterView.getItemAtPosition(i).toString());
-				break;
+		if (adapterView.getId() == R.id.gamePieceSpinnerHost){
+			GameServer.getInstance().changeGamePiece(adapterView.getItemAtPosition(i).toString());
+			Log.d(NetworkUtilities.TAG, adapterView.getItemAtPosition(i).toString());
 		}
 	}
 
 	@Override
 	public void onNothingSelected(AdapterView<?> adapterView){
+		// no actions needed
 	}
 }

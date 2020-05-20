@@ -1,12 +1,7 @@
 package com.ss20.se2.monopoly.models;
 
-import com.ss20.se2.monopoly.models.fields.cards.Card;
-import com.ss20.se2.monopoly.models.fields.deeds.Deed;
-
 import java.io.Serializable;
 import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.List;
 
 public class LobbyPlayer implements Serializable{
 

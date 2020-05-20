@@ -12,7 +12,19 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent">
 
+        <ImageView
+                android:alpha="1"
+                android:id="@+id/lobby_background3"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:scaleType="fitStart"
+                android:src="@drawable/lobby_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         <ImageButton
+                style="@style/Widget.AppCompat.Button"
+                android:background="@drawable/monoploy_button"
                 android:id="@+id/backBtn"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"

@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        tools:context="com.ss20.se2.monopoly.MainActivity">
+        tools:context="com.ss20.se2.monopoly.view.GameboardActivity">
 
     <ImageView
             android:id="@+id/view_background"
@@ -39,7 +39,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_2"
             app:layout_constraintTop_toTopOf="@+id/tile_5"
-            app:srcCompat="@color/colorPrimaryDark" />
+            app:srcCompat="@color/violet" />
 
     <ImageView
             android:id="@+id/tile_10"
@@ -158,7 +158,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_4"
             app:layout_constraintTop_toTopOf="@+id/tile_5"
-            app:srcCompat="@color/colorPrimaryDark" />
+            app:srcCompat="@color/violet" />
 
     <ImageView
             android:id="@+id/tile_2"
@@ -498,8 +498,21 @@
     <TextView
             android:id="@+id/text_balance"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:text="Balance:"
-            tools:layout_editor_absoluteX="35dp"
-            tools:layout_editor_absoluteY="350dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+            android:id="@+id/buttonShowDeeds"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_width="wrap_content"
+            android:text="Show Deeds"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

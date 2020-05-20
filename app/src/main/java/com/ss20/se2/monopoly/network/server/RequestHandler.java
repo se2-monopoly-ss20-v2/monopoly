@@ -2,7 +2,6 @@ package com.ss20.se2.monopoly.network.server;
 
 import android.util.Log;
 
-import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.models.LobbyPlayer;
 import com.ss20.se2.monopoly.models.Player;
@@ -19,7 +18,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-class RequestHandler implements Runnable{
+public class RequestHandler implements Runnable{
 
 	private final AtomicBoolean running = new AtomicBoolean(false);
 	private static RequestHandler instance;
@@ -27,7 +26,7 @@ class RequestHandler implements Runnable{
 	private BlockingQueue<NetworkMessage> queue;
 
 	private RequestHandler(){
-		this.queue = new LinkedBlockingDeque<NetworkMessage>();
+		this.queue = new LinkedBlockingDeque<>();
 		this.gameActionProcessor = new GameActionProcessor();
 		start();
 	}
@@ -37,7 +36,7 @@ class RequestHandler implements Runnable{
 	 *
 	 * @return
 	 */
-	static RequestHandler getInstance(){
+	public static RequestHandler getInstance(){
 		if (instance == null){
 			instance = new RequestHandler();
 		}
@@ -158,7 +157,6 @@ class RequestHandler implements Runnable{
 
 		@Override
 		public void changeReadyLobby(ReadyLobbyNetworkMessage message){
-			LobbyPlayer lobbyPlayer = null;
 			for (LobbyPlayer player : Lobby.getInstance().getPlayers()){
 				if (player.getAddress().equals(message.getSenderAddress()) && player.getPort() == message.getSenderPort()){
 					player.setReady(message.isValue());
@@ -174,54 +172,67 @@ class RequestHandler implements Runnable{
 
 		@Override
 		public void rollDice(){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void skipTurn(){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void buyDeed(Deed deed){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void sellDeed(Deed deed){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void buyHouse(Deed deed){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void sellHouse(Deed deed){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void buyHotel(Deed deed){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void sellHotel(Deed deed){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void raiseMortgage(Deed deed){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void redeemMortgage(Deed deed){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void tradeDeed(Deed deed, Player player){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void bidAtAuction(int amount){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void cheat(){
+			throw new UnsupportedOperationException();
 		}
 	}
 }
