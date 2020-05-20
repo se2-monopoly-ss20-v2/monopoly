@@ -72,6 +72,14 @@
                 app:layout_constraintBottom_toTopOf="@+id/settingsBtn"
                 app:layout_constraintStart_toEndOf="@+id/settingsBtn" />
 
+        <Button
+                android:id="@+id/buttonOldActivity"
+                android:layout_height="38dp"
+                android:layout_width="54dp"
+                android:text="GBA"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

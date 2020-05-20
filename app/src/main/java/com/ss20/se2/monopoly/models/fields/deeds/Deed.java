@@ -17,6 +17,7 @@ public abstract class Deed extends GameTile{
 	private int mortgage;
 	private Player owner;
 
+
 	Deed(String name, int price, int mortgage){
 		super(name);
 		this.price = price;

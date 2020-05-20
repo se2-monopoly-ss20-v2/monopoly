@@ -1,11 +1,31 @@
 package com.ss20.se2.monopoly.models;
 
+import android.content.Context;
+import com.ss20.se2.monopoly.Utils;
+import com.ss20.se2.monopoly.models.fields.GameTile;
+import com.ss20.se2.monopoly.models.fields.deeds.Street;
+
+import java.util.ArrayList;
+
 public class Gameboard {
 
 	public GamePiece[] gameboardArray;
+	public ArrayList<GameTile> gameTiles;
+	private ArrayList<Street> streets;
 
-	public Gameboard() {
+	public Gameboard(Context context) {
 		gameboardArray = new GamePiece[40];
+		this.streets = new ArrayList<>();
+
+		Utils utils = new Utils();
+		String inputString = utils.getJSONFromAssets(context, "en");
+		gameTiles = (ArrayList<GameTile>) utils.getGameTilesRelativeFrom(inputString);
+
+		for (GameTile tile : gameTiles){
+			if (tile instanceof Street) {
+				streets.add((Street) tile);
+			}
+		}
 	}
 
 	public int getPosition(String name) {
@@ -60,5 +80,21 @@ public class Gameboard {
 			return 4;
 		}
 		return -1;
+	}
+
+	public ArrayList<Street> getStreets() {
+		return streets;
+	}
+
+	public ArrayList<Street> getStreetsRelativeTo(String color) {
+		ArrayList<Street> suitableStreets = new ArrayList<>();
+
+		for (Street street : streets) {
+			if (street.getColor().equals(color)) {
+				suitableStreets.add(street);
+			}
+		}
+
+		return suitableStreets;
 	}
 }

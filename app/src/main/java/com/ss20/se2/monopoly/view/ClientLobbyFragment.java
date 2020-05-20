@@ -63,7 +63,7 @@ public class ClientLobbyFragment extends Fragment implements View.OnClickListene
 				if (lobby.isStarted()){
 					Lobby.getInstance().unsubscribe(onLobbyDataChangedListener);
 					MainActivity.getNavController().navigate(R.id.GameFragment);
-					Intent intent = new Intent(activity, OldActivity2.class);
+					Intent intent = new Intent(activity, GameboardActivity.class);
 					startActivity(intent);
 				}
 			}

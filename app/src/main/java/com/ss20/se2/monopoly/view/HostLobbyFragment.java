@@ -76,7 +76,7 @@ public class HostLobbyFragment extends Fragment implements View.OnClickListener,
 				Log.e(NetworkUtilities.TAG, e.getMessage());
 			}
 			MainActivity.getNavController().navigate(R.id.GameFragment);
-			Intent intent = new Intent(activity, OldActivity2.class);
+			Intent intent = new Intent(activity, GameboardActivity.class);
 			startActivity(intent);
 		}else if (id == R.id.backBtn){
 			MainActivity.getNavController().navigateUp();
