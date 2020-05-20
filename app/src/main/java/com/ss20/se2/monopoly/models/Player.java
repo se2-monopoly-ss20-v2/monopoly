@@ -72,5 +72,5 @@ public class Player{
 	    this.playersCards.remove(card);
     }
 
-    public void updateBalance(int balance) { this.balance += balance;}
+    public void updateBalance(int balance) { this.balance = balance;}
 }

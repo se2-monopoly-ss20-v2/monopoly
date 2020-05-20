@@ -8,8 +8,9 @@ public class CommunityCardProcessor {
     public void performAction(Player player, Card card){
 
         int pos = player.getCurrentPosition();
+        int balance = player.getBalance();
 
-        int temp = -400;
+        int temp = 400;
 
         switch (card.getName()){
             case "1":
@@ -29,11 +30,11 @@ public class CommunityCardProcessor {
                 break;
 
             case "5":
-                player.updateBalance(-15);
+                player.updateBalance(balance-15);
                 break;
 
             case "6":
-                player.updateBalance(50);
+                player.updateBalance(balance+50);
                 break;
 
             case "7":
@@ -41,7 +42,7 @@ public class CommunityCardProcessor {
                 break;
 
             case "8":
-                player.updateBalance(100);
+                player.updateBalance(balance+100);
                 break;
 
             case "9":
@@ -57,7 +58,7 @@ public class CommunityCardProcessor {
                 break;
 
             case "12":
-                player.updateBalance(10);
+                player.updateBalance(balance+10);
                 break;
 
             case "13":
@@ -65,15 +66,15 @@ public class CommunityCardProcessor {
                 break;
 
             case "14":
-                player.updateBalance(-150);
+                player.updateBalance(balance-150);
                 break;
 
             case "15":
-                player.updateBalance(temp);
+                player.updateBalance(balance+temp);
                 break;
 
             case "16":
-                player.updateBalance(temp);
+                player.updateBalance(balance+temp);
                 break;
         }
     }
