@@ -5,7 +5,7 @@ import com.ss20.se2.monopoly.models.fields.cards.ChanceCard;
 import java.util.Collections;
 import java.util.Stack;
 
-public class ChanceCardDeck extends CardDeck{
+public class ChanceCardDeck {
 
     Stack<ChanceCard> stackOfCards = new Stack<>();
 
