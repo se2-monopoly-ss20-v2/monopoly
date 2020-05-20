@@ -34,6 +34,7 @@ public class OldActivity2 extends AppCompatActivity{
 	Gameboard gameboard;
 	ChanceCardDeck chanceCards;
 	CommunityCardDeck communityCards;
+	ChanceCardProcessor chanceCardProcessor;
 	int amount;
 
 	public ImageView[] initializeUI(){
@@ -96,6 +97,7 @@ public class OldActivity2 extends AppCompatActivity{
 		communityCards = new CommunityCardDeck();
 		chanceCards.initializeDeck();
 		communityCards.initializeDeck();
+		chanceCardProcessor = new ChanceCardProcessor();
 
 
 		gameboard = new Gameboard(getApplicationContext());
@@ -183,6 +185,9 @@ public class OldActivity2 extends AppCompatActivity{
 				}
 			});
 			dialog.show();
+
+			chanceCardProcessor.performAction(player, chanceCard);
+			view_balance.setText("Balance: " + player.getBalance());
 		}
 	}
 
@@ -190,7 +195,7 @@ public class OldActivity2 extends AppCompatActivity{
 		if (deed.getPrice() <= player.getBalance()) {
 			//PLAYER CAN BUY IT
 			int newBalance = player.getBalance() - deed.getPrice();
-			player.updateBalance(newBalance);
+			player.updateBalance(-deed.getPrice()); // updated method now subtracts the input from the current balance
 			player.addDeedToPlayer(deed);
 
 			view_balance.setText("Balance: " + player.getBalance());
