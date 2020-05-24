@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ss20.se2.monopoly.models.GamePiece;
+import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.network.LocalGamePublisher;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
@@ -81,6 +82,8 @@ public class GameServer implements Runnable{
 			LobbyResponse lobbyResponse = new LobbyResponse();
 			lobbyResponse.setLobby(Lobby.getInstance());
 			GameServer.getInstance().sendResponseToAll(lobbyResponse);
+			//TODO: Send initala state to all
+			GameState.getInstance().setupGame(Lobby.getInstance().getPlayers());
 		}else{
 			throw new GameServerNotRunningException(SERVER_NOT_RUNNING);
 		}
