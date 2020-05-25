@@ -505,6 +505,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+            android:id="@+id/doubles"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/view_background"
+            app:layout_constraintTop_toBottomOf="@+id/view_number_dice" />
+
     <Button
             android:id="@+id/buttonShowDeeds"
             android:layout_height="wrap_content"

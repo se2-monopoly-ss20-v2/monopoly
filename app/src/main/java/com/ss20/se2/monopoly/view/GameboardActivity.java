@@ -30,6 +30,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	TextView view_numberDice;
 	TextView view_position;
 	TextView view_balance;
+	TextView view_doubles;
 	Button showDeeds;
 	View playersDeedsFragment;
 
@@ -56,6 +57,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		view_position = findViewById(R.id.number_playerposition);
 		view_balance = findViewById(R.id.text_balance);
 		view_balance.setText("Balance: " + p.getBalance());
+		view_doubles = findViewById(R.id.doubles);
 		showDeeds = findViewById(R.id.buttonShowDeeds);
 		deedManager = new DeedManager(gameboard);
 
@@ -67,6 +69,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				roll2 = dice2.roll();
 
 				amount = roll1 + roll2;
+
+				checkDouble(roll1, roll2);
 
 				for (int i = 0; i < amount; i++) {
 
@@ -155,6 +159,20 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			}
 
 
+		}
+	}
+
+	public boolean checkDouble (int roll1, int roll2){
+
+		boolean status = false;
+
+		if (roll1 == roll2){
+			status = true;
+			view_doubles.setText("Doubles!");
+			return status;
+		}else{
+			view_doubles.setText("No doubles!");
+			return status;
 		}
 	}
 
