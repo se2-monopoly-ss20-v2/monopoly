@@ -44,7 +44,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.gameboard_activity);
 
-		final Player p = new Player("Wutzi", 1000, new GamePiece("shoe"), 0);
+		final Player p = new Player("Wutzi", 1000, new GamePiece("shoe"), 0, null, 0);
 
 		gameboard = new Gameboard(getApplicationContext());
 		gameboard.gameboardArray[0] = new GamePiece("Player 1");
