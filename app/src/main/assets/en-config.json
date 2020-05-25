@@ -18,10 +18,6 @@
     "type": "CommunityCard"
   },
   {
-    "name": "Community Chest",
-    "type": "CommunityCard"
-  },
-  {
     "name": "Whitechapel Road",
     "type": "Street",
     "price": 60,
@@ -29,11 +25,6 @@
     "housePrice": 30,
     "hotelPrice": 60,
     "color": "violet"
-  },
-  {
-    "name": "Income Tax",
-    "type": "Special",
-    "fieldType": "INCOME_TAX"
   },
   {
     "name": "Income Tax",
@@ -54,10 +45,6 @@
     "housePrice": 50,
     "hotelPrice": 100,
     "color": "lightBlue"
-  },
-  {
-    "name": "Chance",
-    "type": "ChanceCard"
   },
   {
     "name": "Chance",
@@ -87,11 +74,6 @@
     "fieldType": "JAIL_VISITOR"
   },
   {
-    "name": "Just Visiting",
-    "type": "Special",
-    "fieldType": "JAIL_VISITOR"
-  },
-  {
     "name": "Pall Mall",
     "type": "Street",
     "price": 140,
@@ -99,12 +81,6 @@
     "housePrice": 70,
     "hotelPrice": 140,
     "color": "pink"
-  },
-  {
-    "name": "Electric Company",
-    "type": "Utility",
-    "price": 140,
-    "mortgage": 70
   },
   {
     "name": "Electric Company",
@@ -150,10 +126,6 @@
     "type": "CommunityCard"
   },
   {
-    "name": "Community Chest",
-    "type": "CommunityCard"
-  },
-  {
     "name": "Great Marlborough Street",
     "type": "Street",
     "price": 180,
@@ -177,11 +149,6 @@
     "fieldType": "FREEPARKING"
   },
   {
-    "name": "Free Parking",
-    "type": "Special",
-    "fieldType": "FREEPARKING"
-  },
-  {
     "name": "Strand",
     "type": "Street",
     "price": 220,
@@ -189,10 +156,6 @@
     "housePrice": 110,
     "hotelPrice": 220,
     "color": "red"
-  },
-  {
-    "name": "Chance",
-    "type": "ChanceCard"
   },
   {
     "name": "Chance",
@@ -247,12 +210,6 @@
     "mortgage": 70
   },
   {
-    "name": "Water Company",
-    "type": "Utility",
-    "price": 140,
-    "mortgage": 70
-  },
-  {
     "name": "Piccadilly",
     "type": "Street",
     "price": 280,
@@ -263,11 +220,6 @@
   },
   {
     "name": "Jail",
-    "type": "Special",
-    "fieldType": "JAIL"
-  },
-  {
-    "name": "Free Parking",
     "type": "Special",
     "fieldType": "JAIL"
   },
@@ -288,10 +240,6 @@
     "housePrice": 150,
     "hotelPrice": 300,
     "color": "green"
-  },
-  {
-    "name": "Community Chest",
-    "type": "CommunityCard"
   },
   {
     "name": "Community Chest",
@@ -324,11 +272,6 @@
     "housePrice": 175,
     "hotelPrice": 350,
     "color": "darkBlue"
-  },
-  {
-    "name": "Free Parking",
-    "type": "Special",
-    "fieldType": "LUXURY_TAX"
   },
   {
     "name": "Free Parking",
