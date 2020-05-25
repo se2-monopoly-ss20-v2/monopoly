@@ -34,10 +34,13 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	View playersDeedsFragment;
 
 	Dice dice = new Dice();
+	Dice dice2 = new Dice();
 	Gameboard gameboard;
 	DeedManager deedManager;
 
 	int amount;
+	int roll1;
+	int roll2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +63,10 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			@Override
 			public void onClick(View v) {
 
-				amount = dice.roll();
+				roll1 = dice.roll();
+				roll2 = dice2.roll();
+
+				amount = roll1 + roll2;
 
 				for (int i = 0; i < amount; i++) {
 
