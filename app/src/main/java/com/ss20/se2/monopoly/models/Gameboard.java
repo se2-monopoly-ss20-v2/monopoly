@@ -2,20 +2,12 @@ package com.ss20.se2.monopoly.models;
 
 import android.content.Context;
 
-import com.ss20.se2.monopoly.FieldDeserializer;
 import com.ss20.se2.monopoly.Utils;
 import com.ss20.se2.monopoly.models.fields.GameTile;
 
 import java.util.ArrayList;
 
-import com.ss20.se2.monopoly.MainActivity;
-
-import android.content.Context;
-import com.ss20.se2.monopoly.Utils;
-import com.ss20.se2.monopoly.models.fields.GameTile;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
-
-import java.util.ArrayList;
 
 public class Gameboard {
 
