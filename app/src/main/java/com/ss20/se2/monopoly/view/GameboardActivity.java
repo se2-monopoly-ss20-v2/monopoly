@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,7 +16,10 @@ import com.ss20.se2.monopoly.DeedManager;
 import com.ss20.se2.monopoly.R;
 import com.ss20.se2.monopoly.models.Dice;
 import com.ss20.se2.monopoly.models.GamePiece;
+import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Gameboard;
+import com.ss20.se2.monopoly.models.Lobby;
+import com.ss20.se2.monopoly.models.OnGameStateChangedListener;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.GameTile;
 import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
@@ -23,6 +27,8 @@ import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 import com.ss20.se2.monopoly.view.dialog.DialogContainerFragment;
+
+import java.net.InetAddress;
 
 public class GameboardActivity extends AppCompatActivity implements DeedFragmentDelegate{
 
@@ -36,7 +42,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	Dice dice = new Dice();
 	Gameboard gameboard;
 	DeedManager deedManager;
-
+	Player currentPlayer;
+	GameState state;
 	int amount;
 
 	@Override
@@ -44,7 +51,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.gameboard_activity);
 
-		final Player p = new Player("Wutzi", 1000, new GamePiece("shoe"), 0, null, 0);
+		//setup();
 
 		gameboard = new Gameboard(getApplicationContext());
 		gameboard.gameboardArray[0] = new GamePiece("Player 1");
@@ -52,7 +59,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		view_numberDice = findViewById(R.id.view_number_dice);
 		view_position = findViewById(R.id.number_playerposition);
 		view_balance = findViewById(R.id.text_balance);
-		view_balance.setText("Balance: " + p.getBalance());
+		//view_balance.setText("Balance: " + currentPlayer.getBalance());
 		showDeeds = findViewById(R.id.buttonShowDeeds);
 		deedManager = new DeedManager(gameboard);
 
@@ -98,8 +105,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				}
 				gameboard.move("Player 1", amount);
 
-				p.setCurrentPosition(gameboard.getPosition("Player 1"));
-				checkPlayersPosition(p);
+				//currentPlayer.setCurrentPosition(gameboard.getPosition("Player 1"));
+				//checkPlayersPosition(currentPlayer);
 
 				view_numberDice.setText(Integer.toString(amount));
 				view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
@@ -151,6 +158,35 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 		}
 	}
+
+	/*void setup() {
+		Log.d("GameState", Lobby.getInstance().getSelf().getAddress().toString());
+		Log.d("GameState", Lobby.getInstance().getSelf().getName());
+		Log.d("GameState", "GameState changed.");
+
+		OnGameStateChangedListener listener = new OnGameStateChangedListener(){
+			@Override
+			public void onGameStateChanged(GameState gameState){
+				//do something.
+				state = gameState;
+				Log.d("GameState", "GameState changed.");
+				Log.d("GameState", state.toString());
+
+				if (currentPlayer == null) {
+					currentPlayer = GameState.getInstance().getPlayerFrom(Lobby.getInstance().getSelf().getAddress(), Lobby.getInstance().getSelf().getPort());
+				}
+
+				if (gameState.getCurrentActivePlayer().equals(currentPlayer)) {
+					button_rollDice.setEnabled(true);
+				} else {
+					button_rollDice.setEnabled(false);
+				}
+			}
+		};
+
+		GameState.getInstance().subscribe(listener);
+	}
+	 */
 
 	@Override
 	public void performAcquiringDeed(Street street, Player player){
