@@ -35,11 +35,14 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	TextView updateBalance;
 
 	Dice dice = new Dice();
+	Dice dice2 = new Dice();
 	Gameboard gameboard;
 	DeedManager deedManager;
 	int oldBalance;
 
 	int amount;
+	int roll1;
+	int roll2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,10 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			@Override
 			public void onClick(View v) {
 
-				amount = dice.roll();
+				roll1 = dice.roll();
+				roll2 = dice2.roll();
+				amount = roll1 + roll2;
+				
 				setOldBalance(p.getBalance());
 
 				for (int i = 0; i < amount; i++) {
