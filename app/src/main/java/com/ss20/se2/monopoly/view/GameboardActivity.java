@@ -45,6 +45,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	int amount;
 	int roll1;
 	int roll2;
+	int doublescounter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,16 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				roll2 = dice2.roll();
 				amount = roll1 + roll2;
 				checkDouble(roll1, roll2);
+
+				if (checkDouble(roll1, roll2)){
+					doublescounter++;
+				}else{
+					doublescounter = 0;
+				}
+
+				if(doublescounter == 3){
+					//Move to jail
+				}
 
 				setOldBalance(p.getBalance());
 
