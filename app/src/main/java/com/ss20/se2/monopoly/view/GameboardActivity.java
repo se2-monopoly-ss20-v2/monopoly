@@ -54,7 +54,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		view_numberDice = findViewById(R.id.view_number_dice);
 		view_position = findViewById(R.id.number_playerposition);
 		view_balance = findViewById(R.id.text_balance);
-		view_balance.setText("Balance: " + p.getBalance());
+		view_balance.setText(getString(R.string.balance,  p.getBalance()));
 		showDeeds = findViewById(R.id.buttonShowDeeds);
 		deedManager = new DeedManager(gameboard);
 		updateBalance = findViewById(R.id.changeOfBalance);
