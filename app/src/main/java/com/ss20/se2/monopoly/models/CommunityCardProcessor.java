@@ -13,28 +13,28 @@ public class CommunityCardProcessor {
         int temp = 400;
 
         switch (card.getName()){
-            case "1":
-                player.addCardToPlayer(card);
+            case "BIRTHDAY":
+                player.setBalance(balance+50);
                 break;
 
-            case "2":
-                player.setCurrentPosition(6);
+            case "LUCK":
+                player.setBalance(balance+200);
                 break;
 
-            case "3":
-                player.setCurrentPosition(pos-3);
+            case "BADLUCK":
+                player.setBalance(balance-150);
                 break;
 
-            case "4":
-                player.setCurrentPosition(5);
+            case "DATE":
+                player.setBalance(balance-15);
                 break;
 
-            case "5":
-                player.updateBalance(balance-15);
+            case "STOCK":
+                player.updateBalance(balance+300);
                 break;
 
-            case "6":
-                player.updateBalance(balance+50);
+            case "HOSPITAL":
+                player.updateBalance(balance-200);
                 break;
 
             case "7":
@@ -75,6 +75,9 @@ public class CommunityCardProcessor {
 
             case "16":
                 player.updateBalance(balance+temp);
+                break;
+
+            default:
                 break;
         }
     }

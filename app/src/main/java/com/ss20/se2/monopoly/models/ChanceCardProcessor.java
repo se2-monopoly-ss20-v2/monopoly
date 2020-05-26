@@ -12,32 +12,32 @@ public class ChanceCardProcessor {
         int temp = 400;
 
         switch (card.getName()){
-            case "1":
+            case "FREEJAIL":
                 player.addCardToPlayer(card);
                 break;
 
-            case "2":
-                player.setCurrentPosition(6);
+            case "SHOPPING":
+                player.updateBalance(balance-300);
                 break;
 
-            case "3":
-                player.setCurrentPosition(pos-3);
+            case "DENTIST":
+                player.updateBalance(balance-200);
                 break;
 
-            case "4":
-                player.setCurrentPosition(5);
+            case "COFFEE":
+                player.updateBalance(balance-100);
                 break;
 
-            case "5":
-                player.updateBalance(balance-15);
+            case "DAYOFF":
+                player.updateBalance(balance-50);
                 break;
 
-            case "6":
-                player.updateBalance(balance+50);
+            case "PARKING":
+                player.updateBalance(balance-25);
                 break;
 
-            case "7":
-                player.setCurrentPosition(26);
+            case "KICKSTART":
+                player.updateBalance(balance+200);
                 break;
 
             case "8":
@@ -74,6 +74,9 @@ public class ChanceCardProcessor {
 
             case "16":
                 player.updateBalance(balance-temp);
+                break;
+
+            default:
                 break;
         }
     }
