@@ -512,6 +512,15 @@
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/view_background"
+            app:layout_constraintTop_toBottomOf="@+id/view_number_dice2" />
+
+    <TextView
+            android:id="@+id/view_number_dice2"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/view_background"
             app:layout_constraintTop_toBottomOf="@+id/view_number_dice" />
 
     <Button

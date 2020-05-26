@@ -28,6 +28,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 	Button button_rollDice;
 	TextView view_numberDice;
+	TextView view_numberDice2;
 	TextView view_position;
 	TextView view_balance;
 	TextView viewdoubles;
@@ -55,6 +56,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		gameboard.gameboardArray[0] = new GamePiece("Player 1");
 		button_rollDice = findViewById(R.id.button_roll_dice);
 		view_numberDice = findViewById(R.id.view_number_dice);
+		view_numberDice2 = findViewById(R.id.view_number_dice2);
 		view_position = findViewById(R.id.number_playerposition);
 		view_balance = findViewById(R.id.text_balance);
 		view_balance.setText("Balance: " + p.getBalance());
@@ -122,7 +124,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				p.setCurrentPosition(gameboard.getPosition("Player 1"));
 				checkPlayersPosition(p);
 
-				view_numberDice.setText(Integer.toString(amount));
+				view_numberDice.setText("Roll 1: " + Integer.toString(roll1));
+				view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
 				view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
 
 			}
@@ -182,7 +185,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			viewdoubles.setText("Doubles!");
 			return status;
 		}else{
-			viewdoubles.setText("No doubles!");
 			return status;
 		}
 	}
