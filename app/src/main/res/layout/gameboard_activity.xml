@@ -521,5 +521,21 @@
             app:layout_constraintTop_toBottomOf="@+id/text_balance"
             app:layout_constraintEnd_toEndOf="@+id/text_balance" android:visibility="visible"
             android:textAlignment="viewEnd"/>
+    <TextView
+            android:id="@+id/view_number_dice2"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/view_background"
+            app:layout_constraintTop_toBottomOf="@+id/view_number_dice" />
+    <TextView
+            android:id="@+id/doubles"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/view_background"
+            app:layout_constraintTop_toBottomOf="@+id/view_number_dice2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
