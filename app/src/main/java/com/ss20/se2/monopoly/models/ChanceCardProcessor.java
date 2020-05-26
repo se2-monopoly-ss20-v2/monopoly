@@ -5,10 +5,8 @@ import com.ss20.se2.monopoly.models.fields.cards.Card;
 public class ChanceCardProcessor {
 
     public void performAction(Player player, Card card){
-        
-        int pos = player.getCurrentPosition();
-        int balance = player.getBalance();
 
+        int balance = player.getBalance();
         int temp = 400;
 
         switch (card.getName()){

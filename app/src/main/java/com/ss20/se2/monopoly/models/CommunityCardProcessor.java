@@ -7,7 +7,6 @@ public class CommunityCardProcessor {
 
     public void performAction(Player player, Card card){
 
-        int pos = player.getCurrentPosition();
         int balance = player.getBalance();
 
         int temp = 400;
