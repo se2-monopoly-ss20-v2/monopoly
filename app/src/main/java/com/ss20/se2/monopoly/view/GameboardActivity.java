@@ -167,12 +167,12 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	public void showDifference(int oldBalance, int newBalance){
 		int difference = oldBalance-newBalance;
 
-		if (oldBalance-newBalance == 0){
+		if (difference == 0){
 			updateBalance.setText("");
 		}
 		else if (oldBalance<newBalance){
 			//set Color
-			updateBalance.setText("$" + difference);
+			updateBalance.setText("+$" + difference);
 		}
 		else {
 			updateBalance.setText("-$" + difference);
