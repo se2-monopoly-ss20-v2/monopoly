@@ -30,7 +30,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	TextView view_numberDice;
 	TextView view_position;
 	TextView view_balance;
-	TextView view_doubles;
+	TextView viewdoubles;
 	Button showDeeds;
 	View playersDeedsFragment;
 
@@ -42,7 +42,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	int amount;
 	int roll1;
 	int roll2;
-	int doubles_counter;
+	int doublescounter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		view_position = findViewById(R.id.number_playerposition);
 		view_balance = findViewById(R.id.text_balance);
 		view_balance.setText("Balance: " + p.getBalance());
-		view_doubles = findViewById(R.id.doubles);
+		viewdoubles = findViewById(R.id.doubles);
 		showDeeds = findViewById(R.id.buttonShowDeeds);
 		deedManager = new DeedManager(gameboard);
 
@@ -73,13 +73,13 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 				checkDouble(roll1, roll2);
 
-				if (checkDouble(roll1, roll2) == true){
-					doubles_counter++;
+				if (checkDouble(roll1, roll2)){
+					doublescounter++;
 				}else{
-					doubles_counter = 0;
+					doublescounter = 0;
 				}
 
-				if(doubles_counter == 3){
+				if(doublescounter == 3){
 					//Move to jail
 				}
 
@@ -179,10 +179,10 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 		if (roll1 == roll2){
 			status = true;
-			view_doubles.setText("Doubles!");
+			viewdoubles.setText("Doubles!");
 			return status;
 		}else{
-			view_doubles.setText("No doubles!");
+			viewdoubles.setText("No doubles!");
 			return status;
 		}
 	}
