@@ -32,6 +32,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	TextView view_balance;
 	Button showDeeds;
 	View playersDeedsFragment;
+	TextView updateBalance;
 
 	Dice dice = new Dice();
 	Gameboard gameboard;
@@ -40,6 +41,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	CommunityCardDeck communityCards;
 	ChanceCardProcessor chanceCardProcessor;
 	CommunityCardProcessor communityCardProcessor;
+	int oldBalance;
 
 	int amount;
 
@@ -111,18 +113,56 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		view_numberDice = findViewById(R.id.view_number_dice);
 		view_position = findViewById(R.id.number_playerposition);
 		view_balance = findViewById(R.id.text_balance);
-		view_balance.setText("Balance: " + p.getBalance());
+		view_balance.setText(getString(R.string.balance,  p.getBalance()));
 		showDeeds = findViewById(R.id.buttonShowDeeds);
 		deedManager = new DeedManager(gameboard);
+		updateBalance = findViewById(R.id.changeOfBalance);
+
 
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
 				amount = dice.roll();
+				setOldBalance(p.getBalance());
 
+				for (int i = 0; i < amount; i++) {
+
+					if (gameboard.getPosition("Player 1") - amount + i == 40) {
+						i = 0;
+					}
+
+					int x = gameboard.moveUI("Player 1", i);
+
+					float xaxis = findViewById(R.id.playericon).getX();
+					float yaxis = findViewById(R.id.playericon).getY();
+
+
+					switch (x) {
+						case 1: {
+							findViewById(R.id.playericon).setX(xaxis - 72);
+							break;
+						}
+						case 2: {
+							findViewById(R.id.playericon).setY(yaxis - 72);
+							break;
+						}
+						case 3: {
+							findViewById(R.id.playericon).setX(xaxis + 72);
+							break;
+						}
+						case 4: {
+							findViewById(R.id.playericon).setY(yaxis + 72);
+							break;
+						}
+						default:
+							break;
+					}
+
+				}
 				gameboard.move("Player 1", amount);
 
+				updateBalance.setText("");
 				p.setCurrentPosition(gameboard.getPosition("Player 1"));
 				checkPlayersPosition(p);
 
@@ -168,6 +208,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					public void onClick(DialogInterface dialog, int which){
 						int balance = deedManager.performAcquiringHouseFor(street, player);
 						view_balance.setText(getString(R.string.balance,  balance));
+						showDifference(getOldBalance(), player.getBalance());
 					}
 				});
 
@@ -213,10 +254,34 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	@Override
 	public void performAcquiringDeed(Street street, Player player){
 		int newBalance = deedManager.performAcquiringDeed(street, player);
-		player.setBalance(newBalance);
+		player.updateBalance(newBalance);
 		view_balance.setText(getString(R.string.balance,  newBalance));
 		Toast.makeText(this, "You now own " + street.getName(), Toast.LENGTH_SHORT).show();
+		showDifference(getOldBalance(), player.getBalance());
 
+	}
+	public void showDifference(int oldBalance, int newBalance){
+		int difference = oldBalance-newBalance;
+
+		if (difference == 0){
+			updateBalance.setText("");
+		}
+		else if (oldBalance<newBalance){
+			//set Color
+			updateBalance.setText("+$" + difference);
+		}
+		else {
+			updateBalance.setText("-$" + difference);
+		}
+
+	}
+
+	public int getOldBalance() {
+		return oldBalance;
+	}
+
+	public void setOldBalance(int oldBalance) {
+		this.oldBalance = oldBalance;
 	}
 }
 

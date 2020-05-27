@@ -38,7 +38,7 @@
     <string name="buyBtn">Buy</string>
     <string name="cancelBtn">Cancel</string>
     <string name="lobbyBackgroundDescription" translatable="false">The monopolyman as background</string>
-    <string name="balance" translatable="false">Balance: %1$i</string>
+    <string name="balance" translatable="false">Balance: $%1$d</string>
 
     <string-array name="gamePieceArray">
         <item>Dino</item>
