@@ -273,7 +273,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 		else if (oldBalance<newBalance){
 			//set Color
-			updateBalance.setText("+$" + difference);
+			updateBalance.setText("+$" + difference * -1);
 		}
 		else {
 			updateBalance.setText("-$" + difference);
