@@ -64,25 +64,6 @@ public class Gameboard {
 		}
 	}
 
-	public int moveUI(String name, int i) {
-		int position = getPosition(name);
-		if (position + i >= 40) {
-			return 1;
-		}
-		if (position + i < 10) {
-			return 1;
-		}
-		if (position + i < 20) {
-			return 2;
-		}
-		if (position + i < 30) {
-			return 3;
-		}
-		if (position + i < 40) {
-			return 4;
-		}
-		return -1;
-	}
 
 	public ArrayList<Street> getStreets() {
 		return streets;
