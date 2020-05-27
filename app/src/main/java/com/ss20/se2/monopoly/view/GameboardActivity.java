@@ -224,6 +224,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
+					showDifference(getOldBalance(), player.getBalance());
 				}
 			});
 			dialog.show();
@@ -241,6 +242,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
+					showDifference(getOldBalance(), player.getBalance());
 				}
 			});
 			dialog.show();
