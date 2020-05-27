@@ -17,11 +17,14 @@ import com.ss20.se2.monopoly.DeedManager;
 import com.ss20.se2.monopoly.R;
 import com.ss20.se2.monopoly.models.*;
 import com.ss20.se2.monopoly.models.fields.GameTile;
+import com.ss20.se2.monopoly.models.fields.cards.Card;
 import com.ss20.se2.monopoly.models.fields.cards.ChanceCard;
 import com.ss20.se2.monopoly.models.fields.cards.CommunityCard;
 import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
+import com.ss20.se2.monopoly.models.fields.specials.Special;
+import com.ss20.se2.monopoly.models.fields.specials.SpecialFieldType;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 import com.ss20.se2.monopoly.view.dialog.DialogContainerFragment;
 
@@ -301,8 +304,41 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	public void showTileInfo(GameTile gameTile){
 
 		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
-		dialog.setTitle("TILE 1!");
-		dialog.setMessage(gameTile.getName());
+		dialog.setTitle(gameTile.getName());
+
+		if(gameTile instanceof Street){
+			Street street = (Street) gameTile;
+
+			if (street.getOwner()!=null){
+				dialog.setMessage("Owner: " + street.getOwner().getName());
+			}
+			else{
+				dialog.setMessage("No Owner");
+			}
+
+		}
+		else if(gameTile instanceof Railroad){
+			Railroad railroad = (Railroad) gameTile;
+
+			if (railroad.getOwner()!=null){
+				dialog.setMessage("Owner: " + railroad.getOwner().getName());
+			}
+			else{
+				dialog.setMessage("No Owner");
+			}
+
+		}
+		else if(gameTile instanceof Special){
+			Special special = (Special) gameTile;
+			//Future idea: Make a short description of the special field
+			if(special.getFieldType() == SpecialFieldType.JAIL){
+				dialog.setMessage("THIS IS THE JAIL");
+			}
+		}
+		else if(gameTile instanceof Card){
+			dialog.setMessage("Surprise Cards with either good or bad effect");
+		}
+
 		dialog.show();
 
 	}
