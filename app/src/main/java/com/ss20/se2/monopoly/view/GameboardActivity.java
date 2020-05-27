@@ -28,6 +28,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 	Button button_rollDice;
 	TextView view_numberDice;
+	TextView view_numberDice2;
+	TextView viewdoubles;
 	TextView view_position;
 	TextView view_balance;
 	Button showDeeds;
@@ -35,11 +37,15 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	TextView updateBalance;
 
 	Dice dice = new Dice();
+	Dice dice2 = new Dice();
 	Gameboard gameboard;
 	DeedManager deedManager;
 	int oldBalance;
 
 	int amount;
+	int roll1;
+	int roll2;
+	int doublescounter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		gameboard.gameboardArray[0] = new GamePiece("Player 1");
 		button_rollDice = findViewById(R.id.button_roll_dice);
 		view_numberDice = findViewById(R.id.view_number_dice);
+		view_numberDice2 = findViewById(R.id.view_number_dice2);
+		viewdoubles = findViewById(R.id.doubles);
 		view_position = findViewById(R.id.number_playerposition);
 		view_balance = findViewById(R.id.text_balance);
 		view_balance.setText(getString(R.string.balance,  p.getBalance()));
@@ -64,7 +72,21 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			@Override
 			public void onClick(View v) {
 
-				amount = dice.roll();
+				roll1 = dice.roll();
+				roll2 = dice2.roll();
+				amount = roll1 + roll2;
+				checkDouble(roll1, roll2);
+
+				if (checkDouble(roll1, roll2)){
+					doublescounter++;
+				}else{
+					doublescounter = 0;
+				}
+
+				if(doublescounter == 3){
+					//Move to jail
+				}
+
 				setOldBalance(p.getBalance());
 
 				for (int i = 0; i < amount; i++) {
@@ -107,7 +129,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				p.setCurrentPosition(gameboard.getPosition("Player 1"));
 				checkPlayersPosition(p);
 
-				view_numberDice.setText(Integer.toString(amount));
+				view_numberDice.setText("Roll 1: " + Integer.toString(roll1));
+				view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
 				view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
 
 			}
@@ -153,6 +176,20 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 			}
 		}
+	}
+
+	public boolean checkDouble(int roll1, int roll2){
+		boolean status = false;
+
+		if (roll1 == roll2){
+			status = true;
+			viewdoubles.setText("Doubles!");
+			return status;
+		}else{
+			viewdoubles.setText(" ");
+			return status;
+		}
+
 	}
 
 	@Override
