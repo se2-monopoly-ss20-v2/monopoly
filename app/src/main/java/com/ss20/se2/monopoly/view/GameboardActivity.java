@@ -1,5 +1,6 @@
 package com.ss20.se2.monopoly.view;
 
+import android.util.Log;
 import android.widget.ImageView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -162,7 +163,23 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
 			}
 		});
+
+		for (int i = 0; i < fields.length; i++) {
+			final ImageView view = fields[i];
+			view.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+					showTileInfo(gameboard.gameTiles.get((Integer.parseInt(v.getTag().toString()))));
+
+					Log.d("ID:", v.getTag().toString());
+				}
+			});
+		}
 	}
+
+
+
 
 	public void checkPlayersPosition(final Player player) {
 		GameTile currentTile = gameboard.gameTiles.get(player.getCurrentPosition());
@@ -280,6 +297,16 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 
 	}
+
+	public void showTileInfo(GameTile gameTile){
+
+		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+		dialog.setTitle("TILE 1!");
+		dialog.setMessage(gameTile.getName());
+		dialog.show();
+
+	}
+
 
 	public int getOldBalance() {
 		return oldBalance;
