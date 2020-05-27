@@ -148,40 +148,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 				setOldBalance(p.getBalance());
 
-				for (int i = 0; i < amount; i++) {
-
-					if (gameboard.getPosition("Player 1") - amount + i == 40) {
-						i = 0;
-					}
-
-					int x = gameboard.moveUI("Player 1", i);
-
-					float xaxis = findViewById(R.id.playericon).getX();
-					float yaxis = findViewById(R.id.playericon).getY();
-
-
-					switch (x) {
-						case 1: {
-							findViewById(R.id.playericon).setX(xaxis - 72);
-							break;
-						}
-						case 2: {
-							findViewById(R.id.playericon).setY(yaxis - 72);
-							break;
-						}
-						case 3: {
-							findViewById(R.id.playericon).setX(xaxis + 72);
-							break;
-						}
-						case 4: {
-							findViewById(R.id.playericon).setY(yaxis + 72);
-							break;
-						}
-						default:
-							break;
-					}
-
-				}
 				gameboard.move("Player 1", amount);
 
 				updateBalance.setText("");
