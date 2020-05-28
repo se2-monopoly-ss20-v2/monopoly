@@ -6,6 +6,7 @@ import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.models.OnGameDataChangedListener;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.network.GameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
 import com.ss20.se2.monopoly.network.shared.GameActions;
 
@@ -181,6 +182,11 @@ public class GameController implements Runnable, GameActions{
 	@Override
 	public void cheat(){
 		communicator.sendMessage(null);
+	}
+
+	@Override
+	public void setupGameState(GameStateNetworkMessage message){
+		communicator.sendMessage(message);
 	}
 
 	public Socket getSocket(){

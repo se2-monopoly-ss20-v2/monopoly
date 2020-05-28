@@ -6,6 +6,7 @@ import android.util.Log;
 import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Lobby;
+import com.ss20.se2.monopoly.network.GameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.GameStateResponse;
 import com.ss20.se2.monopoly.network.LocalGamePublisher;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
@@ -78,22 +79,13 @@ public class GameServer implements Runnable{
 
 	public void startGame(Context context) throws GameServerNotRunningException{
 		if (running){
-			Log.d("GameState", "setting up game state.");
 
-			Log.d("GameState", "done");
 			refuseJoining(context);
+			Lobby.getInstance().setCurrentState(GameState.getInstance());
 			Lobby.getInstance().setStarted(true);
 			LobbyResponse lobbyResponse = new LobbyResponse();
 			lobbyResponse.setLobby(Lobby.getInstance());
-			Log.d("GameState", "sending response to all");
 			GameServer.getInstance().sendResponseToAll(lobbyResponse);
-			Log.d("GameState", "done");
-
-			GameState.getInstance().setupGame(Lobby.getInstance().getPlayers());
-
-			GameStateResponse response = new GameStateResponse();
-			response.setState(GameState.getInstance());
-			GameServer.getInstance().sendResponseToAll(response);
 
 
 		}else{
@@ -195,5 +187,16 @@ public class GameServer implements Runnable{
 
 	public void setPort(int port){
 		this.port = port;
+	}
+
+	public void setupGameState() {
+		GameState.getInstance().setupGame(Lobby.getInstance().getPlayers());
+		GameStateNetworkMessage message = new GameStateNetworkMessage();
+		message.setState(GameState.getInstance());
+		message.setSenderAddress(Lobby.getInstance().getSelf().getAddress());
+		message.setSenderName(Lobby.getInstance().getSelf().getName());
+		message.setSenderPort(Lobby.getInstance().getSelf().getPort());
+		message.setType(RequestType.SETUP_GAMESTATE);
+		RequestHandler.getInstance().handleRequest(message);
 	}
 }

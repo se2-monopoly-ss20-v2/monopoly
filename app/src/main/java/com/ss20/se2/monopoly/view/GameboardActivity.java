@@ -25,6 +25,9 @@ import com.ss20.se2.monopoly.models.fields.GameTile;
 import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
+import com.ss20.se2.monopoly.network.GameStateNetworkMessage;
+import com.ss20.se2.monopoly.network.client.GameController;
+import com.ss20.se2.monopoly.network.server.GameServer;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 import com.ss20.se2.monopoly.view.dialog.DialogContainerFragment;
 
@@ -50,8 +53,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.gameboard_activity);
-
-		//setup();
 
 		gameboard = new Gameboard(getApplicationContext());
 		gameboard.gameboardArray[0] = new GamePiece("Player 1");
@@ -113,6 +114,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 			}
 		});
+
+		setup();
 	}
 
 	public void checkPlayersPosition(final Player player) {
@@ -159,34 +162,54 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
-	/*void setup() {
-		Log.d("GameState", Lobby.getInstance().getSelf().getAddress().toString());
-		Log.d("GameState", Lobby.getInstance().getSelf().getName());
-		Log.d("GameState", "GameState changed.");
+	void setup() {
+
+		Log.d("GameState", GameState.getInstance().toString());
+
+		/*
+			1. Client: GameController.doSomething(Message)
+			2. Gamecontroller -> sendMessage()
+			3. RequestHandler -> doSomethingThere() -> Create Response
+			4. ResponseToAll Clients -> ResponseHandler -> Update their stuff.
+		 */
 
 		OnGameStateChangedListener listener = new OnGameStateChangedListener(){
 			@Override
 			public void onGameStateChanged(GameState gameState){
 				//do something.
 				state = gameState;
-				Log.d("GameState", "GameState changed.");
+				Log.d("GameState", "The GameState changed.");
+				Log.d("GameState", "This is inside the listener.");
 				Log.d("GameState", state.toString());
+
+				GameState.getInstance().setPlayers(gameState.getPlayers());
+				GameState.getInstance().setCurrentActivePlayer(gameState.getCurrentActivePlayer());
 
 				if (currentPlayer == null) {
 					currentPlayer = GameState.getInstance().getPlayerFrom(Lobby.getInstance().getSelf().getAddress(), Lobby.getInstance().getSelf().getPort());
 				}
 
-				if (gameState.getCurrentActivePlayer().equals(currentPlayer)) {
-					button_rollDice.setEnabled(true);
-				} else {
-					button_rollDice.setEnabled(false);
-				}
+				runOnUiThread(new Runnable(){
+					@Override
+					public void run(){
+						if (GameState.getInstance().getCurrentActivePlayer().equals(currentPlayer)) {
+							button_rollDice.setEnabled(true);
+						} else {
+							button_rollDice.setEnabled(false);
+						}
+					}
+				});
 			}
 		};
 
 		GameState.getInstance().subscribe(listener);
+
+		if (GameState.getInstance().getPlayers() != null) {
+			//this dude is server so he needs to setup the GameState
+			GameServer.getInstance().setupGameState();
+		}
 	}
-	 */
+
 
 	@Override
 	public void performAcquiringDeed(Street street, Player player){

@@ -16,6 +16,8 @@ public class GameState implements Serializable{
 	private Player currentActivePlayer;
 
 	private GameState(){
+		this.players = new ArrayList<>();
+		this.listeners = new ArrayList<>();
 	}
 
 	public static GameState getInstance(){
@@ -26,13 +28,12 @@ public class GameState implements Serializable{
 	}
 
 	public void setupGame(List<LobbyPlayer> lobbyPlayers){
-		players = new ArrayList<>();
-		listeners = new ArrayList<>();
+
 		Log.d("GameState", lobbyPlayers.toString());
 
 		for (LobbyPlayer lobbyPlayer : lobbyPlayers){
 			Player player = new Player(lobbyPlayer.getName(), 100000,lobbyPlayer.getGamePiece(),1, lobbyPlayer.getAddress(),lobbyPlayer.getPort());
-			players.add(player);
+			this.players.add(player);
 		}
 
 		Log.d("GameState", players.toString());
@@ -47,6 +48,10 @@ public class GameState implements Serializable{
 	public Player getPlayerFrom(InetAddress address, int port) {
 		Log.d("GameState", players.toString());
 		for (Player p : players) {
+			Log.d("GameState", address.toString());
+			Log.d("GameState", p.getAddress().toString());
+			Log.d("GameState", String.valueOf(port));
+			Log.d("GameState", String.valueOf(p.getPort()));
 			if (p.getAddress().equals(address) && p.getPort() == port) {
 				return p;
 			}

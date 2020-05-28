@@ -3,11 +3,12 @@ package com.ss20.se2.monopoly.models;
 import com.ss20.se2.monopoly.models.fields.cards.Card;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player{
+public class Player implements Serializable{
 
 	private String name;
 	private InetAddress address;
@@ -26,7 +27,7 @@ public class Player{
 		this.selectedPiece = selectedPiece;
 		this.currentPosition = currentPosition;
 		this.playersDeeds = new ArrayList<>();
-		this.playersCards = new ArrayList<>();
+		//this.playersCards = new ArrayList<>();
 		this.inJail = false;
 		this.address = address;
 		this.port = port;

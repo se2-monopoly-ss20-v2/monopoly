@@ -2,10 +2,13 @@ package com.ss20.se2.monopoly.network.server;
 
 import android.util.Log;
 
+import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.models.LobbyPlayer;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.network.GameStateNetworkMessage;
+import com.ss20.se2.monopoly.network.GameStateResponse;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
 import com.ss20.se2.monopoly.network.client.ChangeGamePieceNetworkMessage;
 import com.ss20.se2.monopoly.network.client.JoinLobbyNetworkMessage;
@@ -100,6 +103,8 @@ public class RequestHandler implements Runnable{
 			gameActionProcessor.changeReadyLobby((ReadyLobbyNetworkMessage) request);
 		}else if (request instanceof ChangeGamePieceNetworkMessage){
 			gameActionProcessor.changeGamePiece((ChangeGamePieceNetworkMessage) request);
+		}else if (request instanceof GameStateNetworkMessage){
+			gameActionProcessor.setupGameState((GameStateNetworkMessage) request);
 		}
 		// TODO: Use the classes of the request and the type to call the specific action method
 	}
@@ -233,6 +238,15 @@ public class RequestHandler implements Runnable{
 		@Override
 		public void cheat(){
 			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public void setupGameState(GameStateNetworkMessage message){
+
+			GameStateResponse response = new GameStateResponse();
+			response.setState(message.getState());
+			GameState.getInstance().notifyListeners();
+			GameServer.getInstance().sendResponseToAll(response);
 		}
 	}
 }
