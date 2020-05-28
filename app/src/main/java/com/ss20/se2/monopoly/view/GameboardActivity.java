@@ -1,6 +1,5 @@
 package com.ss20.se2.monopoly.view;
 
-import android.util.Log;
 import android.widget.ImageView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -177,7 +176,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					GameTile tile = gameboard.gameTiles.get((Integer.parseInt(v.getTag().toString())));
 					showTileInfo(tile, p);
 
-					Log.d("ID:", v.getTag().toString());
 				}
 			});
 		}
