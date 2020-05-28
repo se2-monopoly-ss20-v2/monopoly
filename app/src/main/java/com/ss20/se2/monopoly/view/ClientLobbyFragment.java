@@ -27,7 +27,7 @@ import com.ss20.se2.monopoly.network.client.JoinLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.LeaveLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.ReadyLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.shared.RequestType;
-import com.ss20.se2.monopoly.view.CustomElements.SpinnerAdapter;
+import com.ss20.se2.monopoly.view.customElements.SpinnerAdapter;
 
 public class ClientLobbyFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 

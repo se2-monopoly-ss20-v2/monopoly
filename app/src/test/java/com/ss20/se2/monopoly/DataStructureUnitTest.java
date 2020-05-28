@@ -33,11 +33,11 @@ public class DataStructureUnitTest{
 		assertEquals("pink", s1.getColor());
 		assertEquals("Esterhazy", s1.getName());
 		assertEquals("Operngasse", s2.getName());
-		ChanceCard cc1 = new ChanceCard("Go To Go");
-		ChanceCard cc2 = new ChanceCard("Go To Jail");
+		ChanceCard cc1 = new ChanceCard("Go To Go","Go To Go");
+		ChanceCard cc2 = new ChanceCard("Go To Jail","Go To Jail");
 		assertEquals("Go To Go", cc1.getName());
-		CommunityCard co1 = new CommunityCard("Go To");
-		CommunityCard co2 = new CommunityCard("Get Money");
+		CommunityCard co1 = new CommunityCard("Go To","Go To");
+		CommunityCard co2 = new CommunityCard("Get Money","Get Money");
 		assertEquals("Go To", co1.getName());
 		Utility u1 = new Utility("Wasserwerk", 200, 10);
 		Utility u2 = new Utility("Elektrizitätswerk", 200, 15);
@@ -71,8 +71,8 @@ public class DataStructureUnitTest{
 		assertEquals(3, p1.getPlayersDeeds().size());
 		p1.removeDeedFromPlayer(r1);
 		assertEquals(2, p1.getPlayersDeeds().size());
-		ChanceCard cc1 = new ChanceCard("Go To Go");
-		CommunityCard co1 = new CommunityCard("Go To");
+		ChanceCard cc1 = new ChanceCard("Go To Go","Go To Go");
+		CommunityCard co1 = new CommunityCard("Go To","Go To");
 		p1.addCardToPlayer(cc1);
 		p1.addCardToPlayer(co1);
 		assertEquals(2, p1.getPlayersCards().size());

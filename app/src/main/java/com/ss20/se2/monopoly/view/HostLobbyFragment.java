@@ -23,7 +23,7 @@ import com.ss20.se2.monopoly.network.LocalGamePublisher;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
 import com.ss20.se2.monopoly.network.server.GameServer;
 import com.ss20.se2.monopoly.network.server.GameServerNotRunningException;
-import com.ss20.se2.monopoly.view.CustomElements.SpinnerAdapter;
+import com.ss20.se2.monopoly.view.customElements.SpinnerAdapter;
 
 import java.util.LinkedList;
 
