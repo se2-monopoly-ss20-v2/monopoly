@@ -1,11 +1,11 @@
-package com.ss20.se2.monopoly.network;
+package com.ss20.se2.monopoly.network.gamestate;
 
 import com.ss20.se2.monopoly.models.GameState;
-import com.ss20.se2.monopoly.network.server.NetworkResponse;
+import com.ss20.se2.monopoly.network.client.NetworkMessage;
 
 import java.io.Serializable;
 
-public class GameStateResponse extends NetworkResponse implements Serializable{
+public class GameStateNetworkMessage extends NetworkMessage implements Serializable{
 	GameState state;
 
 	public GameState getState(){

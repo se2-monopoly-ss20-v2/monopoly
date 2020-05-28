@@ -6,8 +6,7 @@ import android.util.Log;
 import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Lobby;
-import com.ss20.se2.monopoly.network.GameStateNetworkMessage;
-import com.ss20.se2.monopoly.network.GameStateResponse;
+import com.ss20.se2.monopoly.network.gamestate.SetupGameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.LocalGamePublisher;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
 import com.ss20.se2.monopoly.network.client.ChangeGamePieceNetworkMessage;
@@ -191,7 +190,7 @@ public class GameServer implements Runnable{
 
 	public void setupGameState(Context context) {
 		GameState.getInstance().setupGame(Lobby.getInstance().getPlayers(), context);
-		GameStateNetworkMessage message = new GameStateNetworkMessage();
+		SetupGameStateNetworkMessage message = new SetupGameStateNetworkMessage();
 		message.setState(GameState.getInstance());
 		message.setSenderAddress(Lobby.getInstance().getSelf().getAddress());
 		message.setSenderName(Lobby.getInstance().getSelf().getName());

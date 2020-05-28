@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Lobby;
-import com.ss20.se2.monopoly.network.GameStateResponse;
+import com.ss20.se2.monopoly.network.gamestate.GameStateResponse;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
 import com.ss20.se2.monopoly.network.server.LobbyResponse;
 import com.ss20.se2.monopoly.network.server.NetworkResponse;

@@ -24,21 +24,16 @@ import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Gameboard;
 import com.ss20.se2.monopoly.models.Lobby;
-import com.ss20.se2.monopoly.models.OnGameStateChangedListener;
+import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.GameTile;
 import com.ss20.se2.monopoly.models.fields.cards.ChanceCard;
 import com.ss20.se2.monopoly.models.fields.cards.CommunityCard;
-import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
-import com.ss20.se2.monopoly.models.fields.deeds.Utility;
-import com.ss20.se2.monopoly.network.GameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.client.GameController;
 import com.ss20.se2.monopoly.network.server.GameServer;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 import com.ss20.se2.monopoly.view.dialog.DialogContainerFragment;
-
-import java.net.InetAddress;
 
 public class GameboardActivity extends AppCompatActivity implements DeedFragmentDelegate{
 
@@ -291,12 +286,16 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		OnGameStateChangedListener listener = new OnGameStateChangedListener(){
 			@Override
 			public void onGameStateChanged(GameState gameState){
-				//do something.
-				state = gameState;
-				Log.d("GameState", "The GameState changed.");
-				Log.d("GameState", "This is inside the listener.");
-				Log.d("GameState", state.toString());
+				//react on changes. -> update the state.
+				GameState.getInstance().setCurrentActivePlayer(gameState.getCurrentActivePlayer());
+				GameState.getInstance().setGameboard(gameState.getGameboard());
 
+				updateUI();
+			}
+
+			@Override
+			public void setupGameState(GameState gameState){
+				//initial setup
 				GameState.getInstance().setPlayers(gameState.getPlayers());
 				GameState.getInstance().setCurrentActivePlayer(gameState.getCurrentActivePlayer());
 
@@ -308,16 +307,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					currentPlayer = GameState.getInstance().getPlayerFrom(Lobby.getInstance().getSelf().getAddress(), Lobby.getInstance().getSelf().getPort());
 				}
 
-				runOnUiThread(new Runnable(){
-					@Override
-					public void run(){
-						if (GameState.getInstance().getCurrentActivePlayer().equals(currentPlayer)) {
-							button_rollDice.setEnabled(true);
-						} else {
-							button_rollDice.setEnabled(false);
-						}
-					}
-				});
+				updateUI();
 			}
 		};
 
@@ -329,12 +319,24 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
+	void updateUI() {
+		runOnUiThread(new Runnable(){
+			@Override
+			public void run(){
+				if (GameState.getInstance().getCurrentActivePlayer().equals(currentPlayer)) {
+					button_rollDice.setEnabled(true);
+				} else {
+					button_rollDice.setEnabled(false);
+				}
+			}
+		});
+	}
 
 	@Override
 	public void performAcquiringDeed(Street street, Player player){
-		int newBalance = deedManager.performAcquiringDeed(street, player);
-		player.updateBalance(newBalance);
-		view_balance.setText(getString(R.string.balance,  newBalance));
+		GameController.getInstance().buyDeed(street, player);
+
+		view_balance.setText(getString(R.string.balance,  player.getBalance()));
 		Toast.makeText(this, "You now own " + street.getName(), Toast.LENGTH_SHORT).show();
 		showDifference(getOldBalance(), player.getBalance());
 

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ss20.se2.monopoly.DeedManager;
-import com.ss20.se2.monopoly.Utils;
+import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 
 import java.io.Serializable;
 import java.net.InetAddress;

@@ -1,6 +1,6 @@
 package com.ss20.se2.monopoly.network.shared;
 
-import com.ss20.se2.monopoly.network.GameStateResponse;
+import com.ss20.se2.monopoly.network.gamestate.GameStateResponse;
 import com.ss20.se2.monopoly.network.server.LobbyResponse;
 
 /**

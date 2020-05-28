@@ -7,8 +7,9 @@ import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.models.LobbyPlayer;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
-import com.ss20.se2.monopoly.network.GameStateNetworkMessage;
-import com.ss20.se2.monopoly.network.GameStateResponse;
+import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
+import com.ss20.se2.monopoly.network.gamestate.SetupGameStateNetworkMessage;
+import com.ss20.se2.monopoly.network.gamestate.GameStateResponse;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
 import com.ss20.se2.monopoly.network.client.ChangeGamePieceNetworkMessage;
 import com.ss20.se2.monopoly.network.client.JoinLobbyNetworkMessage;
@@ -103,8 +104,10 @@ public class RequestHandler implements Runnable{
 			gameActionProcessor.changeReadyLobby((ReadyLobbyNetworkMessage) request);
 		}else if (request instanceof ChangeGamePieceNetworkMessage){
 			gameActionProcessor.changeGamePiece((ChangeGamePieceNetworkMessage) request);
+		}else if (request instanceof SetupGameStateNetworkMessage){
+			gameActionProcessor.setupGameState((SetupGameStateNetworkMessage) request);
 		}else if (request instanceof GameStateNetworkMessage){
-			gameActionProcessor.setupGameState((GameStateNetworkMessage) request);
+			gameActionProcessor.updateGameState((GameStateNetworkMessage) request);
 		}
 		// TODO: Use the classes of the request and the type to call the specific action method
 	}
@@ -186,8 +189,7 @@ public class RequestHandler implements Runnable{
 		}
 
 		@Override
-		public void buyDeed(Deed deed){
-			throw new UnsupportedOperationException();
+		public void buyDeed(Deed deed, Player newOwner){
 		}
 
 		@Override
@@ -241,12 +243,20 @@ public class RequestHandler implements Runnable{
 		}
 
 		@Override
-		public void setupGameState(GameStateNetworkMessage message){
-
+		public void setupGameState(SetupGameStateNetworkMessage message){
 			GameStateResponse response = new GameStateResponse();
 			response.setState(message.getState());
 			GameState.getInstance().notifyListeners();
 			GameServer.getInstance().sendResponseToAll(response);
+		}
+
+		@Override
+		public void updateGameState(GameStateNetworkMessage message){
+
+			//GameStateResponse response = new GameStateResponse();
+			//response.setState(message.getState());
+			//GameState.getInstance().notifyListeners();
+			//GameServer.getInstance().sendResponseToAll(response);
 		}
 	}
 }

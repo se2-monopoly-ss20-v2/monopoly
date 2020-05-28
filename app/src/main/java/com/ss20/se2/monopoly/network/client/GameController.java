@@ -2,11 +2,13 @@ package com.ss20.se2.monopoly.network.client;
 
 import android.util.Log;
 
+import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.models.OnGameDataChangedListener;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
-import com.ss20.se2.monopoly.network.GameStateNetworkMessage;
+import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
+import com.ss20.se2.monopoly.network.gamestate.SetupGameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
 import com.ss20.se2.monopoly.network.shared.GameActions;
 
@@ -130,8 +132,13 @@ public class GameController implements Runnable, GameActions{
 	}
 
 	@Override
-	public void buyDeed(Deed deed){
-		communicator.sendMessage(null);
+	public void buyDeed(Deed deed, Player newOwner){
+		int newBalance = GameState.getInstance().getDeedManager().performAcquiringDeed(deed, newOwner);
+		newOwner.updateBalance(newBalance);
+
+		GameStateNetworkMessage message = new GameStateNetworkMessage();
+		message.setState(GameState.getInstance());
+		updateGameState(message);
 	}
 
 	@Override
@@ -185,7 +192,12 @@ public class GameController implements Runnable, GameActions{
 	}
 
 	@Override
-	public void setupGameState(GameStateNetworkMessage message){
+	public void setupGameState(SetupGameStateNetworkMessage message){
+		communicator.sendMessage(message);
+	}
+
+	@Override
+	public void updateGameState(GameStateNetworkMessage message){
 		communicator.sendMessage(message);
 	}
 
