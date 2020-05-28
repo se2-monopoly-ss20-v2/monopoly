@@ -34,9 +34,6 @@ public class GameState implements Serializable{
 	}
 
 	public void setupGame(List<LobbyPlayer> lobbyPlayers, Context context){
-
-		Log.d("GameState", lobbyPlayers.toString());
-
 		for (LobbyPlayer lobbyPlayer : lobbyPlayers){
 			Player player = new Player(lobbyPlayer.getName(), 100000,lobbyPlayer.getGamePiece(),1, lobbyPlayer.getAddress(),lobbyPlayer.getPort());
 			this.players.add(player);
@@ -45,7 +42,6 @@ public class GameState implements Serializable{
 		gameboard = new Gameboard(context);
 		deedManager = new DeedManager(gameboard);
 
-		Log.d("GameState", players.toString());
 		players.get(0).setHasTurn(true);
 		currentActivePlayer = players.get(0);
 	}
@@ -104,8 +100,14 @@ public class GameState implements Serializable{
 		listeners.remove(listener);
 	}
 
-	public void notifyListeners(){
+	public void notifyListenersForSetup(){
 		for (OnGameStateChangedListener listener : listeners){
+			listener.setupGameState(instance);
+		}
+	}
+
+	public void notifyListeners() {
+		for (OnGameStateChangedListener listener: listeners) {
 			listener.onGameStateChanged(instance);
 		}
 	}

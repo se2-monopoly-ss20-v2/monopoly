@@ -246,7 +246,7 @@ public class RequestHandler implements Runnable{
 		public void setupGameState(SetupGameStateNetworkMessage message){
 			GameStateResponse response = new GameStateResponse();
 			response.setState(message.getState());
-			GameState.getInstance().notifyListeners();
+			GameState.getInstance().notifyListenersForSetup();
 			GameServer.getInstance().sendResponseToAll(response);
 		}
 

@@ -323,6 +323,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		runOnUiThread(new Runnable(){
 			@Override
 			public void run(){
+				Log.d("GameState", GameState.getInstance().getCurrentActivePlayer().toString());
+				Log.d("GameState", GameState.getInstance().getCurrentActivePlayer().getName());
 				if (GameState.getInstance().getCurrentActivePlayer().equals(currentPlayer)) {
 					button_rollDice.setEnabled(true);
 				} else {

@@ -6,6 +6,7 @@ import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.network.gamestate.GameStateResponse;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
+import com.ss20.se2.monopoly.network.gamestate.SetupGameStateResponse;
 import com.ss20.se2.monopoly.network.server.LobbyResponse;
 import com.ss20.se2.monopoly.network.server.NetworkResponse;
 import com.ss20.se2.monopoly.network.shared.GameResponses;
@@ -89,6 +90,8 @@ class ResponseHandler implements Runnable{
 		Log.d(NetworkUtilities.TAG, "Processing of response started");
 		if (response instanceof LobbyResponse){
 			gameActionProcessor.lobby((LobbyResponse) response);
+		} else if (response instanceof SetupGameStateResponse) {
+			gameActionProcessor.setupState((SetupGameStateResponse) response);
 		} else if (response instanceof GameStateResponse) {
 			gameActionProcessor.state((GameStateResponse) response);
 		}
@@ -109,10 +112,17 @@ class ResponseHandler implements Runnable{
 
 		@Override
 		public void state(GameStateResponse response){
-			Log.d("GameState", "update game state in response.");
+			//this needs further improvements. (eventually)
 			GameState.getInstance().setPlayers(response.getState().getPlayers());
 			GameState.getInstance().setCurrentActivePlayer(response.getState().getCurrentActivePlayer());
 			GameState.getInstance().notifyListeners();
+		}
+
+		@Override
+		public void setupState(SetupGameStateResponse response){
+			GameState.getInstance().setPlayers(response.getState().getPlayers());
+			GameState.getInstance().setCurrentActivePlayer(response.getState().getCurrentActivePlayer());
+			GameState.getInstance().notifyListenersForSetup();
 		}
 	}
 }
