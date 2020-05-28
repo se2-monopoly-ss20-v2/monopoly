@@ -25,6 +25,7 @@ import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.models.fields.specials.Special;
 import com.ss20.se2.monopoly.models.fields.specials.SpecialFieldType;
+import com.ss20.se2.monopoly.view.deed.DeedFragment;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 import com.ss20.se2.monopoly.view.dialog.DialogContainerFragment;
 
@@ -173,7 +174,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				@Override
 				public void onClick(View v) {
 
-					showTileInfo(gameboard.gameTiles.get((Integer.parseInt(v.getTag().toString()))));
+					GameTile tile = gameboard.gameTiles.get((Integer.parseInt(v.getTag().toString())));
+					showTileInfo(tile, p);
 
 					Log.d("ID:", v.getTag().toString());
 				}
@@ -301,7 +303,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 	}
 
-	public void showTileInfo(GameTile gameTile){
+	public void showTileInfo(GameTile gameTile, Player player){
 
 		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 		dialog.setTitle(gameTile.getName());
@@ -309,13 +311,32 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		if(gameTile instanceof Street){
 			Street street = (Street) gameTile;
 
+			//separate between tiles you own, others own and nobody owns.
+			//right now there is no difference between the fragments
+
 			if (street.getOwner()!=null){
-				dialog.setMessage("Owner: " + street.getOwner().getName());
+				if (street.getOwner() == player){
+					FragmentManager fm = getSupportFragmentManager();
+					DeedFragment containerFragment = DeedFragment.newInstance().newInstance();
+					containerFragment.createViewModel(street);
+
+					containerFragment.show(fm, "dialog_container_fragment");
+				}
+
+				FragmentManager fm = getSupportFragmentManager();
+				DeedFragment containerFragment = DeedFragment.newInstance().newInstance();
+				containerFragment.createViewModel(street);
+
+				containerFragment.show(fm, "dialog_container_fragment");
 			}
 			else{
 				dialog.setMessage("No Owner");
-			}
+				FragmentManager fm = getSupportFragmentManager();
+				DeedFragment containerFragment = DeedFragment.newInstance().newInstance();
+				containerFragment.createViewModel(street);
 
+				containerFragment.show(fm, "dialog_container_fragment");
+			}
 		}
 		else if(gameTile instanceof Railroad){
 			Railroad railroad = (Railroad) gameTile;
@@ -326,7 +347,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			else{
 				dialog.setMessage("No Owner");
 			}
-
+			dialog.show();
 		}
 		else if(gameTile instanceof Special){
 			Special special = (Special) gameTile;
@@ -334,12 +355,14 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			if(special.getFieldType() == SpecialFieldType.JAIL){
 				dialog.setMessage("THIS IS THE JAIL");
 			}
+			dialog.show();
 		}
 		else if(gameTile instanceof Card){
 			dialog.setMessage("Surprise Cards with either good or bad effect");
+			dialog.show();
 		}
 
-		dialog.show();
+
 
 	}
 
