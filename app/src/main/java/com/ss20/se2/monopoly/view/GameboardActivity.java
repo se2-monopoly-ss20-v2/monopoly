@@ -301,19 +301,19 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 	}
 
-	public void showTileInfo(GameTile gameTile, Player player){
+	public void showTileInfo(GameTile gameTile, Player player) {
 
 		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 		dialog.setTitle(gameTile.getName());
 
-		if(gameTile instanceof Street){
+		if (gameTile instanceof Street) {
 			Street street = (Street) gameTile;
 
 			//separate between tiles you own, others own and nobody owns.
 			//right now there is no difference between the fragments
 
-			if (street.getOwner()!=null){
-				if (street.getOwner() == player){
+			if (street.getOwner() != null) {
+				if (street.getOwner() == player) {
 					FragmentManager fm = getSupportFragmentManager();
 					DeedFragment containerFragment = DeedFragment.newInstance().newInstance();
 					containerFragment.createViewModel(street);
@@ -326,8 +326,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				containerFragment.createViewModel(street);
 
 				containerFragment.show(fm, "dialog_container_fragment");
-			}
-			else{
+			} else {
 				dialog.setMessage("No Owner");
 				FragmentManager fm = getSupportFragmentManager();
 				DeedFragment containerFragment = DeedFragment.newInstance().newInstance();
@@ -335,22 +334,19 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 				containerFragment.show(fm, "dialog_container_fragment");
 			}
-		}
-		else if(gameTile instanceof Railroad){
+		} else if (gameTile instanceof Railroad) {
 			Railroad railroad = (Railroad) gameTile;
 
-			if (railroad.getOwner()!=null){
+			if (railroad.getOwner() != null) {
 				dialog.setMessage("Owner: " + railroad.getOwner().getName());
-			}
-			else{
+			} else {
 				dialog.setMessage("No Owner");
 			}
 			dialog.show();
-		}
-		else if(gameTile instanceof Special){
+		} else if (gameTile instanceof Special) {
 			Special special = (Special) gameTile;
 
-			switch (special.getFieldType()){
+			switch (special.getFieldType()) {
 				case JAIL:
 					dialog.setMessage("Landing on this tile sends you to jail immediately");
 					break;
@@ -362,21 +358,23 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				case FREEPARKING:
 					dialog.setMessage("Nothing happens.");
 					break;
+
 				case JAIL_VISITOR:
 					dialog.setMessage("If you are a visitor you can leave with your next turn. If you are jailed you need to throw a double for your escape!");
 					break;
 				case INCOME_TAX:
 					dialog.setMessage("Landing on this tile makes you pay $200");
 					break;
+
 				case LUXURY_TAX:
 					dialog.setMessage("Landing on this tile makes you pay 10% of your wealth");
 					break;
+
 				default:
 					break;
 			}
 			dialog.show();
-		}
-		else if(gameTile instanceof Card){
+		} else if (gameTile instanceof Card) {
 			dialog.setMessage("Surprise Cards with either good or bad effect");
 			dialog.show();
 		}
