@@ -1,7 +1,9 @@
 package com.ss20.se2.monopoly.models;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.ss20.se2.monopoly.DeedManager;
 import com.ss20.se2.monopoly.Utils;
 
 import java.io.Serializable;
@@ -11,9 +13,13 @@ import java.util.List;
 
 public class GameState implements Serializable{
 	private static GameState instance;
+
+	private Player currentActivePlayer;
+	private Gameboard gameboard;
+	private DeedManager deedManager;
 	private List<Player> players;
 	private transient List<OnGameStateChangedListener> listeners;
-	private Player currentActivePlayer;
+
 
 	private GameState(){
 		this.players = new ArrayList<>();
@@ -27,7 +33,7 @@ public class GameState implements Serializable{
 		return instance;
 	}
 
-	public void setupGame(List<LobbyPlayer> lobbyPlayers){
+	public void setupGame(List<LobbyPlayer> lobbyPlayers, Context context){
 
 		Log.d("GameState", lobbyPlayers.toString());
 
@@ -35,6 +41,9 @@ public class GameState implements Serializable{
 			Player player = new Player(lobbyPlayer.getName(), 100000,lobbyPlayer.getGamePiece(),1, lobbyPlayer.getAddress(),lobbyPlayer.getPort());
 			this.players.add(player);
 		}
+
+		gameboard = new Gameboard(context);
+		deedManager = new DeedManager(gameboard);
 
 		Log.d("GameState", players.toString());
 		players.get(0).setHasTurn(true);
@@ -69,6 +78,22 @@ public class GameState implements Serializable{
 
 	public void setCurrentActivePlayer(Player currentActivePlayer){
 		this.currentActivePlayer = currentActivePlayer;
+	}
+
+	public Gameboard getGameboard(){
+		return gameboard;
+	}
+
+	public void setGameboard(Gameboard gameboard){
+		this.gameboard = gameboard;
+	}
+
+	public DeedManager getDeedManager(){
+		return deedManager;
+	}
+
+	public void setDeedManager(DeedManager deedManager){
+		this.deedManager = deedManager;
 	}
 
 	public void subscribe(OnGameStateChangedListener listener){

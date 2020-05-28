@@ -125,7 +125,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 		final ImageView[] fields = initializeUI();
 
-		final Player p = new Player("Wutzi", 1000, new GamePiece("shoe"), 0, Lobby.getInstance().getSelf().getAddress(), Lobby.getInstance().getSelf().getPort());
+		//final Player p = new Player("Wutzi", 1000, new GamePiece("shoe"), 0, Lobby.getInstance().getSelf().getAddress(), Lobby.getInstance().getSelf().getPort());
 
 		chanceCards = new ChanceCardDeck();
 		communityCards = new CommunityCardDeck();
@@ -133,9 +133,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		communityCards.initializeDeck();
 		chanceCardProcessor = new ChanceCardProcessor();
 		communityCardProcessor = new CommunityCardProcessor();
-
-		gameboard = new Gameboard(getApplicationContext());
-		gameboard.gameboardArray[0] = new GamePiece("Player 1");
 		button_rollDice = findViewById(R.id.button_roll_dice);
 		view_numberDice = findViewById(R.id.view_number_dice);
 		view_numberDice2 = findViewById(R.id.view_number_dice2);
@@ -146,7 +143,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		//view_balance.setText(getString(R.string.balance,  p.getBalance()));
 
 		showDeeds = findViewById(R.id.buttonShowDeeds);
-		deedManager = new DeedManager(gameboard);
 		updateBalance = findViewById(R.id.changeOfBalance);
 
 
@@ -169,17 +165,13 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					//Move to jail
 				}
 
-				setOldBalance(p.getBalance());
+				setOldBalance(currentPlayer.getBalance());
 
 				gameboard.move("Player 1", amount);
 
-				//currentPlayer.setCurrentPosition(gameboard.getPosition("Player 1"));
-				//checkPlayersPosition(currentPlayer);
-
 				updateBalance.setText("");
-				p.setCurrentPosition(gameboard.getPosition("Player 1"));
-				checkPlayersPosition(p);
-
+				currentPlayer.setCurrentPosition(gameboard.getPosition("Player 1"));
+				checkPlayersPosition(currentPlayer);
 
 				view_numberDice.setText("Roll 1: " + Integer.toString(roll1));
 				view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
@@ -308,6 +300,10 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				GameState.getInstance().setPlayers(gameState.getPlayers());
 				GameState.getInstance().setCurrentActivePlayer(gameState.getCurrentActivePlayer());
 
+				gameboard = gameState.getGameboard();
+				deedManager = gameState.getDeedManager();
+				gameboard.gameboardArray[0] = new GamePiece("Player 1");
+
 				if (currentPlayer == null) {
 					currentPlayer = GameState.getInstance().getPlayerFrom(Lobby.getInstance().getSelf().getAddress(), Lobby.getInstance().getSelf().getPort());
 				}
@@ -329,7 +325,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 		if (GameState.getInstance().getPlayers() != null) {
 			//this dude is server so he needs to setup the GameState
-			GameServer.getInstance().setupGameState();
+			GameServer.getInstance().setupGameState(getApplicationContext());
 		}
 	}
 

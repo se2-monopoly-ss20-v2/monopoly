@@ -189,8 +189,8 @@ public class GameServer implements Runnable{
 		this.port = port;
 	}
 
-	public void setupGameState() {
-		GameState.getInstance().setupGame(Lobby.getInstance().getPlayers());
+	public void setupGameState(Context context) {
+		GameState.getInstance().setupGame(Lobby.getInstance().getPlayers(), context);
 		GameStateNetworkMessage message = new GameStateNetworkMessage();
 		message.setState(GameState.getInstance());
 		message.setSenderAddress(Lobby.getInstance().getSelf().getAddress());
