@@ -350,23 +350,29 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		else if(gameTile instanceof Special){
 			Special special = (Special) gameTile;
 
-			if(special.getFieldType() == SpecialFieldType.JAIL){
-				dialog.setMessage("Landing on this tile sends you to jail immediately");
-			}
-			else if(special.getFieldType() == SpecialFieldType.GO){
-				dialog.setMessage("Moving past GO will get you $200");
-			}
-			else if(special.getFieldType() == SpecialFieldType.FREEPARKING){
-				dialog.setMessage("Nothing happens.");
-			}
-			else if(special.getFieldType() == SpecialFieldType.JAIL_VISITOR){
-				dialog.setMessage("If you are a visitor you can leave with your next turn. If you are jailed you need to throw a double for your escape!");
-			}
-			else if(special.getFieldType() == SpecialFieldType.INCOME_TAX){
-				dialog.setMessage("Landing on this tile makes you pay $200");
-			}
-			else if(special.getFieldType() == SpecialFieldType.LUXURY_TAX){
-				dialog.setMessage("Landing on this tile makes you pay 10% of your wealth");
+			switch (special.getFieldType()){
+				case JAIL:
+					dialog.setMessage("Landing on this tile sends you to jail immediately");
+					break;
+
+				case GO:
+					dialog.setMessage("Moving past GO will get you $200");
+					break;
+
+				case FREEPARKING:
+					dialog.setMessage("Nothing happens.");
+					break;
+				case JAIL_VISITOR:
+					dialog.setMessage("If you are a visitor you can leave with your next turn. If you are jailed you need to throw a double for your escape!");
+					break;
+				case INCOME_TAX:
+					dialog.setMessage("Landing on this tile makes you pay $200");
+					break;
+				case LUXURY_TAX:
+					dialog.setMessage("Landing on this tile makes you pay 10% of your wealth");
+					break;
+				default:
+					break;
 			}
 			dialog.show();
 		}
