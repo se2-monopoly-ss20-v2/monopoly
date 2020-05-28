@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -28,6 +27,7 @@ import com.ss20.se2.monopoly.network.client.JoinLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.LeaveLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.ReadyLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.shared.RequestType;
+import com.ss20.se2.monopoly.view.customElements.SpinnerAdapter;
 
 public class ClientLobbyFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 
@@ -44,9 +44,10 @@ public class ClientLobbyFragment extends Fragment implements View.OnClickListene
 		backBtn.setOnClickListener(this);
 		partnerTxt = myView.findViewById(R.id.clientPartnersTxt);
 		activity = getActivity();
+		String[] piecesStringArray = getResources().getStringArray(R.array.gamePieceArray);
+		Integer[] piecesImageArray = {R.drawable.boat, R.drawable.car, R.drawable.cat, R.drawable.dino, R.drawable.dog, R.drawable.duck, R.drawable.hat, R.drawable.penguin};
 		Spinner gamePieceSpinner = (Spinner) myView.findViewById(R.id.gamePieceSpinnerClient);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(activity, R.array.gamePieceArray, android.R.layout.simple_spinner_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		SpinnerAdapter adapter = new SpinnerAdapter(activity.getBaseContext(), R.layout.spinner_value_layout, piecesStringArray, piecesImageArray);
 		gamePieceSpinner.setAdapter(adapter);
 		gamePieceSpinner.setOnItemSelectedListener(this);
 		repaintPartners();

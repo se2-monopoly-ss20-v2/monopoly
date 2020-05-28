@@ -41,14 +41,14 @@
     <string name="balance" translatable="false">Balance: $%1$d</string>
 
     <string-array name="gamePieceArray">
+        <item>Boat</item>
+        <item>Car</item>
+        <item>Cat</item>
         <item>Dino</item>
+        <item>Dog</item>
         <item>Duck</item>
         <item>Hat</item>
-        <item>Car</item>
-        <item>Dog</item>
         <item>Penguin</item>
-        <item>Cat</item>
-        <item>Boat</item>
     </string-array>
 
 </resources>
