@@ -538,4 +538,12 @@
             app:layout_constraintStart_toEndOf="@+id/view_background"
             app:layout_constraintTop_toBottomOf="@+id/view_number_dice2" />
 
+    <TextView
+            android:id="@+id/textViewHostileBalance"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Hostile Balance:"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="92dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

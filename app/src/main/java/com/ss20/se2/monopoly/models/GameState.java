@@ -51,12 +51,7 @@ public class GameState implements Serializable{
 	}
 
 	public Player getPlayerFrom(InetAddress address, int port) {
-		Log.d("GameState", players.toString());
 		for (Player p : players) {
-			Log.d("GameState", address.toString());
-			Log.d("GameState", p.getAddress().toString());
-			Log.d("GameState", String.valueOf(port));
-			Log.d("GameState", String.valueOf(p.getPort()));
 			if (p.getAddress().equals(address) && p.getPort() == port) {
 				return p;
 			}
@@ -86,6 +81,21 @@ public class GameState implements Serializable{
 
 	public DeedManager getDeedManager(){
 		return deedManager;
+	}
+
+	public void updatePlayer(Player player) {
+		for (Player p : players) {
+			Log.d("GameState", "in updatePlayer");
+			if (p.getAddress().equals(player.getAddress()) && p.getPort() == player.getPort()){
+				p.setBalance(player.getBalance());
+				p.setPlayersDeeds(player.getPlayersDeeds());
+				p.setPlayersCards(player.getPlayersCards());
+
+				Log.d("GameState", "updated player");
+			}else {
+				Log.d("GameState", "no match");
+			}
+		}
 	}
 
 	public void setDeedManager(DeedManager deedManager){

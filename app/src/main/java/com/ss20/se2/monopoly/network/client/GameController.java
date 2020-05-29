@@ -133,12 +133,7 @@ public class GameController implements Runnable, GameActions{
 
 	@Override
 	public void buyDeed(Deed deed, Player newOwner){
-		int newBalance = GameState.getInstance().getDeedManager().performAcquiringDeed(deed, newOwner);
-		newOwner.updateBalance(newBalance);
-
-		GameStateNetworkMessage message = new GameStateNetworkMessage();
-		message.setState(GameState.getInstance());
-		updateGameState(message);
+		communicator.sendMessage(null);
 	}
 
 	@Override

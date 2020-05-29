@@ -16,6 +16,7 @@ import com.ss20.se2.monopoly.network.client.JoinLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.LeaveLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.NetworkMessage;
 import com.ss20.se2.monopoly.network.client.ReadyLobbyNetworkMessage;
+import com.ss20.se2.monopoly.network.gamestate.SetupGameStateResponse;
 import com.ss20.se2.monopoly.network.shared.GameActions;
 
 import java.util.concurrent.BlockingQueue;
@@ -244,7 +245,7 @@ public class RequestHandler implements Runnable{
 
 		@Override
 		public void setupGameState(SetupGameStateNetworkMessage message){
-			GameStateResponse response = new GameStateResponse();
+			SetupGameStateResponse response = new SetupGameStateResponse();
 			response.setState(message.getState());
 			GameState.getInstance().notifyListenersForSetup();
 			GameServer.getInstance().sendResponseToAll(response);
@@ -252,11 +253,10 @@ public class RequestHandler implements Runnable{
 
 		@Override
 		public void updateGameState(GameStateNetworkMessage message){
-
-			//GameStateResponse response = new GameStateResponse();
-			//response.setState(message.getState());
-			//GameState.getInstance().notifyListeners();
-			//GameServer.getInstance().sendResponseToAll(response);
+			GameStateResponse response = new GameStateResponse();
+			response.setState(message.getState());
+			GameState.getInstance().notifyListeners();
+			GameServer.getInstance().sendResponseToAll(response);
 		}
 	}
 }

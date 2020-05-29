@@ -6,6 +6,7 @@ import android.util.Log;
 import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Lobby;
+import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.gamestate.SetupGameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.LocalGamePublisher;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
@@ -196,6 +197,10 @@ public class GameServer implements Runnable{
 		message.setSenderName(Lobby.getInstance().getSelf().getName());
 		message.setSenderPort(Lobby.getInstance().getSelf().getPort());
 		message.setType(RequestType.SETUP_GAMESTATE);
+		RequestHandler.getInstance().handleRequest(message);
+	}
+
+	public void updateGameState(GameStateNetworkMessage message) {
 		RequestHandler.getInstance().handleRequest(message);
 	}
 }

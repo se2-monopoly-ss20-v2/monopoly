@@ -66,7 +66,15 @@ public class Player implements Serializable{
         this.playersDeeds.add(deed);
     }
 
-    public void removeDeedFromPlayer(Deed deed){
+	public void setPlayersDeeds(List<Deed> playersDeeds){
+		this.playersDeeds = playersDeeds;
+	}
+
+	public void setPlayersCards(List<Card> playersCards){
+		this.playersCards = playersCards;
+	}
+
+	public void removeDeedFromPlayer(Deed deed){
 	    this.playersDeeds.remove(deed);
     }
 

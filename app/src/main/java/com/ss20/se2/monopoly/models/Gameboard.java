@@ -5,20 +5,23 @@ import android.content.Context;
 import com.ss20.se2.monopoly.Utils;
 import com.ss20.se2.monopoly.models.fields.GameTile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 
-public class Gameboard {
+public class Gameboard implements Serializable{
 
 	public GamePiece[] gameboardArray;
 	public ArrayList<GameTile> gameTiles;
 	private ArrayList<Street> streets;
+	private ArrayList<Railroad> railroads;
 
 	public Gameboard(Context context) {
 		gameboardArray = new GamePiece[40];
 		this.streets = new ArrayList<>();
-
+		this.railroads = new ArrayList<>();
 		Utils utils = new Utils();
 		String inputString = utils.getJSONFromAssets(context, "en");
 		gameTiles = (ArrayList<GameTile>) utils.getGameTilesRelativeFrom(inputString);
@@ -26,6 +29,8 @@ public class Gameboard {
 		for (GameTile tile : gameTiles){
 			if (tile instanceof Street) {
 				streets.add((Street) tile);
+			} else if (tile instanceof Railroad) {
+				railroads.add((Railroad) tile);
 			}
 		}
 	}
@@ -64,6 +69,17 @@ public class Gameboard {
 		}
 	}
 
+	public void setStreets(ArrayList<Street> streets){
+		this.streets = streets;
+	}
+
+	public ArrayList<Railroad> getRailroads(){
+		return railroads;
+	}
+
+	public void setRailroads(ArrayList<Railroad> railroads){
+		this.railroads = railroads;
+	}
 
 	public ArrayList<Street> getStreets() {
 		return streets;

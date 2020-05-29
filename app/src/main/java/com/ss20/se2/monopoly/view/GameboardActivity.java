@@ -24,6 +24,7 @@ import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Gameboard;
 import com.ss20.se2.monopoly.models.Lobby;
+import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.GameTile;
@@ -46,6 +47,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	Button showDeeds;
 	View playersDeedsFragment;
 	TextView updateBalance;
+	TextView hostileBalance;
 
 	Dice dice = new Dice();
 	Dice dice2 = new Dice();
@@ -65,6 +67,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	int roll1;
 	int roll2;
 	int doublescounter;
+
+	boolean isHost;
 
 	public ImageView[] initializeUI(){
 		ImageView field0 = findViewById(R.id.tile_0);
@@ -134,6 +138,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		viewdoubles = findViewById(R.id.doubles);
 		view_position = findViewById(R.id.number_playerposition);
 		view_balance = findViewById(R.id.text_balance);
+		hostileBalance = findViewById(R.id.textViewHostileBalance);
 
 		//view_balance.setText(getString(R.string.balance,  p.getBalance()));
 
@@ -290,6 +295,20 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				GameState.getInstance().setCurrentActivePlayer(gameState.getCurrentActivePlayer());
 				GameState.getInstance().setGameboard(gameState.getGameboard());
 
+				runOnUiThread(new Runnable(){
+					@Override
+					public void run(){
+						StringBuilder testString = new StringBuilder();
+						for (Player player : GameState.getInstance().getPlayers()) {
+							testString.append(player.getName());
+							testString.append(": ");
+							testString.append(player.getBalance());
+						}
+
+						hostileBalance.setText(testString);
+					}
+				});
+
 				updateUI();
 			}
 
@@ -314,8 +333,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		GameState.getInstance().subscribe(listener);
 
 		if (GameState.getInstance().getPlayers() != null) {
-			//this dude is server so he needs to setup the GameState
+			//this dude is server so he is responsible for setting up the GameState
 			GameServer.getInstance().setupGameState(getApplicationContext());
+			isHost = true;
 		}
 	}
 
@@ -323,8 +343,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		runOnUiThread(new Runnable(){
 			@Override
 			public void run(){
-				Log.d("GameState", GameState.getInstance().getCurrentActivePlayer().toString());
-				Log.d("GameState", GameState.getInstance().getCurrentActivePlayer().getName());
 				if (GameState.getInstance().getCurrentActivePlayer().equals(currentPlayer)) {
 					button_rollDice.setEnabled(true);
 				} else {
@@ -336,7 +354,18 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 	@Override
 	public void performAcquiringDeed(Street street, Player player){
-		GameController.getInstance().buyDeed(street, player);
+		GameState.getInstance().getDeedManager().performAcquiringDeed(street, player);
+		GameState.getInstance().updatePlayer(player);
+
+		GameStateNetworkMessage message = new GameStateNetworkMessage();
+		message.setState(GameState.getInstance());
+
+		if (isHost){
+			GameServer.getInstance().updateGameState(message);
+		}else {
+			GameController.getInstance().buyDeed(street, player);
+			GameController.getInstance().updateGameState(message);
+		}
 
 		view_balance.setText(getString(R.string.balance,  player.getBalance()));
 		Toast.makeText(this, "You now own " + street.getName(), Toast.LENGTH_SHORT).show();
