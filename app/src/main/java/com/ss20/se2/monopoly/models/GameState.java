@@ -15,6 +15,7 @@ public class GameState implements Serializable{
 	private static GameState instance;
 
 	private Player currentActivePlayer;
+	private int turnRotation;
 	private Gameboard gameboard;
 	private DeedManager deedManager;
 	private List<Player> players;
@@ -41,9 +42,10 @@ public class GameState implements Serializable{
 
 		gameboard = new Gameboard(context);
 		deedManager = new DeedManager(gameboard);
+		turnRotation = 0;
 
-		players.get(0).setHasTurn(true);
-		currentActivePlayer = players.get(0);
+		//players.get(turnRotation).setHasTurn(true);
+		currentActivePlayer = players.get(turnRotation);
 	}
 
 	public List<Player> getPlayers(){
@@ -85,21 +87,38 @@ public class GameState implements Serializable{
 
 	public void updatePlayer(Player player) {
 		for (Player p : players) {
-			Log.d("GameState", "in updatePlayer");
 			if (p.getAddress().equals(player.getAddress()) && p.getPort() == player.getPort()){
 				p.setBalance(player.getBalance());
 				p.setPlayersDeeds(player.getPlayersDeeds());
 				p.setPlayersCards(player.getPlayersCards());
 
-				Log.d("GameState", "updated player");
 			}else {
 				Log.d("GameState", "no match");
 			}
 		}
 	}
 
+	public void playerEndedTurn() {
+
+		if (turnRotation < (players.size() - 1)){
+			turnRotation++;
+		}else {
+			turnRotation = 0;
+		}
+
+		currentActivePlayer = players.get(turnRotation);
+	}
+
 	public void setDeedManager(DeedManager deedManager){
 		this.deedManager = deedManager;
+	}
+
+	public int getTurnRotation(){
+		return turnRotation;
+	}
+
+	public void setTurnRotation(int turnRotation){
+		this.turnRotation = turnRotation;
 	}
 
 	public void subscribe(OnGameStateChangedListener listener){

@@ -261,6 +261,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			view_balance.setText("Balance: " + player.getBalance());
 		}
 
+		Log.d("GameState", "End of Turn.");
 	}
 
 	public boolean checkDouble(int roll1, int roll2){
@@ -292,8 +293,15 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			@Override
 			public void onGameStateChanged(GameState gameState){
 				//react on changes. -> update the state.
+				/*
 				GameState.getInstance().setCurrentActivePlayer(gameState.getCurrentActivePlayer());
 				GameState.getInstance().setGameboard(gameState.getGameboard());
+				GameState.getInstance().setTurnRotation(gameState.getTurnRotation());
+				*/
+
+				Log.d("GameState", GameState.getInstance().getCurrentActivePlayer().toString());
+				Log.d("GameState", String.valueOf(GameState.getInstance().getTurnRotation()));
+
 
 				runOnUiThread(new Runnable(){
 					@Override
@@ -315,8 +323,13 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			@Override
 			public void setupGameState(GameState gameState){
 				//initial setup
+			/*
 				GameState.getInstance().setPlayers(gameState.getPlayers());
 				GameState.getInstance().setCurrentActivePlayer(gameState.getCurrentActivePlayer());
+				GameState.getInstance().setGameboard(gameState.getGameboard());
+				GameState.getInstance().setTurnRotation(gameState.getTurnRotation());
+				GameState.getInstance().setDeedManager(gameState.getDeedManager());
+			*/
 
 				gameboard = gameState.getGameboard();
 				deedManager = gameState.getDeedManager();
@@ -332,8 +345,10 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 		GameState.getInstance().subscribe(listener);
 
-		if (GameState.getInstance().getPlayers() != null) {
-			//this dude is server so he is responsible for setting up the GameState
+		Log.d("GameState", GameState.getInstance().getPlayers().toString());
+		Log.d("GameState", Lobby.getInstance().getSelf().getName());
+
+		if (Lobby.getInstance().getSelf().getName().equals("SERVER")) {
 			GameServer.getInstance().setupGameState(getApplicationContext());
 			isHost = true;
 		}
@@ -343,7 +358,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		runOnUiThread(new Runnable(){
 			@Override
 			public void run(){
-				if (GameState.getInstance().getCurrentActivePlayer().equals(currentPlayer)) {
+				if (GameState.getInstance().getCurrentActivePlayer().getAddress().equals(currentPlayer.getAddress()) && GameState.getInstance().getCurrentActivePlayer().getPort() == currentPlayer.getPort()) {
 					button_rollDice.setEnabled(true);
 				} else {
 					button_rollDice.setEnabled(false);
@@ -356,6 +371,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	public void performAcquiringDeed(Street street, Player player){
 		GameState.getInstance().getDeedManager().performAcquiringDeed(street, player);
 		GameState.getInstance().updatePlayer(player);
+		GameState.getInstance().playerEndedTurn();
 
 		GameStateNetworkMessage message = new GameStateNetworkMessage();
 		message.setState(GameState.getInstance());
@@ -363,7 +379,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		if (isHost){
 			GameServer.getInstance().updateGameState(message);
 		}else {
-			GameController.getInstance().buyDeed(street, player);
 			GameController.getInstance().updateGameState(message);
 		}
 

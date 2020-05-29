@@ -201,6 +201,10 @@ public class GameServer implements Runnable{
 	}
 
 	public void updateGameState(GameStateNetworkMessage message) {
+		message.setSenderAddress(Lobby.getInstance().getSelf().getAddress());
+		message.setSenderName(Lobby.getInstance().getSelf().getName());
+		message.setSenderPort(Lobby.getInstance().getSelf().getPort());
+
 		RequestHandler.getInstance().handleRequest(message);
 	}
 }

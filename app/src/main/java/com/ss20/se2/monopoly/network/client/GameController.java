@@ -193,6 +193,10 @@ public class GameController implements Runnable, GameActions{
 
 	@Override
 	public void updateGameState(GameStateNetworkMessage message){
+		message.setSenderAddress(Lobby.getInstance().getSelf().getAddress());
+		message.setSenderName(Lobby.getInstance().getSelf().getName());
+		message.setSenderPort(Lobby.getInstance().getSelf().getPort());
+
 		communicator.sendMessage(message);
 	}
 

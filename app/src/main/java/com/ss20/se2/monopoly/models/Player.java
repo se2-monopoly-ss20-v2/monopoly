@@ -27,7 +27,7 @@ public class Player implements Serializable{
 		this.selectedPiece = selectedPiece;
 		this.currentPosition = currentPosition;
 		this.playersDeeds = new ArrayList<>();
-		//this.playersCards = new ArrayList<>();
+		this.playersCards = new ArrayList<>();
 		this.inJail = false;
 		this.address = address;
 		this.port = port;
