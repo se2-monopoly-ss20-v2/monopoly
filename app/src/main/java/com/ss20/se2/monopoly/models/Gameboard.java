@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
+import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 
 public class Gameboard implements Serializable{
 
@@ -18,11 +19,13 @@ public class Gameboard implements Serializable{
 	public List<GameTile> gameTiles;
 	private List<Street> streets;
 	private List<Railroad> railroads;
+	private List<Utility> utilities;
 
 	public Gameboard(Context context) {
 		gameboardArray = new GamePiece[40];
 		this.streets = new ArrayList<>();
 		this.railroads = new ArrayList<>();
+		this.utilities = new ArrayList<>();
 		Utils utils = new Utils();
 		String inputString = utils.getJSONFromAssets(context, "en");
 		gameTiles = utils.getGameTilesRelativeFrom(inputString);
@@ -32,6 +35,8 @@ public class Gameboard implements Serializable{
 				streets.add((Street) tile);
 			} else if (tile instanceof Railroad) {
 				railroads.add((Railroad) tile);
+			} else if (tile instanceof Utility) {
+				utilities.add((Utility) tile);
 			}
 		}
 	}
@@ -70,20 +75,16 @@ public class Gameboard implements Serializable{
 		}
 	}
 
-	public void setStreets(List<Street> streets){
-		this.streets = streets;
-	}
-
 	public List<Railroad> getRailroads(){
 		return railroads;
 	}
 
-	public void setRailroads(List<Railroad> railroads){
-		this.railroads = railroads;
-	}
-
 	public List<Street> getStreets() {
 		return streets;
+	}
+
+	public List<Utility> getUtilities(){
+		return utilities;
 	}
 
 	public List<Street> getStreetsRelativeTo(String color) {
