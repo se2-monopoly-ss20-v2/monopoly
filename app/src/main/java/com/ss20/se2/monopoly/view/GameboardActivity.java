@@ -24,6 +24,13 @@ import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 import com.ss20.se2.monopoly.view.dialog.DialogContainerFragment;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorManager;
+import android.hardware.SensorEventListener;
+import java.util.Objects;
+
 public class GameboardActivity extends AppCompatActivity implements DeedFragmentDelegate{
 
 	Button button_rollDice;
@@ -50,6 +57,11 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	int roll1;
 	int roll2;
 	int doublescounter;
+
+	private SensorManager mSensorManager;
+	float accel;
+	float currentaccel;
+	float lastaccel;
 
 	public ImageView[] initializeUI(){
 		ImageView field0 = findViewById(R.id.tile_0);
@@ -131,36 +143,73 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			@Override
 			public void onClick(View v) {
 
-				roll1 = dice.roll();
+				final SensorEventListener mSensorListener = new SensorEventListener(){
+					@Override
+					public void onSensorChanged(SensorEvent event){
+
+						float x = event.values[0];
+						float y = event.values[1];
+						float z = event.values[2];
+
+						lastaccel = currentaccel;
+						currentaccel = (float) Math.sqrt((double) (x * x + y * y + z * z));
+						float delta = currentaccel - lastaccel;
+						//TODO optimise formula
+						accel = accel * 0.9f + delta;
+
+						//TODO optimise value
+						if(accel > 10){
+
+							mSensorManager.unregisterListener(this);
+							roll1 = dice.roll();
+							roll2 = dice2.roll();
+							amount = roll1 + roll2;
+
+
+
+				/*roll1 = dice.roll();
 				roll2 = dice2.roll();
-				amount = roll1 + roll2;
-				checkDouble(roll1, roll2);
+				amount = roll1 + roll2;*/
 
-				if (checkDouble(roll1, roll2)){
-					doublescounter++;
-				}else{
-					doublescounter = 0;
+							checkDouble(roll1, roll2);
+							if (checkDouble(roll1, roll2)){
+								doublescounter++;
+							}else{
+								doublescounter = 0;
+							}
+							if (doublescounter == 3){
+								//Move to jail
+							}
+							setOldBalance(p.getBalance());
+							gameboard.move("Player 1", amount);
+							updateBalance.setText("");
+							p.setCurrentPosition(gameboard.getPosition("Player 1"));
+							checkPlayersPosition(p);
+							view_numberDice.setText("Roll 1: " + Integer.toString(roll1));
+							view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
+							view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
+							findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
+							findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
+						}
+
+
+					}
+
+					@Override
+					public void onAccuracyChanged(Sensor sensor, int accuracy){
+					}
+				};
+
+				mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+				Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+						SensorManager.SENSOR_DELAY_NORMAL);
+
+				//TODO Check values
+				accel = 10f;
+				currentaccel = SensorManager.GRAVITY_EARTH;
+				lastaccel = SensorManager.GRAVITY_EARTH;
+
 				}
-
-				if(doublescounter == 3){
-					//Move to jail
-				}
-
-				setOldBalance(p.getBalance());
-
-				gameboard.move("Player 1", amount);
-
-				updateBalance.setText("");
-				p.setCurrentPosition(gameboard.getPosition("Player 1"));
-				checkPlayersPosition(p);
-
-				view_numberDice.setText("Roll 1: " + Integer.toString(roll1));
-				view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
-				view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
-
-				findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
-				findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
-			}
 		});
 	}
 
