@@ -112,7 +112,7 @@ class ResponseHandler implements Runnable{
 
 		@Override
 		public void state(GameStateResponse response){
-			//this needs further improvements. (eventually)
+			//Add update things here.
 			GameState.getInstance().setPlayers(response.getState().getPlayers());
 			GameState.getInstance().setGameboard(response.getState().getGameboard());
 			GameState.getInstance().setTurnRotation(response.getState().getTurnRotation());

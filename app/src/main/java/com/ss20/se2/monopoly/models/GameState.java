@@ -92,8 +92,6 @@ public class GameState implements Serializable{
 				p.setPlayersDeeds(player.getPlayersDeeds());
 				p.setPlayersCards(player.getPlayersCards());
 
-			}else {
-				Log.d("GameState", "no match");
 			}
 		}
 	}
@@ -134,6 +132,11 @@ public class GameState implements Serializable{
 			listener.setupGameState(instance);
 		}
 	}
+
+	public List<OnGameStateChangedListener> getListeners(){
+		return listeners;
+	}
+
 
 	public void notifyListeners() {
 		for (OnGameStateChangedListener listener: listeners) {

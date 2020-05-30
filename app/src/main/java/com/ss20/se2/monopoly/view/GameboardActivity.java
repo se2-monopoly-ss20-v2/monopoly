@@ -24,6 +24,8 @@ import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Gameboard;
 import com.ss20.se2.monopoly.models.Lobby;
+import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
+import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 import com.ss20.se2.monopoly.models.Player;
@@ -47,7 +49,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	Button showDeeds;
 	View playersDeedsFragment;
 	TextView updateBalance;
-	TextView hostileBalance;
 
 	Dice dice = new Dice();
 	Dice dice2 = new Dice();
@@ -123,9 +124,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 
 		final ImageView[] fields = initializeUI();
-
-		//final Player p = new Player("Wutzi", 1000, new GamePiece("shoe"), 0, Lobby.getInstance().getSelf().getAddress(), Lobby.getInstance().getSelf().getPort());
-
 		chanceCards = new ChanceCardDeck();
 		communityCards = new CommunityCardDeck();
 		chanceCards.initializeDeck();
@@ -138,9 +136,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		viewdoubles = findViewById(R.id.doubles);
 		view_position = findViewById(R.id.number_playerposition);
 		view_balance = findViewById(R.id.text_balance);
-		hostileBalance = findViewById(R.id.textViewHostileBalance);
-
-		//view_balance.setText(getString(R.string.balance,  p.getBalance()));
 
 		showDeeds = findViewById(R.id.buttonShowDeeds);
 		updateBalance = findViewById(R.id.changeOfBalance);
@@ -221,11 +216,18 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 						showDifference(getOldBalance(), player.getBalance());
 					}
 				});
-
-
-
+			} else {
+				//player is on his street, but no action possible
+				playerFinishedTurn();
 			}
-		}else if (currentTile instanceof CommunityCard){
+		}else if (currentTile instanceof Railroad) {
+			//TODO @dermutzh -> will be handled next week.
+			playerFinishedTurn();
+		}else if (currentTile instanceof Utility){
+			//TODO @dermutzh -> will be covered next week.
+			playerFinishedTurn();
+		}
+		else if (currentTile instanceof CommunityCard){
 			CommunityCard communityCard = communityCards.getNextCard();
 			AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 			dialog.setTitle("Community Card!");
@@ -260,8 +262,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			chanceCardProcessor.performAction(player, chanceCard);
 			view_balance.setText("Balance: " + player.getBalance());
 		}
-
-		Log.d("GameState", "End of Turn.");
 	}
 
 	public boolean checkDouble(int roll1, int roll2){
@@ -280,42 +280,11 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 	void setup() {
 
-		Log.d("GameState", GameState.getInstance().toString());
-
-		/*
-			1. Client: GameController.doSomething(Message)
-			2. Gamecontroller -> sendMessage()
-			3. RequestHandler -> doSomethingThere() -> Create Response
-			4. ResponseToAll Clients -> ResponseHandler -> Update their stuff.
-		 */
-
 		OnGameStateChangedListener listener = new OnGameStateChangedListener(){
 			@Override
 			public void onGameStateChanged(GameState gameState){
 				//react on changes. -> update the state.
-				/*
-				GameState.getInstance().setCurrentActivePlayer(gameState.getCurrentActivePlayer());
-				GameState.getInstance().setGameboard(gameState.getGameboard());
-				GameState.getInstance().setTurnRotation(gameState.getTurnRotation());
-				*/
-
-				Log.d("GameState", GameState.getInstance().getCurrentActivePlayer().toString());
-				Log.d("GameState", String.valueOf(GameState.getInstance().getTurnRotation()));
-
-
-				runOnUiThread(new Runnable(){
-					@Override
-					public void run(){
-						StringBuilder testString = new StringBuilder();
-						for (Player player : GameState.getInstance().getPlayers()) {
-							testString.append(player.getName());
-							testString.append(": ");
-							testString.append(player.getBalance());
-						}
-
-						hostileBalance.setText(testString);
-					}
-				});
+				//Add update stuff here, for UI updates use method below.
 
 				updateUI();
 			}
@@ -323,13 +292,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			@Override
 			public void setupGameState(GameState gameState){
 				//initial setup
-			/*
-				GameState.getInstance().setPlayers(gameState.getPlayers());
-				GameState.getInstance().setCurrentActivePlayer(gameState.getCurrentActivePlayer());
-				GameState.getInstance().setGameboard(gameState.getGameboard());
-				GameState.getInstance().setTurnRotation(gameState.getTurnRotation());
-				GameState.getInstance().setDeedManager(gameState.getDeedManager());
-			*/
 
 				gameboard = gameState.getGameboard();
 				deedManager = gameState.getDeedManager();
@@ -345,9 +307,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 		GameState.getInstance().subscribe(listener);
 
-		Log.d("GameState", GameState.getInstance().getPlayers().toString());
-		Log.d("GameState", Lobby.getInstance().getSelf().getName());
-
 		if (Lobby.getInstance().getSelf().getName().equals("SERVER")) {
 			GameServer.getInstance().setupGameState(getApplicationContext());
 			isHost = true;
@@ -358,6 +317,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		runOnUiThread(new Runnable(){
 			@Override
 			public void run(){
+				view_balance.setText(getString(R.string.balance,  currentPlayer.getBalance()));
+
 				if (GameState.getInstance().getCurrentActivePlayer().getAddress().equals(currentPlayer.getAddress()) && GameState.getInstance().getCurrentActivePlayer().getPort() == currentPlayer.getPort()) {
 					button_rollDice.setEnabled(true);
 				} else {
@@ -367,8 +328,39 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		});
 	}
 
+	//use this method if nothing happened what would change the state. (e.g. Free Parking, Player on his own Street but no Action...)
+	void playerFinishedTurn() {
+		GameState.getInstance().playerEndedTurn();
+		GameStateNetworkMessage message = new GameStateNetworkMessage();
+		message.setState(GameState.getInstance());
+
+		sendMessage(message);
+	}
+
+	void sendMessage(GameStateNetworkMessage message){
+		if (isHost){
+			GameServer.getInstance().updateGameState(message);
+		}else {
+			GameController.getInstance().updateGameState(message);
+		}
+	}
+
+	/**
+	 * Use this method as an example of how we update our State.
+	 * 1. Do actions and modify the GameState.
+	 * 2. Create new GameStateNetworkMessage
+	 * 3. call sendMessage to send Update
+	 *
+	 * Important:
+	 * Currently the update-Mechanism updates 'players', 'gameboard', 'turnRotation', 'activePlayer'
+	 * if there is something you need to add, feel free to do so. (Add property to GameState + get/set and
+	 * update the States for the Server: add setters to RequestHandlers method 'updateGameState'
+	 * update States for Clients: add setters to ResponseHandlers method 'updateGameState'
+	 */
 	@Override
 	public void performAcquiringDeed(Street street, Player player){
+
+
 		GameState.getInstance().getDeedManager().performAcquiringDeed(street, player);
 		GameState.getInstance().updatePlayer(player);
 		GameState.getInstance().playerEndedTurn();
@@ -376,11 +368,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		GameStateNetworkMessage message = new GameStateNetworkMessage();
 		message.setState(GameState.getInstance());
 
-		if (isHost){
-			GameServer.getInstance().updateGameState(message);
-		}else {
-			GameController.getInstance().updateGameState(message);
-		}
+		sendMessage(message);
 
 		view_balance.setText(getString(R.string.balance,  player.getBalance()));
 		Toast.makeText(this, "You now own " + street.getName(), Toast.LENGTH_SHORT).show();
