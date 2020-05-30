@@ -26,6 +26,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.net.InetAddress;
+
 @RunWith(AndroidJUnit4.class)
 public class DeedLogicInstrumentedTests{
 
@@ -41,8 +43,8 @@ public class DeedLogicInstrumentedTests{
 	public void setup() {
 		this.gameboard = new Gameboard(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		this.deedManager = new DeedManager(gameboard);
-		this.player1 = new Player("Wunderwutzi", 1000, new GamePiece("shoe"), 0);
-		this.player1 = new Player("Hannes", 1000, new GamePiece("dog"), 0);
+		this.player1 = new Player("Wunderwutzi", 1000, new GamePiece("shoe"), 0, InetAddress.getLoopbackAddress(), 1);
+		this.player1 = new Player("Hannes", 1000, new GamePiece("dog"), 0, InetAddress.getLoopbackAddress(), 2);
 		this.street1 = (Street) gameboard.gameTiles.get(1);
 		this.street2 = (Street) gameboard.gameTiles.get(3);
 	}
