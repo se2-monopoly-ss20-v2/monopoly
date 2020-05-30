@@ -70,7 +70,7 @@ public class Gameboard implements Serializable{
 		}
 	}
 
-	public void setStreets(ArrayList<Street> streets){
+	public void setStreets(List<Street> streets){
 		this.streets = streets;
 	}
 
@@ -78,7 +78,7 @@ public class Gameboard implements Serializable{
 		return railroads;
 	}
 
-	public void setRailroads(ArrayList<Railroad> railroads){
+	public void setRailroads(List<Railroad> railroads){
 		this.railroads = railroads;
 	}
 

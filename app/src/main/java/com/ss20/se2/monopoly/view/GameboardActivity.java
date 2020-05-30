@@ -45,8 +45,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	TextView viewdoubles;
 	TextView view_position;
 	TextView view_balance;
-	Button showDeeds;
-	View playersDeedsFragment;
 	TextView updateBalance;
 
 	Dice dice = new Dice();
@@ -55,8 +53,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	DeedManager deedManager;
 
 	Player currentPlayer;
-	GameState state;
-
 	ChanceCardDeck chanceCards;
 	CommunityCardDeck communityCards;
 	ChanceCardProcessor chanceCardProcessor;
@@ -135,8 +131,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		viewdoubles = findViewById(R.id.doubles);
 		view_position = findViewById(R.id.number_playerposition);
 		view_balance = findViewById(R.id.text_balance);
-
-		showDeeds = findViewById(R.id.buttonShowDeeds);
 		updateBalance = findViewById(R.id.changeOfBalance);
 
 
@@ -182,7 +176,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	public void checkPlayersPosition(final Player player) {
 		GameTile currentTile = gameboard.gameTiles.get(player.getCurrentPosition());
 
-		//i know not that performant, but currently i only want to proof our concept.
 		if (currentTile instanceof Street) {
 			final Street street = (Street) currentTile;
 
