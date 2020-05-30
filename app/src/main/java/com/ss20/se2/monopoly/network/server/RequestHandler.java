@@ -191,6 +191,7 @@ public class RequestHandler implements Runnable{
 
 		@Override
 		public void buyDeed(Deed deed, Player newOwner){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override

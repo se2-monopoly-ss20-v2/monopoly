@@ -2,7 +2,6 @@ package com.ss20.se2.monopoly.network.client;
 
 import android.util.Log;
 
-import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.models.OnGameDataChangedListener;
 import com.ss20.se2.monopoly.models.Player;

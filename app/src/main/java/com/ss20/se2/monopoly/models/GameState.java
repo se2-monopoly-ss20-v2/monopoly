@@ -1,7 +1,6 @@
 package com.ss20.se2.monopoly.models;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.ss20.se2.monopoly.DeedManager;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
@@ -44,7 +43,6 @@ public class GameState implements Serializable{
 		deedManager = new DeedManager(gameboard);
 		turnRotation = 0;
 
-		//players.get(turnRotation).setHasTurn(true);
 		currentActivePlayer = players.get(turnRotation);
 	}
 
