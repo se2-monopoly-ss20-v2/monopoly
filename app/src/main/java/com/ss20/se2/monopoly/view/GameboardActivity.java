@@ -25,6 +25,8 @@ import com.ss20.se2.monopoly.models.Gameboard;
 import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
+import com.ss20.se2.monopoly.models.fields.specials.Special;
+import com.ss20.se2.monopoly.models.fields.specials.SpecialFieldType;
 import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 import com.ss20.se2.monopoly.models.Player;
@@ -171,6 +173,61 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		});
 
 		setup();
+		findViewById(R.id.btn_test_luxury).setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View view){
+				int currentPosition = currentPlayer.getCurrentPosition();
+				gameboard.move("Player 1", 38 - currentPosition);
+				setOldBalance(currentPlayer.getBalance());
+				updateBalance.setText("");
+				currentPlayer.setCurrentPosition(gameboard.getPosition("Player 1"));
+				checkPlayersPosition(currentPlayer);
+
+				view_numberDice.setText("Roll 1: " + Integer.toString(roll1));
+				view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
+				view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
+
+				findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
+				findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
+			}
+		});
+		findViewById(R.id.btn_test_income).setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View view){
+				int currentPosition = currentPlayer.getCurrentPosition();
+				gameboard.move("Player 1", 4 - currentPosition);
+				setOldBalance(currentPlayer.getBalance());
+				updateBalance.setText("");
+				currentPlayer.setCurrentPosition(gameboard.getPosition("Player 1"));
+				checkPlayersPosition(currentPlayer);
+
+				view_numberDice.setText("Roll 1: " + Integer.toString(roll1));
+				view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
+				view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
+
+				findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
+				findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
+			}
+		});
+
+		findViewById(R.id.btn_test_free).setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View view){
+				int currentPosition = currentPlayer.getCurrentPosition();
+				gameboard.move("Player 1", 20 - currentPosition);
+				setOldBalance(currentPlayer.getBalance());
+				updateBalance.setText("");
+				currentPlayer.setCurrentPosition(gameboard.getPosition("Player 1"));
+				checkPlayersPosition(currentPlayer);
+
+				view_numberDice.setText("Roll 1: " + Integer.toString(roll1));
+				view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
+				view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
+
+				findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
+				findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
+			}
+		});
 	}
 
 	public void checkPlayersPosition(final Player player) {
@@ -218,8 +275,17 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}else if (currentTile instanceof Utility){
 			//TODO @dermutzh -> will be covered next week.
 			playerFinishedTurn();
-		}
-		else if (currentTile instanceof CommunityCard){
+		}else if (currentTile instanceof Special){
+			Special tile = (Special) currentTile;
+			if(tile.getFieldType().equals(SpecialFieldType.FREEPARKING)){
+				doFreeParking();
+			}else if(tile.getFieldType().equals(SpecialFieldType.INCOME_TAX)){
+				payIncomeTax(currentPlayer);
+			}
+			else if(tile.getFieldType().equals(SpecialFieldType.LUXURY_TAX)){
+				payLuxuryTax(currentPlayer);
+			}
+		}else if (currentTile instanceof CommunityCard){
 			CommunityCard communityCard = communityCards.getNextCard();
 			AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 			dialog.setTitle("Community Card!");
@@ -367,6 +433,76 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		showDifference(getOldBalance(), player.getBalance());
 
 	}
+
+	public void payLuxuryTax(Player player){
+		player.setBalance(player.getBalance()-100);
+		GameState.getInstance().updatePlayer(player);
+		GameState.getInstance().playerEndedTurn();
+
+		GameStateNetworkMessage message = new GameStateNetworkMessage();
+		message.setState(GameState.getInstance());
+
+		sendMessage(message);
+
+		view_balance.setText(getString(R.string.balance,  player.getBalance()));
+		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+		dialog.setTitle("Luxury Tax!");
+		dialog.setMessage("Pay 100 as luxury Tax.");
+		dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
+		showDifference(getOldBalance(), player.getBalance());
+	}
+
+
+	public void doFreeParking(){
+		GameState.getInstance().playerEndedTurn();
+
+		GameStateNetworkMessage message = new GameStateNetworkMessage();
+		message.setState(GameState.getInstance());
+
+		sendMessage(message);
+
+		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+		dialog.setTitle("Free Parking!");
+		dialog.setMessage("Free parking. Have a nice stay.");
+		dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
+	}
+
+	public void payIncomeTax(Player player){
+		player.setBalance(player.getBalance()-200);
+		GameState.getInstance().updatePlayer(player);
+		GameState.getInstance().playerEndedTurn();
+
+		GameStateNetworkMessage message = new GameStateNetworkMessage();
+		message.setState(GameState.getInstance());
+
+		sendMessage(message);
+
+		view_balance.setText(getString(R.string.balance,  player.getBalance()));
+		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+		dialog.setTitle("Income Tax!");
+		dialog.setMessage("Pay 200 as income Tax.");
+		dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
+		showDifference(getOldBalance(), player.getBalance());
+	}
+
 	public void showDifference(int oldBalance, int newBalance){
 		int difference = oldBalance-newBalance;
 

@@ -529,4 +529,34 @@
             app:layout_constraintStart_toEndOf="@+id/view_background"
             app:layout_constraintTop_toBottomOf="@+id/view_number_dice2" />
 
+    <Button
+            android:id="@+id/btn_test_income"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="85dp"
+            android:layout_marginStart="26dp"
+            android:layout_width="wrap_content"
+            android:text="Income"
+            app:layout_constraintBottom_toBottomOf="@+id/number_playerposition"
+            app:layout_constraintStart_toEndOf="@+id/tile_33" />
+
+    <Button
+            android:id="@+id/btn_test_luxury"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="226dp"
+            android:layout_marginEnd="50dp"
+            android:layout_width="wrap_content"
+            android:text="Luxury"
+            app:layout_constraintBottom_toBottomOf="@+id/view_background"
+            app:layout_constraintEnd_toStartOf="@+id/tile_16" />
+
+    <Button
+            android:id="@+id/btn_test_free"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="19dp"
+            android:layout_marginTop="60dp"
+            android:layout_width="wrap_content"
+            android:text="Free Parking"
+            app:layout_constraintEnd_toStartOf="@+id/tile_13"
+            app:layout_constraintTop_toBottomOf="@+id/btn_test_luxury" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
