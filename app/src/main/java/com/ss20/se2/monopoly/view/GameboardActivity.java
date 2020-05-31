@@ -195,6 +195,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 					@Override
 					public void onAccuracyChanged(Sensor sensor, int accuracy){
+						//Method not needed but required for the sensor to work
 					}
 				};
 
