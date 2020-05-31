@@ -254,6 +254,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					@Override
 					public void onClick(DialogInterface dialogInterface, int i){
 						dialog.dismiss();
+						playerFinishedTurn();
 					}
 				});
 
@@ -263,6 +264,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 						int balance = deedManager.performAcquiringHouseFor(street, player);
 						view_balance.setText(getString(R.string.balance,  balance));
 						showDifference(getOldBalance(), player.getBalance());
+						playerFinishedTurn();
 					}
 				});
 			} else {
@@ -418,7 +420,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	@Override
 	public void performAcquiringDeed(Street street, Player player){
 
-
 		GameState.getInstance().getDeedManager().performAcquiringDeed(street, player);
 		GameState.getInstance().updatePlayer(player);
 		GameState.getInstance().playerEndedTurn();
@@ -501,6 +502,11 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		});
 		dialog.show();
 		showDifference(getOldBalance(), player.getBalance());
+	}
+
+	@Override
+	public void cancelled(){
+		playerFinishedTurn();
 	}
 
 	public void showDifference(int oldBalance, int newBalance){
