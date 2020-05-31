@@ -143,7 +143,17 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			@Override
 			public void onClick(View v) {
 
+				//TODO Check values
+				mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+
+
+				accel = 9f;
+				currentaccel = SensorManager.GRAVITY_EARTH;
+				lastaccel = SensorManager.GRAVITY_EARTH;
+
 				final SensorEventListener mSensorListener = new SensorEventListener(){
+
 					@Override
 					public void onSensorChanged(SensorEvent event){
 
@@ -158,7 +168,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 						accel = accel * 0.9f + delta;
 
 						//TODO optimise value
-						if(accel > 10){
+						if(accel > 11){
 
 							mSensorManager.unregisterListener(this);
 							roll1 = dice.roll();
@@ -200,15 +210,11 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					}
 				};
 
-				mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+
+
 				Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-						SensorManager.SENSOR_DELAY_NORMAL);
-
-				//TODO Check values
-				accel = 10f;
-				currentaccel = SensorManager.GRAVITY_EARTH;
-				lastaccel = SensorManager.GRAVITY_EARTH;
-
+						SensorManager.SENSOR_DELAY_GAME);
 				}
 		});
 	}
