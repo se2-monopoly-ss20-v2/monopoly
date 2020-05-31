@@ -143,11 +143,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			@Override
 			public void onClick(View v) {
 
-				//TODO Check values
+				Toast.makeText(getApplicationContext(), "Shake the device to roll!", Toast.LENGTH_SHORT).show();
+
 				mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-
-
-
 				accel = 9f;
 				currentaccel = SensorManager.GRAVITY_EARTH;
 				lastaccel = SensorManager.GRAVITY_EARTH;
@@ -164,22 +162,14 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 						lastaccel = currentaccel;
 						currentaccel = (float) Math.sqrt((double) (x * x + y * y + z * z));
 						float delta = currentaccel - lastaccel;
-						//TODO optimise formula
 						accel = accel * 0.9f + delta;
 
-						//TODO optimise value
 						if(accel > 11){
 
 							mSensorManager.unregisterListener(this);
 							roll1 = dice.roll();
 							roll2 = dice2.roll();
 							amount = roll1 + roll2;
-
-
-
-				/*roll1 = dice.roll();
-				roll2 = dice2.roll();
-				amount = roll1 + roll2;*/
 
 							checkDouble(roll1, roll2);
 							if (checkDouble(roll1, roll2)){
@@ -201,17 +191,12 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 							findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
 							findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
 						}
-
-
 					}
 
 					@Override
 					public void onAccuracyChanged(Sensor sensor, int accuracy){
 					}
 				};
-
-
-
 
 				Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 						SensorManager.SENSOR_DELAY_GAME);
