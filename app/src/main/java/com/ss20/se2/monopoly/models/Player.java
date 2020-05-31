@@ -3,11 +3,12 @@ package com.ss20.se2.monopoly.models;
 import com.ss20.se2.monopoly.models.fields.cards.Card;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player{
+public class Player implements Serializable{
 
 	private String name;
 	private InetAddress address;
@@ -65,7 +66,15 @@ public class Player{
         this.playersDeeds.add(deed);
     }
 
-    public void removeDeedFromPlayer(Deed deed){
+	public void setPlayersDeeds(List<Deed> playersDeeds){
+		this.playersDeeds = playersDeeds;
+	}
+
+	public void setPlayersCards(List<Card> playersCards){
+		this.playersCards = playersCards;
+	}
+
+	public void removeDeedFromPlayer(Deed deed){
 	    this.playersDeeds.remove(deed);
     }
 

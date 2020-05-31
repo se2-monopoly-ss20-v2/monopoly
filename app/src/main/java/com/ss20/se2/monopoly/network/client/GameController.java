@@ -6,6 +6,8 @@ import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.models.OnGameDataChangedListener;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
+import com.ss20.se2.monopoly.network.gamestate.SetupGameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
 import com.ss20.se2.monopoly.network.shared.GameActions;
 
@@ -129,7 +131,7 @@ public class GameController implements Runnable, GameActions{
 	}
 
 	@Override
-	public void buyDeed(Deed deed){
+	public void buyDeed(Deed deed, Player newOwner){
 		communicator.sendMessage(null);
 	}
 
@@ -181,6 +183,20 @@ public class GameController implements Runnable, GameActions{
 	@Override
 	public void cheat(){
 		communicator.sendMessage(null);
+	}
+
+	@Override
+	public void setupGameState(SetupGameStateNetworkMessage message){
+		communicator.sendMessage(message);
+	}
+
+	@Override
+	public void updateGameState(GameStateNetworkMessage message){
+		message.setSenderAddress(Lobby.getInstance().getSelf().getAddress());
+		message.setSenderName(Lobby.getInstance().getSelf().getName());
+		message.setSenderPort(Lobby.getInstance().getSelf().getPort());
+
+		communicator.sendMessage(message);
 	}
 
 	public Socket getSocket(){

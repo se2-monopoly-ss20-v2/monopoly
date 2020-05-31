@@ -2,8 +2,11 @@ package com.ss20.se2.monopoly.network.client;
 
 import android.util.Log;
 
+import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Lobby;
+import com.ss20.se2.monopoly.network.gamestate.GameStateResponse;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
+import com.ss20.se2.monopoly.network.gamestate.SetupGameStateResponse;
 import com.ss20.se2.monopoly.network.server.LobbyResponse;
 import com.ss20.se2.monopoly.network.server.NetworkResponse;
 import com.ss20.se2.monopoly.network.shared.GameResponses;
@@ -87,6 +90,10 @@ class ResponseHandler implements Runnable{
 		Log.d(NetworkUtilities.TAG, "Processing of response started");
 		if (response instanceof LobbyResponse){
 			gameActionProcessor.lobby((LobbyResponse) response);
+		} else if (response instanceof SetupGameStateResponse) {
+			gameActionProcessor.setupState((SetupGameStateResponse) response);
+		} else if (response instanceof GameStateResponse) {
+			gameActionProcessor.state((GameStateResponse) response);
 		}
 		// TODO: First update database and then call the appropriate method(s) (using the response type)
 		//  of the OnGameDataChangedListener for every type
@@ -99,7 +106,30 @@ class ResponseHandler implements Runnable{
 			Lobby.getInstance().setPlayers(response.getLobby().getPlayers());
 			Lobby.getInstance().setReady(response.getLobby().isReady());
 			Lobby.getInstance().setStarted(response.getLobby().isStarted());
+			Lobby.getInstance().setCurrentState(response.getLobby().getCurrentState());
 			Lobby.getInstance().notifyListeners();
+		}
+
+		@Override
+		public void state(GameStateResponse response){
+			//Add update things here.
+			GameState.getInstance().setPlayers(response.getState().getPlayers());
+			GameState.getInstance().setGameboard(response.getState().getGameboard());
+			GameState.getInstance().setTurnRotation(response.getState().getTurnRotation());
+			GameState.getInstance().setCurrentActivePlayer(response.getState().getCurrentActivePlayer());
+
+			GameState.getInstance().notifyListeners();
+		}
+
+		@Override
+		public void setupState(SetupGameStateResponse response){
+			GameState.getInstance().setPlayers(response.getState().getPlayers());
+			GameState.getInstance().setCurrentActivePlayer(response.getState().getCurrentActivePlayer());
+			GameState.getInstance().setGameboard(response.getState().getGameboard());
+			GameState.getInstance().setTurnRotation(response.getState().getTurnRotation());
+			GameState.getInstance().setDeedManager(response.getState().getDeedManager());
+
+			GameState.getInstance().notifyListenersForSetup();
 		}
 	}
 }
