@@ -29,11 +29,16 @@ import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.GameTile;
+import com.ss20.se2.monopoly.models.fields.cards.Card;
 import com.ss20.se2.monopoly.models.fields.cards.ChanceCard;
 import com.ss20.se2.monopoly.models.fields.cards.CommunityCard;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.network.client.GameController;
 import com.ss20.se2.monopoly.network.server.GameServer;
+import com.ss20.se2.monopoly.models.fields.deeds.Utility;
+import com.ss20.se2.monopoly.models.fields.specials.Special;
+import com.ss20.se2.monopoly.models.fields.specials.SpecialFieldType;
+import com.ss20.se2.monopoly.view.deed.DeedFragment;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 import com.ss20.se2.monopoly.view.dialog.DialogContainerFragment;
 
@@ -171,7 +176,23 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		});
 
 		setup();
+
+		for (int i = 0; i < fields.length; i++) {
+			final ImageView view = fields[i];
+			view.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+					GameTile tile = gameboard.gameTiles.get((Integer.parseInt(v.getTag().toString())));
+					showTileInfo(tile, currentPlayer);
+
+				}
+			});
+		}
 	}
+
+
+
 
 	public void checkPlayersPosition(final Player player) {
 		GameTile currentTile = gameboard.gameTiles.get(player.getCurrentPosition());
@@ -382,13 +403,93 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 		else if (oldBalance<newBalance){
 			//set Color
-			updateBalance.setText("+$" + difference);
+			updateBalance.setText("+$" + difference * -1);
 		}
 		else {
 			updateBalance.setText("-$" + difference);
 		}
 
 	}
+
+	public void showTileInfo(GameTile gameTile, Player player) {
+
+		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+		dialog.setTitle(gameTile.getName());
+
+		if (gameTile instanceof Street) {
+			Street street = (Street) gameTile;
+
+			//separate between tiles you own, others own and nobody owns.
+			//right now there is no difference between the fragments
+
+			if (street.getOwner() != null) {
+				if (street.getOwner() == player) {
+					FragmentManager fm = getSupportFragmentManager();
+					DeedFragment containerFragment = DeedFragment.newInstance().newInstance();
+					containerFragment.createViewModel(street);
+
+					containerFragment.show(fm, "dialog_container_fragment");
+				}
+
+				FragmentManager fm = getSupportFragmentManager();
+				DeedFragment containerFragment = DeedFragment.newInstance().newInstance();
+				containerFragment.createViewModel(street);
+
+				containerFragment.show(fm, "dialog_container_fragment");
+			} else {
+				dialog.setMessage("No Owner");
+				FragmentManager fm = getSupportFragmentManager();
+				DeedFragment containerFragment = DeedFragment.newInstance().newInstance();
+				containerFragment.createViewModel(street);
+
+				containerFragment.show(fm, "dialog_container_fragment");
+			}
+		} else if (gameTile instanceof Railroad) {
+			Railroad railroad = (Railroad) gameTile;
+
+			if (railroad.getOwner() != null) {
+				dialog.setMessage("Owner: " + railroad.getOwner().getName());
+			} else {
+				dialog.setMessage("No Owner");
+			}
+			dialog.show();
+		} else if (gameTile instanceof Special) {
+			Special special = (Special) gameTile;
+
+			switch (special.getFieldType()) {
+				case JAIL:
+					dialog.setMessage("Landing on this tile sends you to jail immediately");
+					break;
+
+				case GO:
+					dialog.setMessage("Moving past GO will get you $200");
+					break;
+
+				case FREEPARKING:
+					dialog.setMessage("Nothing happens.");
+					break;
+
+				case JAIL_VISITOR:
+					dialog.setMessage("If you are a visitor you can leave with your next turn. If you are jailed you need to throw a double for your escape!");
+					break;
+				case INCOME_TAX:
+					dialog.setMessage("Landing on this tile makes you pay $200");
+					break;
+
+				case LUXURY_TAX:
+					dialog.setMessage("Landing on this tile makes you pay 10% of your wealth");
+					break;
+
+				default:
+					break;
+			}
+			dialog.show();
+		} else if (gameTile instanceof Card) {
+			dialog.setMessage("Surprise Cards with either good or bad effect");
+			dialog.show();
+		}
+	}
+
 
 	public int getOldBalance() {
 		return oldBalance;

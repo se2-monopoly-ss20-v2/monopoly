@@ -39,7 +39,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_2"
             app:layout_constraintTop_toTopOf="@+id/tile_5"
-            app:srcCompat="@color/violet" />
+            app:srcCompat="@color/violet" android:tag="1"/>
 
     <ImageView
             android:id="@+id/tile_10"
@@ -51,7 +51,7 @@
             app:layout_constraintStart_toStartOf="@+id/view_background"
             app:layout_constraintTop_toBottomOf="@+id/tile_middle"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@android:color/darker_gray" />
+            app:srcCompat="@android:color/darker_gray" android:tag="10"/>
 
     <ImageView
             android:id="@+id/tile_20"
@@ -61,7 +61,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tile_middle"
             app:layout_constraintStart_toStartOf="@+id/view_background"
             app:layout_constraintTop_toTopOf="@+id/view_background"
-            app:srcCompat="@android:color/darker_gray" />
+            app:srcCompat="@android:color/darker_gray" android:tag="20"/>
 
     <ImageView
             android:id="@+id/tile_0"
@@ -71,7 +71,7 @@
             app:layout_constraintEnd_toEndOf="@+id/view_background"
             app:layout_constraintStart_toEndOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_middle"
-            app:srcCompat="@android:color/darker_gray" />
+            app:srcCompat="@android:color/darker_gray" android:tag="0"/>
 
     <ImageView
             android:id="@+id/tile_30"
@@ -81,7 +81,7 @@
             app:layout_constraintEnd_toEndOf="@+id/view_background"
             app:layout_constraintStart_toEndOf="@+id/tile_middle"
             app:layout_constraintTop_toTopOf="@+id/view_background"
-            app:srcCompat="@android:color/darker_gray" />
+            app:srcCompat="@android:color/darker_gray" android:tag="30"/>
 
     <ImageView
             android:id="@+id/tile_9"
@@ -92,7 +92,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_10"
             app:layout_constraintTop_toTopOf="@+id/tile_5"
-            app:srcCompat="@android:color/holo_blue_light" />
+            app:srcCompat="@android:color/holo_blue_light" android:tag="9"/>
 
     <ImageView
             android:id="@+id/tile_8"
@@ -103,7 +103,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_9"
             app:layout_constraintTop_toTopOf="@+id/tile_5"
-            app:srcCompat="@android:color/holo_blue_light" />
+            app:srcCompat="@android:color/holo_blue_light" android:tag="8"/>
 
     <ImageView
             android:id="@+id/tile_7"
@@ -114,7 +114,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_8"
             app:layout_constraintTop_toTopOf="@+id/tile_5"
-            app:srcCompat="@android:color/white" />
+            app:srcCompat="@android:color/white" android:tag="7"/>
 
     <ImageView
             android:id="@+id/tile_6"
@@ -125,7 +125,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_7"
             app:layout_constraintTop_toTopOf="@+id/tile_5"
-            app:srcCompat="@android:color/holo_blue_light" />
+            app:srcCompat="@android:color/holo_blue_light" android:tag="6"/>
 
     <ImageView
             android:id="@+id/tile_5"
@@ -136,7 +136,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_6"
             app:layout_constraintTop_toBottomOf="@+id/tile_middle"
-            app:srcCompat="@android:color/white" />
+            app:srcCompat="@android:color/white" android:tag="5"/>
 
     <ImageView
             android:id="@+id/tile_4"
@@ -147,7 +147,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_5"
             app:layout_constraintTop_toTopOf="@+id/tile_5"
-            app:srcCompat="@android:color/white" />
+            app:srcCompat="@android:color/white" android:tag="4"/>
 
     <ImageView
             android:id="@+id/tile_3"
@@ -158,7 +158,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_4"
             app:layout_constraintTop_toTopOf="@+id/tile_5"
-            app:srcCompat="@color/violet" />
+            app:srcCompat="@color/violet" android:tag="3"/>
 
     <ImageView
             android:id="@+id/tile_2"
@@ -169,7 +169,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_3"
             app:layout_constraintTop_toTopOf="@+id/tile_5"
-            app:srcCompat="@android:color/white" />
+            app:srcCompat="@android:color/white" android:tag="2"/>
 
     <Button
             android:id="@+id/button_roll_dice"
@@ -197,7 +197,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tile_middle"
             app:layout_constraintStart_toStartOf="@+id/view_background"
             app:layout_constraintTop_toBottomOf="@+id/tile_14"
-            app:srcCompat="@android:color/holo_purple" />
+            app:srcCompat="@android:color/holo_purple" android:tag="13"/>
 
     <ImageView
             android:id="@+id/tile_15"
@@ -207,7 +207,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tile_middle"
             app:layout_constraintStart_toStartOf="@+id/view_background"
             app:layout_constraintTop_toBottomOf="@+id/tile_16"
-            app:srcCompat="@android:color/white" />
+            app:srcCompat="@android:color/white" android:tag="15"/>
 
     <ImageView
             android:id="@+id/tile_14"
@@ -217,7 +217,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tile_middle"
             app:layout_constraintStart_toStartOf="@+id/view_background"
             app:layout_constraintTop_toBottomOf="@+id/tile_15"
-            app:srcCompat="@android:color/holo_purple" />
+            app:srcCompat="@android:color/holo_purple" android:tag="14"/>
 
     <ImageView
             android:id="@+id/tile_17"
@@ -227,7 +227,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tile_middle"
             app:layout_constraintStart_toStartOf="@+id/view_background"
             app:layout_constraintTop_toBottomOf="@+id/tile_18"
-            app:srcCompat="@android:color/white" />
+            app:srcCompat="@android:color/white" android:tag="17"/>
 
     <ImageView
             android:id="@+id/tile_16"
@@ -237,7 +237,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tile_middle"
             app:layout_constraintStart_toStartOf="@+id/view_background"
             app:layout_constraintTop_toBottomOf="@+id/tile_17"
-            app:srcCompat="@android:color/holo_orange_dark" />
+            app:srcCompat="@android:color/holo_orange_dark" android:tag="16"/>
 
     <ImageView
             android:id="@+id/tile_11"
@@ -247,7 +247,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tile_middle"
             app:layout_constraintStart_toStartOf="@+id/view_background"
             app:layout_constraintTop_toBottomOf="@+id/tile_12"
-            app:srcCompat="@android:color/holo_purple" />
+            app:srcCompat="@android:color/holo_purple" android:tag="11"/>
 
     <ImageView
             android:id="@+id/tile_19"
@@ -257,7 +257,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tile_middle"
             app:layout_constraintStart_toStartOf="@+id/view_background"
             app:layout_constraintTop_toTopOf="@+id/tile_middle"
-            app:srcCompat="@android:color/holo_orange_dark" />
+            app:srcCompat="@android:color/holo_orange_dark" android:tag="19"/>
 
     <ImageView
             android:id="@+id/tile_12"
@@ -267,7 +267,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tile_middle"
             app:layout_constraintStart_toStartOf="@+id/view_background"
             app:layout_constraintTop_toBottomOf="@+id/tile_13"
-            app:srcCompat="@android:color/white" />
+            app:srcCompat="@android:color/white" android:tag="12"/>
 
     <ImageView
             android:id="@+id/tile_18"
@@ -277,7 +277,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tile_middle"
             app:layout_constraintStart_toStartOf="@+id/view_background"
             app:layout_constraintTop_toBottomOf="@+id/tile_19"
-            app:srcCompat="@android:color/holo_orange_dark" />
+            app:srcCompat="@android:color/holo_orange_dark" android:tag="18"/>
 
     <ImageView
             android:id="@+id/tile_24"
@@ -288,7 +288,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_23"
             app:layout_constraintTop_toTopOf="@+id/view_background"
-            app:srcCompat="@android:color/holo_red_dark" />
+            app:srcCompat="@android:color/holo_red_dark" android:tag="24"/>
 
     <ImageView
             android:id="@+id/tile_25"
@@ -299,7 +299,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_24"
             app:layout_constraintTop_toTopOf="@+id/view_background"
-            app:srcCompat="@android:color/white" />
+            app:srcCompat="@android:color/white" android:tag="25"/>
 
     <ImageView
             android:id="@+id/tile_23"
@@ -310,7 +310,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_22"
             app:layout_constraintTop_toTopOf="@+id/view_background"
-            app:srcCompat="@android:color/holo_red_dark" />
+            app:srcCompat="@android:color/holo_red_dark" android:tag="23"/>
 
     <ImageView
             android:id="@+id/tile_26"
@@ -321,7 +321,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_25"
             app:layout_constraintTop_toTopOf="@+id/view_background"
-            app:srcCompat="@android:color/holo_orange_light" />
+            app:srcCompat="@android:color/holo_orange_light" android:tag="26"/>
 
     <ImageView
             android:id="@+id/tile_27"
@@ -332,7 +332,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_26"
             app:layout_constraintTop_toTopOf="@+id/view_background"
-            app:srcCompat="@android:color/holo_orange_light" />
+            app:srcCompat="@android:color/holo_orange_light" android:tag="27"/>
 
     <ImageView
             android:id="@+id/tile_28"
@@ -343,7 +343,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_27"
             app:layout_constraintTop_toTopOf="@+id/view_background"
-            app:srcCompat="@android:color/white" />
+            app:srcCompat="@android:color/white" android:tag="28"/>
 
     <ImageView
             android:id="@+id/tile_29"
@@ -354,7 +354,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_28"
             app:layout_constraintTop_toTopOf="@+id/view_background"
-            app:srcCompat="@android:color/holo_orange_light" />
+            app:srcCompat="@android:color/holo_orange_light" android:tag="29"/>
 
     <ImageView
             android:id="@+id/tile_22"
@@ -365,7 +365,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_21"
             app:layout_constraintTop_toTopOf="@+id/view_background"
-            app:srcCompat="@android:color/white" />
+            app:srcCompat="@android:color/white" android:tag="22"/>
 
     <ImageView
             android:id="@+id/tile_21"
@@ -376,7 +376,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tile_20"
             app:layout_constraintTop_toTopOf="@+id/view_background"
-            app:srcCompat="@android:color/holo_red_dark" />
+            app:srcCompat="@android:color/holo_red_dark" android:tag="21"/>
 
     <TextView
             android:id="@+id/text_playerposition"
@@ -396,7 +396,7 @@
             app:layout_constraintEnd_toEndOf="@+id/view_background"
             app:layout_constraintStart_toEndOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_31"
-            app:srcCompat="@android:color/holo_green_dark" />
+            app:srcCompat="@android:color/holo_green_dark" android:tag="32"/>
 
     <ImageView
             android:id="@+id/tile_31"
@@ -406,7 +406,7 @@
             app:layout_constraintEnd_toEndOf="@+id/view_background"
             app:layout_constraintStart_toEndOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_30"
-            app:srcCompat="@android:color/holo_green_dark" />
+            app:srcCompat="@android:color/holo_green_dark" android:tag="31"/>
 
     <ImageView
             android:id="@+id/tile_33"
@@ -416,7 +416,7 @@
             app:layout_constraintEnd_toEndOf="@+id/view_background"
             app:layout_constraintStart_toEndOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_32"
-            app:srcCompat="@android:color/white" />
+            app:srcCompat="@android:color/white" android:tag="33"/>
 
     <ImageView
             android:id="@+id/tile_34"
@@ -426,7 +426,7 @@
             app:layout_constraintEnd_toEndOf="@+id/view_background"
             app:layout_constraintStart_toEndOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_33"
-            app:srcCompat="@android:color/holo_green_dark" />
+            app:srcCompat="@android:color/holo_green_dark" android:tag="34"/>
 
     <ImageView
             android:id="@+id/tile_35"
@@ -436,7 +436,7 @@
             app:layout_constraintEnd_toEndOf="@+id/view_background"
             app:layout_constraintStart_toEndOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_34"
-            app:srcCompat="@android:color/white" />
+            app:srcCompat="@android:color/white" android:tag="35"/>
 
     <ImageView
             android:id="@+id/tile_36"
@@ -446,7 +446,7 @@
             app:layout_constraintEnd_toEndOf="@+id/view_background"
             app:layout_constraintStart_toEndOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_35"
-            app:srcCompat="@android:color/white" />
+            app:srcCompat="@android:color/white" android:tag="36"/>
 
     <ImageView
             android:id="@+id/tile_37"
@@ -456,7 +456,7 @@
             app:layout_constraintEnd_toEndOf="@+id/view_background"
             app:layout_constraintStart_toEndOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_36"
-            app:srcCompat="@android:color/holo_blue_dark" />
+            app:srcCompat="@android:color/holo_blue_dark" android:tag="37"/>
 
     <ImageView
             android:id="@+id/tile_38"
@@ -466,7 +466,7 @@
             app:layout_constraintEnd_toEndOf="@+id/view_background"
             app:layout_constraintStart_toEndOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_37"
-            app:srcCompat="@android:color/white" />
+            app:srcCompat="@android:color/white" android:tag="38"/>
 
     <ImageView
             android:id="@+id/tile_39"
@@ -476,7 +476,7 @@
             app:layout_constraintEnd_toEndOf="@+id/view_background"
             app:layout_constraintStart_toEndOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_38"
-            app:srcCompat="@android:color/holo_blue_dark" />
+            app:srcCompat="@android:color/holo_blue_dark" android:tag="39"/>
 
     <ImageView
             android:id="@+id/playericon"
