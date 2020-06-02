@@ -59,6 +59,7 @@ public class DialogContainerFragment extends DialogFragment{
 		cancel.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
+				delegate.cancelled();
 				dismiss();
 			}
 		});

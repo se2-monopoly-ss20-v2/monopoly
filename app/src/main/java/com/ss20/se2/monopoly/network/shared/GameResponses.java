@@ -1,5 +1,7 @@
 package com.ss20.se2.monopoly.network.shared;
 
+import com.ss20.se2.monopoly.network.gamestate.GameStateResponse;
+import com.ss20.se2.monopoly.network.gamestate.SetupGameStateResponse;
 import com.ss20.se2.monopoly.network.server.LobbyResponse;
 
 /**
@@ -11,4 +13,8 @@ import com.ss20.se2.monopoly.network.server.LobbyResponse;
 public interface GameResponses{
 
 	void lobby(LobbyResponse response);
+
+	void state(GameStateResponse response);
+
+	void setupState(SetupGameStateResponse response);
 }

@@ -2,6 +2,8 @@ package com.ss20.se2.monopoly.network.shared;
 
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
+import com.ss20.se2.monopoly.network.gamestate.SetupGameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.client.ChangeGamePieceNetworkMessage;
 import com.ss20.se2.monopoly.network.client.JoinLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.LeaveLobbyNetworkMessage;
@@ -27,7 +29,7 @@ public interface GameActions{
 
 	void skipTurn();
 
-	void buyDeed(Deed deed);
+	void buyDeed(Deed deed, Player newOwner);
 
 	void sellDeed(Deed deed);
 
@@ -48,4 +50,8 @@ public interface GameActions{
 	void bidAtAuction(int amount);
 
 	void cheat();
+
+	void setupGameState(SetupGameStateNetworkMessage message);
+
+	void updateGameState(GameStateNetworkMessage message);
 }
