@@ -157,7 +157,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		hat = findViewById(R.id.icon_hat);
 		penguin = findViewById(R.id.icon_penguin);
 
-		ownPiece = currentPlayer.getSelectedPiece();
 
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -190,7 +189,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
 				view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
 
-				int pos = gameboard.getPosition("Player 1");
+				/*int pos = gameboard.getPosition("Player 1");
+				ownPiece = currentPlayer.getSelectedPiece();
 
 				switch (ownPiece.getName()){
 					case ("Boat"):
@@ -245,12 +245,12 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 						break;
 
 					default: ownView.setImageResource(R.mipmap.ic_launcher);
-				}
+				}*/
 
-				/*findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
-				findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());*/
-				ownView.setX(fields[gameboard.getPosition("Player 1")].getX());
-				ownView.setY(fields[gameboard.getPosition("Player 1")].getY());
+				findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
+				findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
+				/*ownView.setX(fields[gameboard.getPosition("Player 1")].getX());
+				ownView.setY(fields[gameboard.getPosition("Player 1")].getY());*/
 			}
 		});
 
