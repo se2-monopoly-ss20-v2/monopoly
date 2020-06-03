@@ -89,7 +89,7 @@ public class GameState implements Serializable{
 				p.setBalance(player.getBalance());
 				p.setPlayersDeeds(player.getPlayersDeeds());
 				p.setPlayersCards(player.getPlayersCards());
-
+				p.setCurrentPosition(player.getCurrentPosition());
 			}
 		}
 	}

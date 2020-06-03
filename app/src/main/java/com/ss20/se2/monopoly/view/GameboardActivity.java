@@ -639,6 +639,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 	//use this method if nothing happened what would change the state. (e.g. Free Parking, Player on his own Street but no Action...)
 	void playerFinishedTurn() {
+		GameState.getInstance().updatePlayer(currentPlayer);
 		GameState.getInstance().playerEndedTurn();
 		GameStateNetworkMessage message = new GameStateNetworkMessage();
 		message.setState(GameState.getInstance());
