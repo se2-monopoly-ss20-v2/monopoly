@@ -492,7 +492,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					button_rollDice.setEnabled(false);
 				}
 				for (Player player:GameState.getInstance().getPlayers()) {
-					if (!GameState.getInstance().getCurrentActivePlayer().getAddress().equals(currentPlayer.getAddress()) && GameState.getInstance().getCurrentActivePlayer().getPort() != currentPlayer.getPort()) {
+					//if (!GameState.getInstance().getCurrentActivePlayer().getAddress().equals(currentPlayer.getAddress()) && GameState.getInstance().getCurrentActivePlayer().getPort() != currentPlayer.getPort()) {
 
 						GamePiece piece = player.getSelectedPiece();
 						ImageView playerView = new ImageView(context);
@@ -553,7 +553,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 								break;
 
 							default: playerView.setImageResource(R.mipmap.ic_launcher);
-						}
+						//}
 
 						playerView.setX(fields[pos].getX());
 						playerView.setY(fields[pos].getY());
