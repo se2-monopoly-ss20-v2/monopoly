@@ -189,7 +189,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
 				view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
 
-				/*int pos = gameboard.getPosition("Player 1");
+				int pos = gameboard.getPosition("Player 1");
 				ownPiece = currentPlayer.getSelectedPiece();
 
 				switch (ownPiece.getName()){
@@ -245,12 +245,12 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 						break;
 
 					default: ownView.setImageResource(R.mipmap.ic_launcher);
-				}*/
+				}
 
-				findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
-				findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
-				/*ownView.setX(fields[gameboard.getPosition("Player 1")].getX());
-				ownView.setY(fields[gameboard.getPosition("Player 1")].getY());*/
+				//findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
+				//findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
+				ownView.setX(fields[gameboard.getPosition("Player 1")].getX());
+				ownView.setY(fields[gameboard.getPosition("Player 1")].getY());
 			}
 		});
 
@@ -504,7 +504,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 							case ("Boat"):
 
 								boat.setVisibility(View.VISIBLE);
-								boat.setX(pos);
 								playerView = boat;
 
 								break;
