@@ -2,6 +2,7 @@ package com.ss20.se2.monopoly.view;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.ImageView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -338,6 +339,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					GamePiece piece = player.getSelectedPiece();
 					ImageView playerView = new ImageView(context);
 					int pos = player.getCurrentPosition();
+
+					Log.d("Piece:", piece.getName());
 
 					switch (piece.getName()){
 						case ("boat"):
