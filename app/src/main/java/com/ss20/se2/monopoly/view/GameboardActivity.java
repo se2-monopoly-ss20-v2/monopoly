@@ -329,6 +329,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				gameboard = gameState.getGameboard();
 				deedManager = gameState.getDeedManager();
 				gameboard.gameboardArray[0] = new GamePiece("Player 1");
+				ImageView[] fields = initializeUI();
 
 				if (currentPlayer == null) {
 					currentPlayer = GameState.getInstance().getPlayerFrom(Lobby.getInstance().getSelf().getAddress(), Lobby.getInstance().getSelf().getPort());
@@ -344,57 +345,62 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 					switch (piece.getName()){
 						case ("Boat"):
-							playerView.setImageResource(R.drawable.boat);
+
 							boat.setVisibility(View.VISIBLE);
+							boat.setX(pos);
+							playerView = boat;
 
 							break;
 						case ("Car"):
-							playerView.setImageResource(R.drawable.car);
+
 							car.setVisibility(View.VISIBLE);
+							playerView = car;
 
 							break;
 
 						case ("Cat"):
-							playerView.setImageResource(R.drawable.cat);
+
 							cat.setVisibility(View.VISIBLE);
+							playerView = cat;
 
 							break;
 
 						case ("Dino"):
-							playerView.setImageResource(R.drawable.dino);
+
 							dino.setVisibility(View.VISIBLE);
+							playerView = dino;
 
 							break;
 
 						case ("Dog"):
-							playerView.setImageResource(R.drawable.dog);
-							dog.setVisibility(View.VISIBLE);
 
+							dog.setVisibility(View.VISIBLE);
+							playerView = dog;
 							break;
 
 						case ("Duck"):
-							playerView.setImageResource(R.drawable.duck);
-							duck.setVisibility(View.VISIBLE);
 
+							duck.setVisibility(View.VISIBLE);
+							playerView = duck;
 							break;
 
 						case ("Hat"):
-							playerView.setImageResource(R.drawable.hat);
-							hat.setVisibility(View.VISIBLE);
 
+							hat.setVisibility(View.VISIBLE);
+							playerView = hat;
 							break;
 
 						case ("Penguin"):
-							playerView.setImageResource(R.drawable.penguin);
-							penguin.setVisibility(View.VISIBLE);
 
+							penguin.setVisibility(View.VISIBLE);
+							playerView = penguin;
 							break;
 
 						default: playerView.setImageResource(R.mipmap.ic_launcher);
 					}
 
-					playerView.setX(pos);
-					playerView.setY(pos);
+					playerView.setX(fields[pos].getX());
+					playerView.setY(fields[pos].getY());
 
 				}
 				updateUI();
