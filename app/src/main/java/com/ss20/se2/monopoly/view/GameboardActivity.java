@@ -1,8 +1,11 @@
 package com.ss20.se2.monopoly.view;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.DialogInterface;
@@ -70,6 +73,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	int doublescounter;
 
 	boolean isHost;
+	Context context = this;
 
 	public ImageView[] initializeUI(){
 		ImageView field0 = findViewById(R.id.tile_0);
@@ -316,6 +320,59 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					currentPlayer = GameState.getInstance().getPlayerFrom(Lobby.getInstance().getSelf().getAddress(), Lobby.getInstance().getSelf().getPort());
 				}
 
+				for (Player player:GameState.getInstance().getPlayers()) {
+					player.getSelectedPiece();
+					GamePiece piece = player.getSelectedPiece();
+					ImageView playerView = new ImageView(context);
+					int pos = gameState.getGameboard().getPosition("Player 1");
+
+					switch (piece.getName()){
+						case ("boat"):
+							playerView.setImageResource(R.drawable.boat);
+
+							break;
+						case ("car"):
+							playerView.setImageResource(R.drawable.car);
+
+							break;
+
+						case ("cat"):
+							playerView.setImageResource(R.drawable.cat);
+
+							break;
+
+						case ("dino"):
+							playerView.setImageResource(R.drawable.dino);
+
+							break;
+
+						case ("dog"):
+							playerView.setImageResource(R.drawable.dog);
+
+							break;
+
+						case ("duck"):
+							playerView.setImageResource(R.drawable.duck);
+
+							break;
+
+						case ("hat"):
+							playerView.setImageResource(R.drawable.hat);
+
+							break;
+
+						case ("penguin"):
+							playerView.setImageResource(R.drawable.penguin);
+
+							break;
+
+						default: playerView.setImageResource(R.mipmap.ic_launcher);
+					}
+
+					playerView.setX(pos);
+					playerView.setY(pos);
+
+				}
 				updateUI();
 			}
 		};
@@ -338,6 +395,13 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					button_rollDice.setEnabled(true);
 				} else {
 					button_rollDice.setEnabled(false);
+				}
+				for (Player p:GameState.getInstance().getPlayers()) {
+					if (!GameState.getInstance().getCurrentActivePlayer().getAddress().equals(currentPlayer.getAddress()) && GameState.getInstance().getCurrentActivePlayer().getPort() != currentPlayer.getPort()) {
+
+
+
+					}
 				}
 			}
 		});
