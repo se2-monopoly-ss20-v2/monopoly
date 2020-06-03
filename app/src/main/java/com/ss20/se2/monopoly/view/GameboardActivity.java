@@ -401,6 +401,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 					playerView.setX(fields[pos].getX());
 					playerView.setY(fields[pos].getY());
+					Log.d("Pos:", Integer.toString(pos));
+					Log.d("X:", Float.toString(fields[pos].getX()));
+					Log.d("Y:", Float.toString(fields[pos].getY()));
 
 				}
 				updateUI();
