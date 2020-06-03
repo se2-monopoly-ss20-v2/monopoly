@@ -17,20 +17,11 @@ import android.widget.Toast;
 
 import com.ss20.se2.monopoly.DeedManager;
 import com.ss20.se2.monopoly.R;
-import com.ss20.se2.monopoly.models.ChanceCardDeck;
-import com.ss20.se2.monopoly.models.ChanceCardProcessor;
-import com.ss20.se2.monopoly.models.CommunityCardDeck;
-import com.ss20.se2.monopoly.models.CommunityCardProcessor;
-import com.ss20.se2.monopoly.models.Dice;
-import com.ss20.se2.monopoly.models.GamePiece;
-import com.ss20.se2.monopoly.models.GameState;
-import com.ss20.se2.monopoly.models.Gameboard;
-import com.ss20.se2.monopoly.models.Lobby;
+import com.ss20.se2.monopoly.models.*;
 import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
-import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.GameTile;
 import com.ss20.se2.monopoly.models.fields.cards.Card;
 import com.ss20.se2.monopoly.models.fields.cards.ChanceCard;
@@ -45,6 +36,8 @@ import com.ss20.se2.monopoly.view.deed.DeedFragment;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 import com.ss20.se2.monopoly.view.dialog.DialogContainerFragment;
 
+import java.util.List;
+
 public class GameboardActivity extends AppCompatActivity implements DeedFragmentDelegate{
 
 	Button button_rollDice;
@@ -54,6 +47,15 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	TextView view_position;
 	TextView view_balance;
 	TextView updateBalance;
+
+	ImageView boat;
+	ImageView car;
+	ImageView cat;
+	ImageView dino;
+	ImageView dog;
+	ImageView duck;
+	ImageView hat;
+	ImageView penguin;
 
 	Dice dice = new Dice();
 	Dice dice2 = new Dice();
@@ -141,6 +143,17 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		view_position = findViewById(R.id.number_playerposition);
 		view_balance = findViewById(R.id.text_balance);
 		updateBalance = findViewById(R.id.changeOfBalance);
+
+
+		boat = findViewById(R.id.icon_boat);
+		car = findViewById(R.id.icon_car);
+		cat = findViewById(R.id.icon_cat);
+		dino = findViewById(R.id.icon_dino);
+		dog = findViewById(R.id.icon_dog);
+		duck = findViewById(R.id.icon_duck);
+		hat = findViewById(R.id.icon_hat);
+		penguin = findViewById(R.id.icon_penguin);
+
 
 
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
@@ -329,40 +342,48 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					switch (piece.getName()){
 						case ("boat"):
 							playerView.setImageResource(R.drawable.boat);
+							boat.setVisibility(View.VISIBLE);
 
 							break;
 						case ("car"):
 							playerView.setImageResource(R.drawable.car);
+							car.setVisibility(View.VISIBLE);
 
 							break;
 
 						case ("cat"):
 							playerView.setImageResource(R.drawable.cat);
+							cat.setVisibility(View.VISIBLE);
 
 							break;
 
 						case ("dino"):
 							playerView.setImageResource(R.drawable.dino);
+							dino.setVisibility(View.VISIBLE);
 
 							break;
 
 						case ("dog"):
 							playerView.setImageResource(R.drawable.dog);
+							dog.setVisibility(View.VISIBLE);
 
 							break;
 
 						case ("duck"):
 							playerView.setImageResource(R.drawable.duck);
+							duck.setVisibility(View.VISIBLE);
 
 							break;
 
 						case ("hat"):
 							playerView.setImageResource(R.drawable.hat);
+							hat.setVisibility(View.VISIBLE);
 
 							break;
 
 						case ("penguin"):
 							playerView.setImageResource(R.drawable.penguin);
+							penguin.setVisibility(View.VISIBLE);
 
 							break;
 
