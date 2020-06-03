@@ -528,5 +528,37 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/view_background"
             app:layout_constraintTop_toBottomOf="@+id/view_number_dice2" />
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@drawable/boat" tools:layout_editor_absoluteY="81dp"
+            tools:layout_editor_absoluteX="16dp" android:id="@+id/icon_boat" android:visibility="invisible"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@drawable/car" tools:layout_editor_absoluteY="81dp"
+            tools:layout_editor_absoluteX="36dp" android:id="@+id/icon_car" android:visibility="invisible"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@drawable/cat" tools:layout_editor_absoluteY="81dp"
+            tools:layout_editor_absoluteX="56dp" android:id="@+id/icon_cat" android:visibility="invisible"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@drawable/dino" tools:layout_editor_absoluteY="81dp"
+            tools:layout_editor_absoluteX="76dp" android:id="@+id/icon_dino" android:visibility="invisible"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@drawable/dog" tools:layout_editor_absoluteY="101dp"
+            tools:layout_editor_absoluteX="16dp" android:id="@+id/icon_dog" android:visibility="invisible"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@drawable/duck" tools:layout_editor_absoluteY="101dp"
+            tools:layout_editor_absoluteX="36dp" android:id="@+id/icon_duck" android:visibility="invisible"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@drawable/hat" tools:layout_editor_absoluteY="101dp"
+            tools:layout_editor_absoluteX="56dp" android:id="@+id/icon_hat" android:visibility="invisible"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@drawable/penguin" tools:layout_editor_absoluteY="101dp"
+            tools:layout_editor_absoluteX="76dp" android:id="@+id/icon_penguin" android:visibility="invisible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
