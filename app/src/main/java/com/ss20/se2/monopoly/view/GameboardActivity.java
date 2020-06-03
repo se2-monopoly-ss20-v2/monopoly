@@ -321,10 +321,10 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				}
 
 				for (Player player:GameState.getInstance().getPlayers()) {
-					player.getSelectedPiece();
+
 					GamePiece piece = player.getSelectedPiece();
 					ImageView playerView = new ImageView(context);
-					int pos = gameState.getGameboard().getPosition("Player 1");
+					int pos = player.getCurrentPosition();
 
 					switch (piece.getName()){
 						case ("boat"):
@@ -398,6 +398,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				}
 				for (Player p:GameState.getInstance().getPlayers()) {
 					if (!GameState.getInstance().getCurrentActivePlayer().getAddress().equals(currentPlayer.getAddress()) && GameState.getInstance().getCurrentActivePlayer().getPort() != currentPlayer.getPort()) {
+
+
 
 
 
