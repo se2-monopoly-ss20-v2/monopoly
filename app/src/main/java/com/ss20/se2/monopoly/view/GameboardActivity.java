@@ -343,48 +343,48 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					Log.d("Piece:", piece.getName());
 
 					switch (piece.getName()){
-						case ("boat"):
+						case ("Boat"):
 							playerView.setImageResource(R.drawable.boat);
 							boat.setVisibility(View.VISIBLE);
 
 							break;
-						case ("car"):
+						case ("Car"):
 							playerView.setImageResource(R.drawable.car);
 							car.setVisibility(View.VISIBLE);
 
 							break;
 
-						case ("cat"):
+						case ("Cat"):
 							playerView.setImageResource(R.drawable.cat);
 							cat.setVisibility(View.VISIBLE);
 
 							break;
 
-						case ("dino"):
+						case ("Dino"):
 							playerView.setImageResource(R.drawable.dino);
 							dino.setVisibility(View.VISIBLE);
 
 							break;
 
-						case ("dog"):
+						case ("Dog"):
 							playerView.setImageResource(R.drawable.dog);
 							dog.setVisibility(View.VISIBLE);
 
 							break;
 
-						case ("duck"):
+						case ("Duck"):
 							playerView.setImageResource(R.drawable.duck);
 							duck.setVisibility(View.VISIBLE);
 
 							break;
 
-						case ("hat"):
+						case ("Hat"):
 							playerView.setImageResource(R.drawable.hat);
 							hat.setVisibility(View.VISIBLE);
 
 							break;
 
-						case ("penguin"):
+						case ("Penguin"):
 							playerView.setImageResource(R.drawable.penguin);
 							penguin.setVisibility(View.VISIBLE);
 
@@ -422,8 +422,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				}
 				for (Player p:GameState.getInstance().getPlayers()) {
 					if (!GameState.getInstance().getCurrentActivePlayer().getAddress().equals(currentPlayer.getAddress()) && GameState.getInstance().getCurrentActivePlayer().getPort() != currentPlayer.getPort()) {
-
-
 
 
 
