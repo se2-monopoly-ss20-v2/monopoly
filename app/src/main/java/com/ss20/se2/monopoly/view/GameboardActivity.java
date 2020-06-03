@@ -489,7 +489,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			//right now there is no difference between the fragments
 
 			if (street.getOwner() != null) {
-				if (street.getOwner() == player) {
+				if (street.getOwner() == currentPlayer) {
 					FragmentManager fm = getSupportFragmentManager();
 					DeedFragment containerFragment = DeedFragment.newInstance().newInstance();
 					containerFragment.createViewModel(street);
