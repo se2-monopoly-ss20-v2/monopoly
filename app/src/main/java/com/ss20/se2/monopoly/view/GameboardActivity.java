@@ -430,83 +430,81 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				} else {
 					button_rollDice.setEnabled(false);
 				}
-				for (Player p:GameState.getInstance().getPlayers()) {
-					//if (!GameState.getInstance().getCurrentActivePlayer().getAddress().equals(currentPlayer.getAddress()) && GameState.getInstance().getCurrentActivePlayer().getPort() != currentPlayer.getPort()) {
-
-					for (Player player:GameState.getInstance().getPlayers()) {
-
-						GamePiece piece = player.getSelectedPiece();
-						ImageView playerView = new ImageView(context);
-						int pos = player.getCurrentPosition();
-
-						Log.d("Piece:", piece.getName());
-
-						switch (piece.getName()){
-							case ("Boat"):
-
-								boat.setVisibility(View.VISIBLE);
-								boat.setX(pos);
-								playerView = boat;
-
-								break;
-							case ("Car"):
-
-								car.setVisibility(View.VISIBLE);
-								playerView = car;
-
-								break;
-
-							case ("Cat"):
-
-								cat.setVisibility(View.VISIBLE);
-								playerView = cat;
-
-								break;
-
-							case ("Dino"):
-
-								dino.setVisibility(View.VISIBLE);
-								playerView = dino;
-
-								break;
-
-							case ("Dog"):
-
-								dog.setVisibility(View.VISIBLE);
-								playerView = dog;
-								break;
-
-							case ("Duck"):
-
-								duck.setVisibility(View.VISIBLE);
-								playerView = duck;
-								break;
-
-							case ("Hat"):
-
-								hat.setVisibility(View.VISIBLE);
-								playerView = hat;
-								break;
-
-							case ("Penguin"):
-
-								penguin.setVisibility(View.VISIBLE);
-								playerView = penguin;
-								break;
-
-							default: playerView.setImageResource(R.mipmap.ic_launcher);
-						}
-
-						playerView.setX(fields[pos].getX());
-						playerView.setY(fields[pos].getY());
-						Log.d("Pos:", Integer.toString(pos));
-						Log.d("X:", Float.toString(fields[pos].getX()));
-						Log.d("Y:", Float.toString(fields[pos].getY()));
+				/*for (Player p:GameState.getInstance().getPlayers()) {
+					if (!GameState.getInstance().getCurrentActivePlayer().getAddress().equals(currentPlayer.getAddress()) && GameState.getInstance().getCurrentActivePlayer().getPort() != currentPlayer.getPort()) {
 
 					}
+				}*/
+				for (Player player:GameState.getInstance().getPlayers()) {
 
+					GamePiece piece = player.getSelectedPiece();
+					ImageView playerView = new ImageView(context);
+					int pos = player.getCurrentPosition();
 
-					//}
+					Log.d("Piece:", piece.getName());
+
+					switch (piece.getName()){
+						case ("Boat"):
+
+							boat.setVisibility(View.VISIBLE);
+							boat.setX(pos);
+							playerView = boat;
+
+							break;
+						case ("Car"):
+
+							car.setVisibility(View.VISIBLE);
+							playerView = car;
+
+							break;
+
+						case ("Cat"):
+
+							cat.setVisibility(View.VISIBLE);
+							playerView = cat;
+
+							break;
+
+						case ("Dino"):
+
+							dino.setVisibility(View.VISIBLE);
+							playerView = dino;
+
+							break;
+
+						case ("Dog"):
+
+							dog.setVisibility(View.VISIBLE);
+							playerView = dog;
+							break;
+
+						case ("Duck"):
+
+							duck.setVisibility(View.VISIBLE);
+							playerView = duck;
+							break;
+
+						case ("Hat"):
+
+							hat.setVisibility(View.VISIBLE);
+							playerView = hat;
+							break;
+
+						case ("Penguin"):
+
+							penguin.setVisibility(View.VISIBLE);
+							playerView = penguin;
+							break;
+
+						default: playerView.setImageResource(R.mipmap.ic_launcher);
+					}
+
+					playerView.setX(fields[pos].getX());
+					playerView.setY(fields[pos].getY());
+					Log.d("Pos:", Integer.toString(pos));
+					Log.d("X:", Float.toString(fields[pos].getX()));
+					Log.d("Y:", Float.toString(fields[pos].getY()));
+
 				}
 			}
 		});
