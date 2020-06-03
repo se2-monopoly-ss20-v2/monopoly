@@ -57,11 +57,13 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	ImageView duck;
 	ImageView hat;
 	ImageView penguin;
+	ImageView ownView;
 
 	Dice dice = new Dice();
 	Dice dice2 = new Dice();
 	Gameboard gameboard;
 	DeedManager deedManager;
+	GamePiece ownPiece;
 
 	Player currentPlayer;
 	ChanceCardDeck chanceCards;
@@ -155,7 +157,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		hat = findViewById(R.id.icon_hat);
 		penguin = findViewById(R.id.icon_penguin);
 
-
+		ownPiece = currentPlayer.getSelectedPiece();
 
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -188,8 +190,67 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
 				view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
 
-				findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
-				findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
+				int pos = gameboard.getPosition("Player 1");
+
+				switch (ownPiece.getName()){
+					case ("Boat"):
+
+						boat.setVisibility(View.VISIBLE);
+						ownView = boat;
+
+						break;
+					case ("Car"):
+
+						car.setVisibility(View.VISIBLE);
+						ownView = car;
+
+						break;
+
+					case ("Cat"):
+
+						cat.setVisibility(View.VISIBLE);
+						ownView = cat;
+
+						break;
+
+					case ("Dino"):
+
+						dino.setVisibility(View.VISIBLE);
+						ownView = dino;
+
+						break;
+
+					case ("Dog"):
+
+						dog.setVisibility(View.VISIBLE);
+						ownView = dog;
+						break;
+
+					case ("Duck"):
+
+						duck.setVisibility(View.VISIBLE);
+						ownView = duck;
+						break;
+
+					case ("Hat"):
+
+						hat.setVisibility(View.VISIBLE);
+						ownView = hat;
+						break;
+
+					case ("Penguin"):
+
+						penguin.setVisibility(View.VISIBLE);
+						ownView = penguin;
+						break;
+
+					default: ownView.setImageResource(R.mipmap.ic_launcher);
+				}
+
+				/*findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
+				findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());*/
+				ownView.setX(fields[gameboard.getPosition("Player 1")].getX());
+				ownView.setY(fields[gameboard.getPosition("Player 1")].getY());
 			}
 		});
 
@@ -430,14 +491,81 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				} else {
 					button_rollDice.setEnabled(false);
 				}
-				/*for (Player p:GameState.getInstance().getPlayers()) {
+				for (Player player:GameState.getInstance().getPlayers()) {
 					if (!GameState.getInstance().getCurrentActivePlayer().getAddress().equals(currentPlayer.getAddress()) && GameState.getInstance().getCurrentActivePlayer().getPort() != currentPlayer.getPort()) {
 
+						GamePiece piece = player.getSelectedPiece();
+						ImageView playerView = new ImageView(context);
+						int pos = player.getCurrentPosition();
+
+						Log.d("Piece:", piece.getName());
+
+						switch (piece.getName()){
+							case ("Boat"):
+
+								boat.setVisibility(View.VISIBLE);
+								boat.setX(pos);
+								playerView = boat;
+
+								break;
+							case ("Car"):
+
+								car.setVisibility(View.VISIBLE);
+								playerView = car;
+
+								break;
+
+							case ("Cat"):
+
+								cat.setVisibility(View.VISIBLE);
+								playerView = cat;
+
+								break;
+
+							case ("Dino"):
+
+								dino.setVisibility(View.VISIBLE);
+								playerView = dino;
+
+								break;
+
+							case ("Dog"):
+
+								dog.setVisibility(View.VISIBLE);
+								playerView = dog;
+								break;
+
+							case ("Duck"):
+
+								duck.setVisibility(View.VISIBLE);
+								playerView = duck;
+								break;
+
+							case ("Hat"):
+
+								hat.setVisibility(View.VISIBLE);
+								playerView = hat;
+								break;
+
+							case ("Penguin"):
+
+								penguin.setVisibility(View.VISIBLE);
+								playerView = penguin;
+								break;
+
+							default: playerView.setImageResource(R.mipmap.ic_launcher);
+						}
+
+						playerView.setX(fields[pos].getX());
+						playerView.setY(fields[pos].getY());
+						Log.d("Pos:", Integer.toString(pos));
+						Log.d("X:", Float.toString(fields[pos].getX()));
+						Log.d("Y:", Float.toString(fields[pos].getY()));
 					}
-				}*/
+				}
 				for (Player player:GameState.getInstance().getPlayers()) {
 
-					GamePiece piece = player.getSelectedPiece();
+					/*GamePiece piece = player.getSelectedPiece();
 					ImageView playerView = new ImageView(context);
 					int pos = player.getCurrentPosition();
 
@@ -503,7 +631,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					playerView.setY(fields[pos].getY());
 					Log.d("Pos:", Integer.toString(pos));
 					Log.d("X:", Float.toString(fields[pos].getX()));
-					Log.d("Y:", Float.toString(fields[pos].getY()));
+					Log.d("Y:", Float.toString(fields[pos].getY()));*/
 
 				}
 			}
