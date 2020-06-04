@@ -5,7 +5,9 @@ import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 
-public class DeedManager{
+import java.io.Serializable;
+
+public class DeedManager implements Serializable{
 
 	private Gameboard gameboard;
 	public DeedManager(Gameboard gameboard){

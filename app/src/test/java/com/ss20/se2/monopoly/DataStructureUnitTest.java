@@ -12,6 +12,8 @@ import com.ss20.se2.monopoly.models.fields.specials.SpecialFieldType;
 
 import org.junit.Test;
 
+import java.net.InetAddress;
+
 import static org.junit.Assert.*;
 
 public class DataStructureUnitTest{
@@ -52,7 +54,7 @@ public class DataStructureUnitTest{
 	public void createPlayer(){
 		GamePiece gp = new GamePiece("shoe");
 		assertEquals("shoe", gp.getName());
-		Player p1 = new Player("Hannes", 5000, gp, 0);
+		Player p1 = new Player("Hannes", 5000, gp, 0, InetAddress.getLoopbackAddress(), 10);
 		assertEquals("Hannes", p1.getName());
 		assertEquals(5000, p1.getBalance());
 		assertEquals(0, p1.getCurrentPosition());

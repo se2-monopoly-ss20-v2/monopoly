@@ -18,6 +18,7 @@ public class Lobby implements Serializable{
 	private boolean active;
 	private static Lobby instance;
 	private transient List<OnLobbyDataChangedListener> listeners;
+	private GameState currentState;
 
 	private Lobby(){
 		players = Collections.synchronizedList(new LinkedList<LobbyPlayer>());
@@ -93,6 +94,14 @@ public class Lobby implements Serializable{
 
 	public boolean isActive(){
 		return active;
+	}
+
+	public GameState getCurrentState(){
+		return currentState;
+	}
+
+	public void setCurrentState(GameState currentState){
+		this.currentState = currentState;
 	}
 
 	public void closeLobby(){

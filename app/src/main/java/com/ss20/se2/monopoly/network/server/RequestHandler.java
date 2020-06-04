@@ -2,16 +2,21 @@ package com.ss20.se2.monopoly.network.server;
 
 import android.util.Log;
 
+import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.models.LobbyPlayer;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
+import com.ss20.se2.monopoly.network.gamestate.SetupGameStateNetworkMessage;
+import com.ss20.se2.monopoly.network.gamestate.GameStateResponse;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
 import com.ss20.se2.monopoly.network.client.ChangeGamePieceNetworkMessage;
 import com.ss20.se2.monopoly.network.client.JoinLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.LeaveLobbyNetworkMessage;
 import com.ss20.se2.monopoly.network.client.NetworkMessage;
 import com.ss20.se2.monopoly.network.client.ReadyLobbyNetworkMessage;
+import com.ss20.se2.monopoly.network.gamestate.SetupGameStateResponse;
 import com.ss20.se2.monopoly.network.shared.GameActions;
 
 import java.util.concurrent.BlockingQueue;
@@ -100,6 +105,10 @@ public class RequestHandler implements Runnable{
 			gameActionProcessor.changeReadyLobby((ReadyLobbyNetworkMessage) request);
 		}else if (request instanceof ChangeGamePieceNetworkMessage){
 			gameActionProcessor.changeGamePiece((ChangeGamePieceNetworkMessage) request);
+		}else if (request instanceof SetupGameStateNetworkMessage){
+			gameActionProcessor.setupGameState((SetupGameStateNetworkMessage) request);
+		}else if (request instanceof GameStateNetworkMessage){
+			gameActionProcessor.updateGameState((GameStateNetworkMessage) request);
 		}
 		// TODO: Use the classes of the request and the type to call the specific action method
 	}
@@ -181,7 +190,7 @@ public class RequestHandler implements Runnable{
 		}
 
 		@Override
-		public void buyDeed(Deed deed){
+		public void buyDeed(Deed deed, Player newOwner){
 			throw new UnsupportedOperationException();
 		}
 
@@ -233,6 +242,29 @@ public class RequestHandler implements Runnable{
 		@Override
 		public void cheat(){
 			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public void setupGameState(SetupGameStateNetworkMessage message){
+			SetupGameStateResponse response = new SetupGameStateResponse();
+			response.setState(message.getState());
+			GameState.getInstance().notifyListenersForSetup();
+			GameServer.getInstance().sendResponseToAll(response);
+		}
+
+		@Override
+		public void updateGameState(GameStateNetworkMessage message){
+			GameStateResponse response = new GameStateResponse();
+			response.setState(message.getState());
+
+			//update State here for Host
+			GameState.getInstance().setPlayers(message.getState().getPlayers());
+			GameState.getInstance().setGameboard(message.getState().getGameboard());
+			GameState.getInstance().setTurnRotation(message.getState().getTurnRotation());
+			GameState.getInstance().setCurrentActivePlayer(message.getState().getCurrentActivePlayer());
+			GameState.getInstance().notifyListeners();
+
+			GameServer.getInstance().sendResponseToAll(response);
 		}
 	}
 }

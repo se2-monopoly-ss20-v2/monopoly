@@ -11,7 +11,7 @@ import com.ss20.se2.monopoly.models.fields.GameTile;
  * When you have the physical version of monopoly this relates to all Cards a Player can buy.
  * Can also be understood as - (German): Sammelbegriff für Gründstücke, Bahnhöfe, Werke.
  */
-public abstract class Deed extends GameTile{
+public abstract class Deed extends GameTile {
 
 	private int price;
 	private int mortgage;
