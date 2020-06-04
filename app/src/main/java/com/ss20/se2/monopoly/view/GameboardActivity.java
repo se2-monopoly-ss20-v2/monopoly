@@ -139,7 +139,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				int oldPosition = currentPlayer.getCurrentPosition();
 				roll1 = dice.roll();
 				roll2 = dice2.roll();
 				amount = roll1 + roll2;
@@ -162,6 +162,10 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				updateBalance.setText("");
 				currentPlayer.setCurrentPosition(gameboard.getPosition("Player 1"));
 				checkPlayersPosition(currentPlayer);
+
+				if(currentPlayer.getCurrentPosition() < oldPosition){
+					checkGo(currentPlayer);
+				}
 
 				view_numberDice.setText("Roll 1: " + Integer.toString(roll1));
 				view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
@@ -435,6 +439,16 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 	}
 
+	private void checkGo(Player player){
+		player.setBalance(player.getBalance() + 200);
+		GameState.getInstance().updatePlayer(player);
+		GameStateNetworkMessage message = new GameStateNetworkMessage();
+		message.setState(GameState.getInstance());
+		sendMessage(message);
+		view_balance.setText(getString(R.string.balance, player.getBalance()));
+		showDifference(getOldBalance(), player.getBalance());
+	}
+
 	public void payLuxuryTax(Player player){
 		player.setBalance(player.getBalance()-100);
 		GameState.getInstance().updatePlayer(player);
@@ -510,7 +524,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	}
 
 	public void showDifference(int oldBalance, int newBalance){
-		int difference = oldBalance-newBalance;
+		int difference = Math.abs(oldBalance-newBalance);
 
 		if (difference == 0){
 			updateBalance.setText("");
