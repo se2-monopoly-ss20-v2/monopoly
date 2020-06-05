@@ -233,7 +233,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 						playerFinishedTurn();
 					}
 				});
-			} else if (street.getOwner() != player) {
+			} else if (!street.getOwner().getAddress().equals(player.getAddress()) && street.getOwner().getPort() != player.getPort()) {
 				//hostile owns it.
 				player.setBalance(player.getBalance() - street.getCurrentRent());
 				street.getOwner().setBalance(street.getOwner().getBalance() + street.getCurrentRent());
@@ -327,6 +327,10 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				//react on changes. -> update the state.
 				//Add update stuff here, for UI updates use method below.
 				gameboard.gameTiles = gameState.getGameboard().getGameTiles();
+				int differentBalance = GameState.getInstance().getBalanceOfSpecificPlayer(currentPlayer);
+				if (differentBalance != currentPlayer.getBalance()) {
+					currentPlayer.setBalance(differentBalance);
+				}
 
 				updateUI();
 			}

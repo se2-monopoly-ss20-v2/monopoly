@@ -132,6 +132,15 @@ public class GameState implements Serializable{
 		currentActivePlayer = players.get(turnRotation);
 	}
 
+	public int getBalanceOfSpecificPlayer(Player player) {
+		for (Player p : players) {
+			if (p.getAddress().equals(player.getAddress()) && p.getPort() == player.getPort()){
+				return p.getBalance();
+			}
+		}
+		return -1;
+	}
+
 	public void setDeedManager(DeedManager deedManager){
 		this.deedManager = deedManager;
 	}
