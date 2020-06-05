@@ -44,6 +44,9 @@ public class GameState implements Serializable{
 			this.players.add(player);
 		}
 
+		turnRotation = 0;
+		currentActivePlayer = players.get(turnRotation);
+
 		gameboard = new Gameboard(context);
 		deedManager = new DeedManager(gameboard);
 
@@ -52,10 +55,6 @@ public class GameState implements Serializable{
 				allDeeds.add((Deed) gameTile);
 			}
 		}
-
-		turnRotation = 0;
-
-		currentActivePlayer = players.get(turnRotation);
 	}
 
 	public List<Player> getPlayers(){

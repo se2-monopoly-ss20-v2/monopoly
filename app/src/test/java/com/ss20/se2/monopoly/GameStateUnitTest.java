@@ -1,0 +1,80 @@
+package com.ss20.se2.monopoly;
+
+import android.content.Context;
+
+import com.ss20.se2.monopoly.models.GamePiece;
+import com.ss20.se2.monopoly.models.GameState;
+import com.ss20.se2.monopoly.models.Gameboard;
+import com.ss20.se2.monopoly.models.LobbyPlayer;
+import com.ss20.se2.monopoly.models.Player;
+import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.models.fields.deeds.Street;
+
+import org.junit.Test;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+
+public class GameStateUnitTest{
+
+	@Test (expected = NullPointerException.class)
+	public void setupGameState() throws UnknownHostException{
+		Context context = mock(Context.class);
+		ArrayList<LobbyPlayer> players = new ArrayList<>();
+
+		LobbyPlayer p1 = new LobbyPlayer("hannes", InetAddress.getByName("192.168.0.1"), 10, new GamePiece("shoe"), false);
+		LobbyPlayer p2 = new LobbyPlayer("hannes2", InetAddress.getByName("192.168.0.2"), 11, new GamePiece("hat"), false);
+
+		players.add(p1);
+		players.add(p2);
+
+		GameState.getInstance().setupGame(players, context);
+	}
+
+	@Test
+	public void getAndSetGameStateAttributes() throws UnknownHostException{
+		List<Player> players = GameState.getInstance().getPlayers();
+		assertEquals(0, players.size());
+
+		Player active = new Player("Hannes", 20, new GamePiece("shoe"), 0,InetAddress.getByName("192.168.0.1"), 10 );
+		GameState.getInstance().setCurrentActivePlayer(active);
+		Gameboard gb = GameState.getInstance().getGameboard();
+		GameState.getInstance().setGameboard(gb);
+		List<Deed> deeds = GameState.getInstance().getAllDeeds();
+		deeds.add(new Street("ASDF", 200, 20, 20, 10, "orange"));
+		Street secondStreet = new Street("JKL", 200, 20, 20, 10, "orange");
+
+		deeds.add(secondStreet);
+		GameState.getInstance().setAllDeeds(deeds);
+		secondStreet.setOwner(active);
+		GameState.getInstance().updateDeed(secondStreet);
+
+		ArrayList<Player> playersNew = new ArrayList<>();
+		Player second = new Player("Hannes2", 20, new GamePiece("shoe"), 0,InetAddress.getByName("192.168.0.2"), 11 );
+		playersNew.add(active);
+		playersNew.add(second);
+		GameState.getInstance().setPlayers(playersNew);
+		GameState.getInstance().playerEndedTurn();
+		GameState.getInstance().playerEndedTurn();
+		GameState.getInstance().updatePlayer(second);
+
+		int balance = GameState.getInstance().getBalanceOfSpecificPlayer(second);
+		Player wrongPlayer = new Player("Hannes23", 20, new GamePiece("shoe"), 0,InetAddress.getByName("192.168.0.3"), 103 );
+		int negative = GameState.getInstance().getBalanceOfSpecificPlayer(wrongPlayer);
+
+		int rotation = GameState.getInstance().getTurnRotation();
+		GameState.getInstance().setTurnRotation(rotation);
+
+		assertEquals(-1, negative);
+		assertEquals(second.getBalance(), balance);
+		assertEquals(2, GameState.getInstance().getAllDeeds().size());
+		assertEquals(active, GameState.getInstance().getCurrentActivePlayer());
+	}
+
+	//ADD ListenerTests
+}
