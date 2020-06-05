@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        tools:context=".view.deed.railroad.RailroadFragment">
+
+    <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
+
+        <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="vertical">
+
+            <ImageView
+                    android:contentDescription="@string/Train"
+                    android:id="@+id/imageView"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:src="@drawable/train" />
+
+            <TextView
+                    android:gravity="center"
+                    android:id="@+id/textViewRRTitle"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="Südbahnhof"
+                    android:textAllCaps="true"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_margin="10pt"
+                android:layout_width="match_parent"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3pt"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView11"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/deedValue" />
+
+                <TextView
+                        android:gravity="right"
+                        android:id="@+id/textViewRRDeedValue"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="TextView"
+                        android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3pt"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView17"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/railroadRent" />
+
+                <TextView
+                        android:gravity="right"
+                        android:id="@+id/textView1RR"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="TextView"
+                        android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3pt"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView21"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/rentTwoRR" />
+
+                <TextView
+                        android:gravity="right"
+                        android:id="@+id/textView2RR"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="TextView"
+                        android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3pt"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView24"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/rentThreeRR" />
+
+                <TextView
+                        android:gravity="right"
+                        android:id="@+id/textView3RR"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="TextView"
+                        android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3pt"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView31"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/rentFourRR" />
+
+                <TextView
+                        android:gravity="right"
+                        android:id="@+id/textView4RR"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="TextView"
+                        android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView33"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/deedMortgageValue" />
+
+                <TextView
+                        android:gravity="right"
+                        android:id="@+id/textViewRRMortgage"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="TextView"
+                        android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

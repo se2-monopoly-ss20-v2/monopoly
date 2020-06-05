@@ -1,5 +1,6 @@
 package com.ss20.se2.monopoly.view;
 
+import android.app.Dialog;
 import android.widget.ImageView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Gameboard;
 import com.ss20.se2.monopoly.models.Lobby;
+import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
@@ -236,8 +238,16 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				playerFinishedTurn();
 			}
 		}else if (currentTile instanceof Railroad) {
-			//TODO @dermutzh -> will be handled next week.
-			playerFinishedTurn();
+			Railroad railroad = (Railroad) currentTile;
+
+			if (railroad.getOwner() == null) {
+				FragmentManager fm = getSupportFragmentManager();
+				DialogContainerFragment containerFragment = DialogContainerFragment.newInstance();
+				containerFragment.setupViewModel(railroad, player, this);
+				containerFragment.show(fm, "dialog_container_fragment");
+			}
+
+			//playerFinishedTurn();
 		}else if (currentTile instanceof Utility){
 			//TODO @dermutzh -> will be covered next week.
 			playerFinishedTurn();
@@ -373,9 +383,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	 * update States for Clients: add setters to ResponseHandlers method 'updateGameState'
 	 */
 	@Override
-	public void performAcquiringDeed(Street street, Player player){
+	public void performAcquiringDeed(Deed deed, Player player){
 
-		GameState.getInstance().getDeedManager().performAcquiringDeed(street, player);
+		GameState.getInstance().getDeedManager().performAcquiringDeed(deed, player);
 		GameState.getInstance().updatePlayer(player);
 		GameState.getInstance().playerEndedTurn();
 
@@ -385,7 +395,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		sendMessage(message);
 
 		view_balance.setText(getString(R.string.balance,  player.getBalance()));
-		Toast.makeText(this, "You now own " + street.getName(), Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "You now own " + deed.getName(), Toast.LENGTH_SHORT).show();
 		showDifference(getOldBalance(), player.getBalance());
 
 	}

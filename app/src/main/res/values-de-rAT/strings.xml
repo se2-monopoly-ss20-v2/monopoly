@@ -18,7 +18,7 @@
     <string name="deedDoubleRent">Wenn ein Spieler alle Grundstücke einer Farbengruppe besitzt, so ist die Miete auf den unbebauten Grundstücken dieser Farbengruppe doppelt so hoch.</string>
     <string name="deedHousePrice">1 Haus kostet:</string>
     <string name="deedHotelPrice">1 Hotel kostet:</string>
-    <string name="deedMortgageValue">Der Hypothekenwert des Grundstückes beträgt:</string>
+    <string name="deedMortgageValue">Der Hypothekenwert des Grundstückes beträgt</string>
     <string name="buyBtn">Kaufen</string>
     <string name="cancelBtn">Zurück</string>
     <string name="btnSearch">Spiele Suchen</string>
@@ -33,4 +33,9 @@
     <string name="LobbyScreen">5 - Lobby</string>
     <string name="btnStart">Spiel starten</string>
     <string name="btnHostNew">Neues Spiel hosten</string>
+    <string name="Train">Bahnhof</string>
+    <string name="railroadRent">MIETE</string>
+    <string name="rentTwoRR">Wenn man 2 Bahnhöfe besitzt</string>
+    <string name="rentThreeRR">Wenn man 3 Bahnhöfe besitzt</string>
+    <string name="rentFourRR">Wenn man 4 Bahnhöfe besitzt</string>
 </resources>

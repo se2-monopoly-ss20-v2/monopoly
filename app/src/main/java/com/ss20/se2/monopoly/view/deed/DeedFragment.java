@@ -68,7 +68,7 @@ public class DeedFragment extends DialogFragment{
 		updateUI();
 	}
 
-	public void updateUI() {
+	void updateUI() {
 		title.setText(viewModel.title);
 
 		header.setBackgroundColor(ContextCompat.getColor(getContext(), viewModel.color));
