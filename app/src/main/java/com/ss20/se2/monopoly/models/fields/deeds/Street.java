@@ -16,7 +16,8 @@ public class Street extends Deed{
 		this.color = color;
 		this.houseCount = 0;
 
-		this.initialRent = (int) (price * 0.1);
+		double rent = price * 0.1;
+		this.initialRent = (int) rent;
 		this.currentRent =  this.initialRent;
 	}
 

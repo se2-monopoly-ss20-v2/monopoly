@@ -87,6 +87,14 @@ public class Gameboard implements Serializable{
 		return utilities;
 	}
 
+	public List<GameTile> getGameTiles(){
+		return gameTiles;
+	}
+
+	public void setGameTiles(List<GameTile> gameTiles){
+		this.gameTiles = gameTiles;
+	}
+
 	public List<Street> getStreetsRelativeTo(String color) {
 		ArrayList<Street> suitableStreets = new ArrayList<>();
 

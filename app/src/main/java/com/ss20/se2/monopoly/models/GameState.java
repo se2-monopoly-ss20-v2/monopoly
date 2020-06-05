@@ -3,6 +3,9 @@ package com.ss20.se2.monopoly.models;
 import android.content.Context;
 
 import com.ss20.se2.monopoly.DeedManager;
+import com.ss20.se2.monopoly.models.fields.GameTile;
+import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 
 import java.io.Serializable;
@@ -16,6 +19,7 @@ public class GameState implements Serializable{
 	private Player currentActivePlayer;
 	private int turnRotation;
 	private Gameboard gameboard;
+	private List<Deed> allDeeds;
 	private DeedManager deedManager;
 	private List<Player> players;
 	private transient List<OnGameStateChangedListener> listeners;
@@ -24,6 +28,7 @@ public class GameState implements Serializable{
 	private GameState(){
 		this.players = new ArrayList<>();
 		this.listeners = new ArrayList<>();
+		this.allDeeds = new ArrayList<>();
 	}
 
 	public static GameState getInstance(){
@@ -41,6 +46,13 @@ public class GameState implements Serializable{
 
 		gameboard = new Gameboard(context);
 		deedManager = new DeedManager(gameboard);
+
+		for(GameTile gameTile : gameboard.gameTiles) {
+			if (gameTile instanceof Deed) {
+				allDeeds.add((Deed) gameTile);
+			}
+		}
+
 		turnRotation = 0;
 
 		currentActivePlayer = players.get(turnRotation);
@@ -83,6 +95,14 @@ public class GameState implements Serializable{
 		return deedManager;
 	}
 
+	public List<Deed> getAllDeeds(){
+		return allDeeds;
+	}
+
+	public void setAllDeeds(List<Deed> allDeeds){
+		this.allDeeds = allDeeds;
+	}
+
 	public void updatePlayer(Player player) {
 		for (Player p : players) {
 			if (p.getAddress().equals(player.getAddress()) && p.getPort() == player.getPort()){
@@ -94,6 +114,13 @@ public class GameState implements Serializable{
 		}
 	}
 
+	public void updateDeed(Deed deed){
+		for (Deed d : allDeeds){
+			if (deed.getName().equals(d.getName())) {
+				d.setOwner(deed.getOwner());
+			}
+		}
+	}
 	public void playerEndedTurn() {
 
 		if (turnRotation < (players.size() - 1)){

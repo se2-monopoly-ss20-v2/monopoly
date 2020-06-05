@@ -233,6 +233,21 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 						playerFinishedTurn();
 					}
 				});
+			} else if (street.getOwner() != player) {
+				//hostile owns it.
+				player.setBalance(player.getBalance() - street.getCurrentRent());
+				street.getOwner().setBalance(street.getOwner().getBalance() + street.getCurrentRent());
+
+				GameState.getInstance().updatePlayer(player);
+				GameState.getInstance().updatePlayer(street.getOwner());
+				GameState.getInstance().playerEndedTurn();
+
+				GameStateNetworkMessage message = new GameStateNetworkMessage();
+				message.setState(GameState.getInstance());
+
+				sendMessage(message);
+
+				Toast.makeText(this, "You paid " + street.getCurrentRent() + " to " + street.getOwner().getName(), Toast.LENGTH_SHORT).show();
 			} else {
 				//player is on his street, but no action possible
 				playerFinishedTurn();
@@ -269,7 +284,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			communityCardProcessor.performAction(player, communityCard);
 			view_balance.setText("Balance: " + player.getBalance());
 
-
+			playerFinishedTurn();
 		}else if (currentTile instanceof ChanceCard){
 			ChanceCard chanceCard = chanceCards.getNextCard();
 			AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
@@ -286,6 +301,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 			chanceCardProcessor.performAction(player, chanceCard);
 			view_balance.setText("Balance: " + player.getBalance());
+			playerFinishedTurn();
 		}
 	}
 
@@ -310,6 +326,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			public void onGameStateChanged(GameState gameState){
 				//react on changes. -> update the state.
 				//Add update stuff here, for UI updates use method below.
+				gameboard.gameTiles = gameState.getGameboard().getGameTiles();
 
 				updateUI();
 			}
@@ -385,7 +402,16 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	@Override
 	public void performAcquiringDeed(Deed deed, Player player){
 
-		GameState.getInstance().getDeedManager().performAcquiringDeed(deed, player);
+		//GameState.getInstance().getDeedManager().performAcquiringDeed(deed, player);
+		if (deed.getPrice() <= player.getBalance()) {
+			//PLAYER CAN BUY IT
+			int newBalance = player.getBalance() - deed.getPrice();
+			player.updateBalance(newBalance);
+			player.addDeedToPlayer(deed);
+			deed.setOwner(player);
+			GameState.getInstance().updateDeed(deed);
+		}
+
 		GameState.getInstance().updatePlayer(player);
 		GameState.getInstance().playerEndedTurn();
 
