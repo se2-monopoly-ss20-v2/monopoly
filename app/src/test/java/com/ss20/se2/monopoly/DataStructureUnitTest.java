@@ -95,6 +95,11 @@ public class DataStructureUnitTest{
 		assertEquals(50, r1.getRent2RR());
 		assertEquals(100, r1.getRent3RR());
 		assertEquals(200, r1.getRent4RR());
-		assertEquals(50, r1.getCurrentRent());
+		assertEquals(25, r1.getCurrentRent());
+
+		assertEquals(25, r1.getRentRelativeTo(1));
+		assertEquals(50, r1.getRentRelativeTo(2));
+		assertEquals(100, r1.getRentRelativeTo(3));
+		assertEquals(200, r1.getRentRelativeTo(4));
 	}
 }

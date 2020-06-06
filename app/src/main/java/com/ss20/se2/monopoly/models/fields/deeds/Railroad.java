@@ -2,39 +2,48 @@ package com.ss20.se2.monopoly.models.fields.deeds;
 
 public class Railroad extends Deed{
 
-	private int rent1RR;
-	private int rent2RR;
-	private int rent3RR;
-	private int rent4RR;
 	private int currentRent;
 	private int initialRent;
 
 	public Railroad(String name, int price, int mortgage){
 		super(name, price, mortgage);
 		currentRent = 25;
+		initialRent = 25;
 	}
 
 	public int getRent1RR(){
-		rent1RR = initialRent;
-		return rent1RR;
+		return initialRent;
 	}
 
 	public int getRent2RR(){
-		rent2RR = initialRent * 2;
-		return rent2RR;
+		return initialRent * 2;
 	}
 
 	public int getRent3RR(){
-		rent3RR = initialRent * 4;
-		return rent3RR;
+		return initialRent * 4;
 	}
 
 	public int getRent4RR(){
-		rent4RR = initialRent * 6;
-		return rent4RR;
+		return initialRent * 8;
 	}
 
 	public int getCurrentRent(){
 		return currentRent;
+	}
+
+	public int getRentRelativeTo(int count) {
+		switch (count) {
+			case 1:
+				return this.getRent1RR();
+			case 2:
+				return this.getRent2RR();
+			case 3:
+				return this.getRent3RR();
+			case 4:
+				return this.getRent4RR();
+
+			default:
+				return 0;
+		}
 	}
 }

@@ -260,6 +260,26 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				DialogContainerFragment containerFragment = DialogContainerFragment.newInstance();
 				containerFragment.setupViewModel(railroad, player, this);
 				containerFragment.show(fm, "dialog_container_fragment");
+
+			} else if (!railroad.getOwner().getAddress().equals(player.getAddress()) && railroad.getOwner().getPort() != player.getPort()){
+				Player owner = railroad.getOwner();
+				int count = GameState.getInstance().countOfPlayersRailroads(owner);
+				int due = railroad.getRentRelativeTo(count);
+
+				player.setBalance(player.getBalance() - due);
+				owner.setBalance(owner.getBalance() + due);
+
+				GameState.getInstance().updatePlayer(player);
+				GameState.getInstance().updatePlayer(owner);
+				GameState.getInstance().playerEndedTurn();
+
+				GameStateNetworkMessage message = new GameStateNetworkMessage();
+				message.setState(GameState.getInstance());
+
+				sendMessage(message);
+
+				Toast.makeText(this, "You paid " + railroad.getCurrentRent() + " to " + railroad.getOwner().getName(), Toast.LENGTH_SHORT).show();
+
 			}
 
 			//playerFinishedTurn();
