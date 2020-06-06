@@ -9,6 +9,7 @@ import com.ss20.se2.monopoly.models.Gameboard;
 import com.ss20.se2.monopoly.models.LobbyPlayer;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.models.fields.deeds.UtilityType;
@@ -131,6 +132,32 @@ public class GameStateUnitTest{
 		electric.setOwner(player);
 		GameState.getInstance().updateDeed(electric);
 		assertTrue(GameState.getInstance().playerOwnsBothUtilities(player));
+
+	}
+
+	@Test
+	public void GameStateRailroadCount() throws UnknownHostException {
+		Street street = new Street("ASDF", 200, 20, 20, 10, "orange");
+		Player player = new Player("Hannes2", 20, new GamePiece("shoe"), 0,InetAddress.getByName("192.168.0.2"), 11 );
+		Railroad railroad = new Railroad("Haupt", 200, 100);
+		Railroad railroad2 = new Railroad("Neben", 200, 100);
+
+		List<Deed> allDeeds = new ArrayList<>();
+		allDeeds.add(street);
+		allDeeds.add(railroad);
+		allDeeds.add(railroad2);
+		GameState.getInstance().setAllDeeds(allDeeds);
+
+		assertEquals(0,GameState.getInstance().countOfPlayersRailroads(player));
+
+		railroad.setOwner(player);
+		GameState.getInstance().updateDeed(railroad);
+		assertEquals(1, GameState.getInstance().countOfPlayersRailroads(player));
+
+		railroad2.setOwner(player);
+		GameState.getInstance().updateDeed(railroad2);
+
+		assertEquals(2, GameState.getInstance().countOfPlayersRailroads(player));
 
 	}
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.ss20.se2.monopoly.DeedManager;
 import com.ss20.se2.monopoly.models.fields.GameTile;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 
@@ -148,6 +149,17 @@ public class GameState implements Serializable{
 		}
 
 		return true;
+	}
+
+	public int countOfPlayersRailroads(Player player) {
+		int count = 0;
+		for (Deed deed : allDeeds) {
+			if (deed instanceof Railroad && (deed.getOwner() != null && (deed.getOwner().getAddress().equals(player.getAddress()) || deed.getOwner().getPort() == player.getPort()))){
+				count++;
+			}
+		}
+
+		return count;
 	}
 
 	public void setDeedManager(DeedManager deedManager){

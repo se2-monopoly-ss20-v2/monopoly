@@ -294,6 +294,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 				sendMessage(message);
 
+				Toast.makeText(this, "You paid " + dueRent + " to " + utility.getOwner().getName(), Toast.LENGTH_SHORT).show();
 			} else {
 				//is players own utility
 				playerFinishedTurn();
