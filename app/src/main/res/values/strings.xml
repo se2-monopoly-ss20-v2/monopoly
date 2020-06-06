@@ -55,5 +55,8 @@
     <string name="rentTwoRR">If you own 2 Railroads</string>
     <string name="rentThreeRR">If you own 3 Railroads</string>
     <string name="rentFourRR">If you own 4 Railroads</string>
+    <string name="electricInfo">If you own the Electric Company, then the Rent is 4 times higher, than the dices eyes show.</string>
+    <string name="waterInfo">If you own the Water Works, then the Rent is 4 times higher, than the dices eyes show.</string>
+    <string name="bothUtilityInfos">If you own both works, then the Rent is 10 times higher, than the dices eyes show.</string>
 
 </resources>

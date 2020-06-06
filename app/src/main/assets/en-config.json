@@ -101,7 +101,8 @@
     "name": "Electric Company",
     "type": "Utility",
     "price": 140,
-    "mortgage": 70
+    "mortgage": 70,
+    "utilityType": "ELECTRIC_COMPANY"
   },
   {
     "name": "Whitehall",
@@ -246,7 +247,8 @@
     "name": "Water Company",
     "type": "Utility",
     "price": 140,
-    "mortgage": 70
+    "mortgage": 70,
+    "utilityType": "WATER_WORKS"
   },
   {
     "name": "Piccadilly",

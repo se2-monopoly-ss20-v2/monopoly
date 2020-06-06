@@ -38,4 +38,7 @@
     <string name="rentTwoRR">Wenn man 2 Bahnhöfe besitzt</string>
     <string name="rentThreeRR">Wenn man 3 Bahnhöfe besitzt</string>
     <string name="rentFourRR">Wenn man 4 Bahnhöfe besitzt</string>
+    <string name="waterInfo">Wenn man Besitzer des Wasser-Werks ist, so ist die Miete 4-mal so hoch, wie Augen auf den zwei Würfeln sind.</string>
+    <string name="electricInfo">Wenn man Besitzer des Elektrizitäts-Werks ist, so ist die Miete 4-mal so hoch, wie Augen auf den zwei Würfeln sind.</string>
+    <string name="bothUtilityInfos">Wenn man Besitzer beider Werke ist, so ist die Miete 10-mal so hoch, wie Augen auf den zwei Würfeln sind.</string>
 </resources>

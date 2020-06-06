@@ -17,9 +17,11 @@ import com.ss20.se2.monopoly.R;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
+import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.view.deed.DeedFragment;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 import com.ss20.se2.monopoly.view.deed.railroad.RailroadFragment;
+import com.ss20.se2.monopoly.view.deed.utility.UtilityFragment;
 
 public class DialogContainerFragment extends DialogFragment{
 
@@ -27,6 +29,7 @@ public class DialogContainerFragment extends DialogFragment{
 	private DeedFragmentDelegate delegate;
 	private Player player;
 	private Railroad railroad;
+	private Utility utility;
 
 	public DialogContainerFragment() {
 		//Empty because Android needs an constructor without args.
@@ -48,6 +51,12 @@ public class DialogContainerFragment extends DialogFragment{
 		this.railroad = railroad;
 	}
 
+	public void setupViewModel(Utility utility, Player player, DeedFragmentDelegate delegate){
+		this.delegate = delegate;
+		this.utility = utility;
+		this.player = player;
+	}
+
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
 		return inflater.inflate(R.layout.dialog_container_fragment, container, false);
@@ -60,7 +69,12 @@ public class DialogContainerFragment extends DialogFragment{
 		buy.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
-				delegate.performAcquiringDeed((street == null ? railroad : street), player);
+				if (utility == null){
+					delegate.performAcquiringDeed((street == null ? railroad : street), player);
+				}else{
+					delegate.performAcquiringDeed(utility, player);
+				}
+
 				dismiss();
 			}
 		});
@@ -84,6 +98,10 @@ public class DialogContainerFragment extends DialogFragment{
 			RailroadFragment railroadFragment = new RailroadFragment();
 			transaction.replace(R.id.deedFragmentContainer, railroadFragment).commit();
 			railroadFragment.createViewModel(railroad);
+		} else if (utility != null) {
+			UtilityFragment utilityFragment = new UtilityFragment();
+			transaction.replace(R.id.deedFragmentContainer, utilityFragment).commit();
+			utilityFragment.createViewModel(utility);
 		}
 	}
 }

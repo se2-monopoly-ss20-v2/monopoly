@@ -264,8 +264,13 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 			//playerFinishedTurn();
 		}else if (currentTile instanceof Utility){
-			//TODO @dermutzh -> will be covered next week.
-			playerFinishedTurn();
+			Utility utility = (Utility) currentTile;
+
+			FragmentManager fm = getSupportFragmentManager();
+			DialogContainerFragment containerFragment = DialogContainerFragment.newInstance();
+			containerFragment.setupViewModel(utility, player, this);
+			containerFragment.show(fm, "dialog_container_fragment");
+
 		}
 		else if (currentTile instanceof CommunityCard){
 			CommunityCard communityCard = communityCards.getNextCard();
