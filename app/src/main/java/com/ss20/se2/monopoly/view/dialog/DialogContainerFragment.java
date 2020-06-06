@@ -15,6 +15,7 @@ import android.widget.Button;
 
 import com.ss20.se2.monopoly.R;
 import com.ss20.se2.monopoly.models.Player;
+import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
@@ -39,21 +40,16 @@ public class DialogContainerFragment extends DialogFragment{
 		return new DialogContainerFragment();
 	}
 
-	public void setupViewModel(Street street, Player player, DeedFragmentDelegate delegate){
-		this.street = street;
-		this.delegate = delegate;
-		this.player = player;
-	}
+	public void setupViewModel(Deed deed, Player player, DeedFragmentDelegate delegate) {
+		if (deed instanceof Street) {
+			this.street = (Street) deed;
+		} else if (deed instanceof Railroad) {
+			this.railroad = (Railroad) deed;
+		}else if (deed instanceof Utility) {
+			this.utility = (Utility) deed;
+		}
 
-	public void setupViewModel(Railroad railroad, Player player, DeedFragmentDelegate delegate){
 		this.delegate = delegate;
-		this.player = player;
-		this.railroad = railroad;
-	}
-
-	public void setupViewModel(Utility utility, Player player, DeedFragmentDelegate delegate){
-		this.delegate = delegate;
-		this.utility = utility;
 		this.player = player;
 	}
 

@@ -1,6 +1,5 @@
 package com.ss20.se2.monopoly.view;
 
-import android.app.Dialog;
 import android.widget.ImageView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -201,124 +200,15 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 		if (currentTile instanceof Street) {
 			final Street street = (Street) currentTile;
+			handlePlayerOnStreet(street, player);
 
-			//does it belong to someone?
-			if (street.getOwner() == null) {
-				FragmentManager fm = getSupportFragmentManager();
-				DialogContainerFragment containerFragment = DialogContainerFragment.newInstance();
-				containerFragment.setupViewModel(street, player, this);
-
-				containerFragment.show(fm, "dialog_container_fragment");
-
-			} else if (street.getOwner() == player && deedManager.playerOwnsAllStreetsOf(street.getColor(), player)) {
-
-				final AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
-				dialog.setTitle(getString(R.string.buyHouseTitle));
-				dialog.setMessage(getString(R.string.buyHouseOnDeed, street.getName(), street.getHousePrice()));
-
-				dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener(){
-					@Override
-					public void onClick(DialogInterface dialogInterface, int i){
-						dialog.dismiss();
-						playerFinishedTurn();
-					}
-				});
-
-				dialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener(){
-					@Override
-					public void onClick(DialogInterface dialog, int which){
-						int balance = deedManager.performAcquiringHouseFor(street, player);
-						view_balance.setText(getString(R.string.balance,  balance));
-						showDifference(getOldBalance(), player.getBalance());
-						playerFinishedTurn();
-					}
-				});
-			} else if (!street.getOwner().getAddress().equals(player.getAddress()) && street.getOwner().getPort() != player.getPort()) {
-				//hostile owns it.
-				player.setBalance(player.getBalance() - street.getCurrentRent());
-				street.getOwner().setBalance(street.getOwner().getBalance() + street.getCurrentRent());
-
-				GameState.getInstance().updatePlayer(player);
-				GameState.getInstance().updatePlayer(street.getOwner());
-				GameState.getInstance().playerEndedTurn();
-
-				GameStateNetworkMessage message = new GameStateNetworkMessage();
-				message.setState(GameState.getInstance());
-
-				sendMessage(message);
-
-				Toast.makeText(this, "You paid " + street.getCurrentRent() + " to " + street.getOwner().getName(), Toast.LENGTH_SHORT).show();
-			} else {
-				//player is on his street, but no action possible
-				playerFinishedTurn();
-			}
 		}else if (currentTile instanceof Railroad) {
 			Railroad railroad = (Railroad) currentTile;
+			handlePlayerOnRailroad(railroad, player);
 
-			if (railroad.getOwner() == null) {
-				FragmentManager fm = getSupportFragmentManager();
-				DialogContainerFragment containerFragment = DialogContainerFragment.newInstance();
-				containerFragment.setupViewModel(railroad, player, this);
-				containerFragment.show(fm, "dialog_container_fragment");
-
-			} else if (!railroad.getOwner().getAddress().equals(player.getAddress()) && railroad.getOwner().getPort() != player.getPort()){
-				Player owner = railroad.getOwner();
-				int count = GameState.getInstance().countOfPlayersRailroads(owner);
-				int due = railroad.getRentRelativeTo(count);
-
-				player.setBalance(player.getBalance() - due);
-				owner.setBalance(owner.getBalance() + due);
-
-				GameState.getInstance().updatePlayer(player);
-				GameState.getInstance().updatePlayer(owner);
-				GameState.getInstance().playerEndedTurn();
-
-				GameStateNetworkMessage message = new GameStateNetworkMessage();
-				message.setState(GameState.getInstance());
-
-				sendMessage(message);
-
-				Toast.makeText(this, "You paid " + railroad.getCurrentRent() + " to " + railroad.getOwner().getName(), Toast.LENGTH_SHORT).show();
-
-			}
-
-			//playerFinishedTurn();
 		}else if (currentTile instanceof Utility){
 			Utility utility = (Utility) currentTile;
-
-			if (utility.getOwner() == null) {
-				FragmentManager fm = getSupportFragmentManager();
-				DialogContainerFragment containerFragment = DialogContainerFragment.newInstance();
-				containerFragment.setupViewModel(utility, player, this);
-				containerFragment.show(fm, "dialog_container_fragment");
-
-			} else if (!utility.getOwner().getAddress().equals(player.getAddress()) && utility.getOwner().getPort() != player.getPort()) {
-				int multiplicator = 4;
-
-				if (GameState.getInstance().playerOwnsBothUtilities(player)) {
-					multiplicator = 10;
-				}
-
-				int dueRent = (roll1 + roll2) * multiplicator;
-				Player owner = utility.getOwner();
-
-				player.setBalance(player.getBalance() - dueRent);
-				owner.setBalance(owner.getBalance() + dueRent);
-
-				GameState.getInstance().updatePlayer(owner);
-				GameState.getInstance().updatePlayer(player);
-				GameState.getInstance().playerEndedTurn();
-
-				GameStateNetworkMessage message = new GameStateNetworkMessage();
-				message.setState(GameState.getInstance());
-
-				sendMessage(message);
-
-				Toast.makeText(this, "You paid " + dueRent + " to " + utility.getOwner().getName(), Toast.LENGTH_SHORT).show();
-			} else {
-				//is players own utility
-				playerFinishedTurn();
-			}
+			handlePlayerOnUtility(utility, player);
 
 		}
 		else if (currentTile instanceof CommunityCard){
@@ -374,7 +264,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	}
 
 	void setup() {
-
 		OnGameStateChangedListener listener = new OnGameStateChangedListener(){
 			@Override
 			public void onGameStateChanged(GameState gameState){
@@ -442,6 +331,116 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			GameServer.getInstance().updateGameState(message);
 		}else {
 			GameController.getInstance().updateGameState(message);
+		}
+	}
+
+	void openBuyDialog(Deed deed, Player player) {
+		FragmentManager fm = getSupportFragmentManager();
+		DialogContainerFragment containerFragment = DialogContainerFragment.newInstance();
+		containerFragment.setupViewModel(deed, player, this);
+		containerFragment.show(fm, "dialog_container_fragment");
+	}
+
+	int getDueRentOfUtility(Player player) {
+		int multiplicator = 4;
+
+		if (GameState.getInstance().playerOwnsBothUtilities(player)) {
+			multiplicator = 10;
+		}
+
+		return (roll1 + roll2) * multiplicator;
+	}
+
+	void showToast(int rent, String playerName) {
+		Toast.makeText(this, getString(R.string.youPaidTo, rent, playerName), Toast.LENGTH_LONG).show();
+	}
+
+	void updatePlayersAfterPaymentAndEndTurn(Player owner, Player player) {
+		GameState.getInstance().updatePlayer(owner);
+		GameState.getInstance().updatePlayer(player);
+		GameState.getInstance().playerEndedTurn();
+
+		GameStateNetworkMessage message = new GameStateNetworkMessage();
+		message.setState(GameState.getInstance());
+
+		sendMessage(message);
+	}
+
+	void handlePlayerOnStreet(final Street street, final Player player) {
+		if (street.getOwner() == null) {
+			openBuyDialog(street, player);
+
+		} else if (street.getOwner() == player && deedManager.playerOwnsAllStreetsOf(street.getColor(), player)) {
+
+			final AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+			dialog.setTitle(getString(R.string.buyHouseTitle));
+			dialog.setMessage(getString(R.string.buyHouseOnDeed, street.getName(), street.getHousePrice()));
+
+			dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener(){
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i){
+					dialog.dismiss();
+					playerFinishedTurn();
+				}
+			});
+
+			dialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener(){
+				@Override
+				public void onClick(DialogInterface dialog, int which){
+					int balance = deedManager.performAcquiringHouseFor(street, player);
+					view_balance.setText(getString(R.string.balance,  balance));
+					showDifference(getOldBalance(), player.getBalance());
+					playerFinishedTurn();
+				}
+			});
+		} else if (!street.getOwner().getAddress().equals(player.getAddress()) && street.getOwner().getPort() != player.getPort()) {
+			//hostile owns it.
+			player.setBalance(player.getBalance() - street.getCurrentRent());
+			street.getOwner().setBalance(street.getOwner().getBalance() + street.getCurrentRent());
+
+			updatePlayersAfterPaymentAndEndTurn(street.getOwner(), player);
+
+			showToast(street.getCurrentRent(), street.getOwner().getName());
+		} else {
+			//player is on his street, but no action possible
+			playerFinishedTurn();
+		}
+	}
+
+	void handlePlayerOnRailroad(Railroad railroad, Player player) {
+		if (railroad.getOwner() == null) {
+			openBuyDialog(railroad, player);
+
+		} else if (!railroad.getOwner().getAddress().equals(player.getAddress()) && railroad.getOwner().getPort() != player.getPort()){
+			Player owner = railroad.getOwner();
+			int count = GameState.getInstance().countOfPlayersRailroads(owner);
+			int due = railroad.getRentRelativeTo(count);
+
+			player.setBalance(player.getBalance() - due);
+			owner.setBalance(owner.getBalance() + due);
+
+			updatePlayersAfterPaymentAndEndTurn(owner, player);
+
+			showToast(due, owner.getName());
+		}
+	}
+
+	void handlePlayerOnUtility(Utility utility, Player player) {
+		if (utility.getOwner() == null) {
+			openBuyDialog(utility, player);
+
+		} else if (!utility.getOwner().getAddress().equals(player.getAddress()) && utility.getOwner().getPort() != player.getPort()) {
+			Player owner = utility.getOwner();
+			int dueRent = getDueRentOfUtility(owner);
+			player.setBalance(player.getBalance() - dueRent);
+			owner.setBalance(owner.getBalance() + dueRent);
+
+			updatePlayersAfterPaymentAndEndTurn(owner, player);
+
+			showToast(dueRent, owner.getName());
+		} else {
+			//is players own utility
+			playerFinishedTurn();
 		}
 	}
 

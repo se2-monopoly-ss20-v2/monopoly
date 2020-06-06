@@ -15,6 +15,7 @@ import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.models.fields.deeds.UtilityType;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.net.InetAddress;
@@ -29,6 +30,12 @@ import static org.mockito.ArgumentMatchers.booleanThat;
 import static org.mockito.Mockito.mock;
 
 public class GameStateUnitTest{
+
+	@Before
+	public void setup() {
+		GameState.getInstance().setAllDeeds(new ArrayList<Deed>());
+		GameState.getInstance().setPlayers(new ArrayList<Player>());
+	}
 
 	@Test (expected = NullPointerException.class)
 	public void setupGameState() throws UnknownHostException{

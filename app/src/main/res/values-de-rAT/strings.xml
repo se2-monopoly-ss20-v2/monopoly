@@ -41,4 +41,5 @@
     <string name="waterInfo">Wenn man Besitzer des Wasser-Werks ist, so ist die Miete 4-mal so hoch, wie Augen auf den zwei Würfeln sind.</string>
     <string name="electricInfo">Wenn man Besitzer des Elektrizitäts-Werks ist, so ist die Miete 4-mal so hoch, wie Augen auf den zwei Würfeln sind.</string>
     <string name="bothUtilityInfos">Wenn man Besitzer beider Werke ist, so ist die Miete 10-mal so hoch, wie Augen auf den zwei Würfeln sind.</string>
+    <string name="youPaidTo">Du hast %1$d an %2$s gezahlt.</string>
 </resources>
