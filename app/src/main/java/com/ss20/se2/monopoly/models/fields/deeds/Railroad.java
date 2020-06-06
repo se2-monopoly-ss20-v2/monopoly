@@ -12,25 +12,25 @@ public class Railroad extends Deed{
 	public Railroad(String name, int price, int mortgage){
 		super(name, price, mortgage);
 		currentRent = 25;
-		this.rent1RR = 25;
-		this.rent2RR = rent1RR * 2;
-		this.rent3RR = rent2RR * 2;
-		this.rent4RR = rent3RR * 2;
 	}
 
 	public int getRent1RR(){
+		rent1RR = initialRent;
 		return rent1RR;
 	}
 
 	public int getRent2RR(){
+		rent2RR = initialRent * 2;
 		return rent2RR;
 	}
 
 	public int getRent3RR(){
+		rent3RR = initialRent * 4;
 		return rent3RR;
 	}
 
 	public int getRent4RR(){
+		rent4RR = initialRent * 6;
 		return rent4RR;
 	}
 

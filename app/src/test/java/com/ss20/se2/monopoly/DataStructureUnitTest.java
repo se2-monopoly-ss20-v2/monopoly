@@ -83,4 +83,15 @@ public class DataStructureUnitTest{
 		s1.setOwner(p1);
 		assertEquals(p1, s1.getOwner());
 	}
+
+	@Test
+	public void railroadTests() {
+		Railroad r1 = new Railroad("Hauptbahnhof", 200, 100);
+
+		assertEquals(25, r1.getRent1RR());
+		assertEquals(50, r1.getRent2RR());
+		assertEquals(100, r1.getRent3RR());
+		assertEquals(200, r1.getRent4RR());
+		assertEquals(50, r1.getCurrentRent());
+	}
 }

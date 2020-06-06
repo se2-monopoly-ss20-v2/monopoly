@@ -5,7 +5,6 @@ import android.content.Context;
 import com.ss20.se2.monopoly.DeedManager;
 import com.ss20.se2.monopoly.models.fields.GameTile;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
-import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 
 import java.io.Serializable;
@@ -154,10 +153,6 @@ public class GameState implements Serializable{
 
 	public void subscribe(OnGameStateChangedListener listener){
 		listeners.add(listener);
-	}
-
-	public void unsubscribe(OnGameStateChangedListener listener){
-		listeners.remove(listener);
 	}
 
 	public void notifyListenersForSetup(){
