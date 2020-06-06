@@ -5,6 +5,7 @@ import android.content.Context;
 import com.ss20.se2.monopoly.DeedManager;
 import com.ss20.se2.monopoly.models.fields.GameTile;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 
 import java.io.Serializable;
@@ -137,6 +138,16 @@ public class GameState implements Serializable{
 			}
 		}
 		return -1;
+	}
+
+	public boolean playerOwnsBothUtilities(Player player) {
+		for (Deed deed : allDeeds) {
+			if (deed instanceof Utility && (deed.getOwner() == null || (!deed.getOwner().getAddress().equals(player.getAddress()) || deed.getOwner().getPort() != player.getPort()))) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public void setDeedManager(DeedManager deedManager){

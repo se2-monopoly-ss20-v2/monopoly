@@ -2,6 +2,7 @@ package com.ss20.se2.monopoly;
 
 import android.content.Context;
 
+import com.google.android.play.core.splitcompat.SplitCompatApplication;
 import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Gameboard;
@@ -9,6 +10,8 @@ import com.ss20.se2.monopoly.models.LobbyPlayer;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
+import com.ss20.se2.monopoly.models.fields.deeds.Utility;
+import com.ss20.se2.monopoly.models.fields.deeds.UtilityType;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 
 import org.junit.Test;
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.booleanThat;
 import static org.mockito.Mockito.mock;
@@ -105,5 +109,28 @@ public class GameStateUnitTest{
 		assertEquals(1, GameState.getInstance().getListeners().size());
 		assertTrue(setupDone[0]);
 		assertTrue(changeDone[0]);
+	}
+
+	@Test
+	public void GameStateUtilityCheck() throws UnknownHostException {
+		Street street = new Street("ASDF", 200, 20, 20, 10, "orange");
+		Player player = new Player("Hannes2", 20, new GamePiece("shoe"), 0,InetAddress.getByName("192.168.0.2"), 11 );
+		Utility water = new Utility("WaterWorks", 140, 75, UtilityType.WATER_WORKS);
+		Utility electric = new Utility("Electric", 140, 75, UtilityType.ELECTRIC_COMPANY);
+
+		List<Deed> allDeeds = new ArrayList<>();
+		allDeeds.add(street);
+		allDeeds.add(water);
+		allDeeds.add(electric);
+		GameState.getInstance().setAllDeeds(allDeeds);
+		water.setOwner(player);
+
+		GameState.getInstance().updateDeed(water);
+
+		assertFalse(GameState.getInstance().playerOwnsBothUtilities(player));
+		electric.setOwner(player);
+		GameState.getInstance().updateDeed(electric);
+		assertTrue(GameState.getInstance().playerOwnsBothUtilities(player));
+
 	}
 }

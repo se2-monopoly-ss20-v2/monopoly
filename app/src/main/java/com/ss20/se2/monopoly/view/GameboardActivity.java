@@ -266,10 +266,38 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}else if (currentTile instanceof Utility){
 			Utility utility = (Utility) currentTile;
 
-			FragmentManager fm = getSupportFragmentManager();
-			DialogContainerFragment containerFragment = DialogContainerFragment.newInstance();
-			containerFragment.setupViewModel(utility, player, this);
-			containerFragment.show(fm, "dialog_container_fragment");
+			if (utility.getOwner() == null) {
+				FragmentManager fm = getSupportFragmentManager();
+				DialogContainerFragment containerFragment = DialogContainerFragment.newInstance();
+				containerFragment.setupViewModel(utility, player, this);
+				containerFragment.show(fm, "dialog_container_fragment");
+
+			} else if (!utility.getOwner().getAddress().equals(player.getAddress()) && utility.getOwner().getPort() != player.getPort()) {
+				int multiplicator = 4;
+
+				if (GameState.getInstance().playerOwnsBothUtilities(player)) {
+					multiplicator = 10;
+				}
+
+				int dueRent = (roll1 + roll2) * multiplicator;
+				Player owner = utility.getOwner();
+
+				player.setBalance(player.getBalance() - dueRent);
+				owner.setBalance(owner.getBalance() + dueRent);
+
+				GameState.getInstance().updatePlayer(owner);
+				GameState.getInstance().updatePlayer(player);
+				GameState.getInstance().playerEndedTurn();
+
+				GameStateNetworkMessage message = new GameStateNetworkMessage();
+				message.setState(GameState.getInstance());
+
+				sendMessage(message);
+
+			} else {
+				//is players own utility
+				playerFinishedTurn();
+			}
 
 		}
 		else if (currentTile instanceof CommunityCard){
