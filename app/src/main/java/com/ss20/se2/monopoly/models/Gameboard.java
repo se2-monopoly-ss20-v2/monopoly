@@ -83,6 +83,10 @@ public class Gameboard implements Serializable{
 		return streets;
 	}
 
+	public void setStreets(List<Street> streets){
+		this.streets = streets;
+	}
+
 	public List<Utility> getUtilities(){
 		return utilities;
 	}

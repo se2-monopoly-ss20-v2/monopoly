@@ -9,6 +9,7 @@ import com.ss20.se2.monopoly.models.LobbyPlayer;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
+import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 
 import org.junit.Test;
 
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.booleanThat;
 import static org.mockito.Mockito.mock;
 
 public class GameStateUnitTest{
@@ -46,8 +49,10 @@ public class GameStateUnitTest{
 		Gameboard gb = GameState.getInstance().getGameboard();
 		GameState.getInstance().setGameboard(gb);
 		List<Deed> deeds = GameState.getInstance().getAllDeeds();
-		deeds.add(new Street("ASDF", 200, 20, 20, 10, "orange"));
+		Street firstStreet = new Street("ASDF", 200, 20, 20, 10, "orange");
 		Street secondStreet = new Street("JKL", 200, 20, 20, 10, "orange");
+		deeds.add(firstStreet);
+
 
 		deeds.add(secondStreet);
 		GameState.getInstance().setAllDeeds(deeds);
@@ -76,5 +81,29 @@ public class GameStateUnitTest{
 		assertEquals(active, GameState.getInstance().getCurrentActivePlayer());
 	}
 
-	//ADD ListenerTests
+	@Test
+	public void listenerTests() {
+		final boolean[] setupDone = {false};
+		final boolean[] changeDone = {false};
+
+		OnGameStateChangedListener listener = new OnGameStateChangedListener(){
+			@Override
+			public void onGameStateChanged(GameState gameState){
+				changeDone[0] = true;
+
+			}
+
+			@Override
+			public void setupGameState(GameState gameState){
+				setupDone[0] = true;
+			}
+		};
+
+		GameState.getInstance().subscribe(listener);
+		GameState.getInstance().notifyListenersForSetup();
+		GameState.getInstance().notifyListeners();
+		assertEquals(1, GameState.getInstance().getListeners().size());
+		assertTrue(setupDone[0]);
+		assertTrue(changeDone[0]);
+	}
 }

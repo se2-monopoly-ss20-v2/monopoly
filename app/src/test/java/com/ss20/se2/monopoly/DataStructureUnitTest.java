@@ -1,6 +1,7 @@
 package com.ss20.se2.monopoly;
 
 import com.ss20.se2.monopoly.models.GamePiece;
+import com.ss20.se2.monopoly.models.Gameboard;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.cards.ChanceCard;
 import com.ss20.se2.monopoly.models.fields.cards.CommunityCard;
@@ -13,6 +14,7 @@ import com.ss20.se2.monopoly.models.fields.specials.SpecialFieldType;
 import org.junit.Test;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
