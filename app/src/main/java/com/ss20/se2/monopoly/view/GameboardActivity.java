@@ -36,9 +36,7 @@ import com.ss20.se2.monopoly.models.fields.cards.CommunityCard;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.network.client.GameController;
 import com.ss20.se2.monopoly.network.server.GameServer;
-import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.models.fields.specials.Special;
-import com.ss20.se2.monopoly.models.fields.specials.SpecialFieldType;
 import com.ss20.se2.monopoly.view.deed.DeedFragment;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 import com.ss20.se2.monopoly.view.dialog.DialogContainerFragment;
@@ -370,12 +368,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		if (street.getOwner() == null) {
 			openBuyDialog(street, player);
 
-		} else if (street.getOwner() == player && deedManager.playerOwnsAllStreetsOf(street.getColor(), player)) {
-
+		} else if (street.getOwner() == player && deedManager.playerOwnsAllStreetsOf(street.getColor(), player) && !street.getHasHotel()) {
 			final AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
-			dialog.setTitle(getString(R.string.buyHouseTitle));
-			dialog.setMessage(getString(R.string.buyHouseOnDeed, street.getName(), street.getHousePrice()));
-
 			dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialogInterface, int i){
@@ -384,6 +378,20 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				}
 			});
 
+			int headerId = 0;
+			int messageId = 0;
+			if (street.getHouseCount() == 4) {
+				//Player is eligible to upgrade to hotel.
+				headerId = R.string.buyHotelHeader;
+				messageId = R.string.buyHotelOnDeed;
+			} else {
+				headerId = R.string.buyHouseTitle;
+				messageId = R.string.buyHouseOnDeed;
+			}
+			dialog.setTitle(getString(headerId));
+			dialog.setMessage(getString(messageId, street.getName(), street.getHousePrice()));
+
+			//TODO modify dialog
 			dialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog, int which){

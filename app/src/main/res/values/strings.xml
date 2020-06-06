@@ -59,5 +59,7 @@
     <string name="waterInfo">If you own the Water Works, then the Rent is 4 times higher, than the dices eyes show.</string>
     <string name="bothUtilityInfos">If you own both works, then the Rent is 10 times higher, than the dices eyes show.</string>
     <string name="youPaidTo">You paid %1$d to %2$s.</string>
+    <string name="buyHotelOnDeed">You are about to buy a hotel on %1$s for € %2$d</string>
+    <string name="buyHotelHeader">Buy Hotel?</string>
 
 </resources>

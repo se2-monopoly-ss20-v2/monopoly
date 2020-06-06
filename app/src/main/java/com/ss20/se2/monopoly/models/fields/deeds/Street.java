@@ -8,6 +8,7 @@ public class Street extends Deed{
 	private int houseCount;
 	private int currentRent;
 	private int initialRent;
+	private boolean hasHotel = false;
 
 	public Street(String name, int price, int mortgage, int housePrice, int hotelPrice, String color){
 		super(name, price, mortgage);
@@ -42,6 +43,15 @@ public class Street extends Deed{
 	public void incrementHouseCount() {
 		houseCount++;
 		increaseRentRelativeToHouseCount();
+	}
+
+	public boolean getHasHotel(){
+		return this.hasHotel;
+	}
+
+	public void upgradeToHotel(){
+		this.hasHotel = true;
+		houseCount = 0;
 	}
 
 	public String getColor() {
