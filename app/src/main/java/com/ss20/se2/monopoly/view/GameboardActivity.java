@@ -505,7 +505,10 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		if (street.getOwner() == null) {
 			openBuyDialog(street, player);
 
-			//TODO ADD in if below: && deedManager.playerOwnsAllStreetsOf(street.getColor(), player)
+			/*
+				The playerOwnsAllStreetsOf(_:) has been removed due to the missing trading function.
+				deedManager.playerOwnsAllStreetsOf(street.getColor(), player)
+			 */
 		} else if (street.getOwner().getAddress().equals(player.getAddress()) && street.getOwner().getPort() == player.getPort()  && !street.getHasHotel()) {
 			final AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 			dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener(){
@@ -537,7 +540,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					dialog.dismiss();
 					int balance = street.getHouseCount() == 4 ? deedManager.performAcquiringHotelFor(street, player) : deedManager.performAcquiringHouseFor(street, player);
 					GameState.getInstance().updateStreet(street);
-					//addHouseToBoard(player, street);
 					view_balance.setText(getString(R.string.balance,  balance));
 					showDifference(getOldBalance(), player.getBalance());
 					playerFinishedTurn();
@@ -827,15 +829,12 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				final Street s = (Street) GameState.getInstance().getAllDeeds().get(i);
 				if (s.getHouseCount() != 0){
 					final int finalI = i;
-					runOnUiThread(new Runnable(){
-						@Override
-						public void run(){
-							if (!s.getHasHotel()){
-								houseFields[finalI].setText(String.valueOf(s.getHouseCount()));
-							} else {
-								houseFields[finalI].setText("H");
-							}
 
+					runOnUiThread(() -> {
+						if (!s.getHasHotel()){
+							houseFields[finalI].setText(String.valueOf(s.getHouseCount()));
+						} else {
+							houseFields[finalI].setText("H");
 						}
 					});
 				}
