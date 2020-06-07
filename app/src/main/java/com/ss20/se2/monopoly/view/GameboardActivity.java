@@ -177,10 +177,10 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					gameboard.move("Player 1", amount);
 					updateBalance.setText("");
 					currentPlayer.setCurrentPosition(gameboard.getPosition("Player 1"));
-					checkPlayersPosition(currentPlayer);
 					if (currentPlayer.getCurrentPosition() < oldPosition){
 						checkGo(currentPlayer);
 					}
+					checkPlayersPosition(currentPlayer);
 				}else if (isinJail){
 					jailRollCounter++;
 					if (checkDouble(roll1, roll2)){
@@ -281,12 +281,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			}else if (tile.getFieldType().equals(SpecialFieldType.GO)){
 				playerFinishedTurn();
 			}
-		}else if (currentTile instanceof Railroad) {
-			//TODO @dermutzh -> will be handled next week.
-			playerFinishedTurn();
-		}else if (currentTile instanceof Utility){
-			//TODO @dermutzh -> will be covered next week.
-			playerFinishedTurn();
 		}
 		else if (currentTile instanceof CommunityCard){
 			CommunityCard communityCard = communityCards.getNextCard();
@@ -432,11 +426,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	}
 
 	private void checkGo(Player player){
-		player.setBalance(player.getBalance() + 200);
+		currentPlayer.setBalance(currentPlayer.getBalance() + 200);
+		player.setBalance(player.getBalance());
 		GameState.getInstance().updatePlayer(player);
-		GameStateNetworkMessage message = new GameStateNetworkMessage();
-		message.setState(GameState.getInstance());
-		sendMessage(message);
 		view_balance.setText(getString(R.string.balance, player.getBalance()));
 		showDifference(getOldBalance(), player.getBalance());
 	}
