@@ -24,27 +24,12 @@ import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Gameboard;
 import com.ss20.se2.monopoly.models.Lobby;
 import com.ss20.se2.monopoly.models.Player;
-import com.ss20.se2.monopoly.models.ChanceCardDeck;
-import com.ss20.se2.monopoly.models.ChanceCardProcessor;
-import com.ss20.se2.monopoly.models.CommunityCardDeck;
-import com.ss20.se2.monopoly.models.CommunityCardProcessor;
-import com.ss20.se2.monopoly.models.Dice;
-import com.ss20.se2.monopoly.models.GamePiece;
-import com.ss20.se2.monopoly.models.GameState;
-import com.ss20.se2.monopoly.models.Gameboard;
-import com.ss20.se2.monopoly.models.Lobby;
-import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
-import com.ss20.se2.monopoly.models.fields.deeds.Utility;
-import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
-import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
-import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.GameTile;
 import com.ss20.se2.monopoly.models.fields.cards.Card;
 import com.ss20.se2.monopoly.models.fields.cards.ChanceCard;
 import com.ss20.se2.monopoly.models.fields.cards.CommunityCard;
+import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
-import com.ss20.se2.monopoly.network.client.GameController;
-import com.ss20.se2.monopoly.network.server.GameServer;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.models.fields.specials.Special;
 import com.ss20.se2.monopoly.models.fields.specials.SpecialFieldType;
@@ -52,8 +37,6 @@ import com.ss20.se2.monopoly.network.client.GameController;
 import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 import com.ss20.se2.monopoly.network.server.GameServer;
-import com.ss20.se2.monopoly.models.fields.specials.Special;
-import com.ss20.se2.monopoly.models.fields.specials.SpecialFieldType;
 import com.ss20.se2.monopoly.view.deed.DeedFragment;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 import com.ss20.se2.monopoly.view.dialog.DialogContainerFragment;
@@ -72,7 +55,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	Dice dice2 = new Dice();
 	Gameboard gameboard;
 	DeedManager deedManager;
-
 	Player currentPlayer;
 	ChanceCardDeck chanceCards;
 	CommunityCardDeck communityCards;
@@ -134,7 +116,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.gameboard_activity);
-
 		final ImageView[] fields = initializeUI();
 		chanceCards = new ChanceCardDeck();
 		communityCards = new CommunityCardDeck();
@@ -207,25 +188,18 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				showDifference(getOldBalance(), currentPlayer.getBalance());
 			}
 		});
-
 		setup();
-
-		for (int i = 0; i < fields.length; i++) {
+		for (int i = 0; i < fields.length; i++){
 			final ImageView view = fields[i];
-			view.setOnClickListener(new View.OnClickListener() {
+			view.setOnClickListener(new View.OnClickListener(){
 				@Override
-				public void onClick(View v) {
-
+				public void onClick(View v){
 					GameTile tile = gameboard.gameTiles.get((Integer.parseInt(v.getTag().toString())));
 					showTileInfo(tile, currentPlayer);
-
 				}
 			});
 		}
 	}
-
-
-
 
 	public void checkPlayersPosition(final Player player){
 		GameTile currentTile = gameboard.gameTiles.get(player.getCurrentPosition());
@@ -281,8 +255,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			}else if (tile.getFieldType().equals(SpecialFieldType.GO)){
 				playerFinishedTurn();
 			}
-		}
-		else if (currentTile instanceof CommunityCard){
+		}else if (currentTile instanceof CommunityCard){
 			CommunityCard communityCard = communityCards.getNextCard();
 			AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 			dialog.setTitle("Community Card!");
@@ -327,36 +300,29 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
-	void setup() {
-
+	void setup(){
 		OnGameStateChangedListener listener = new OnGameStateChangedListener(){
 			@Override
 			public void onGameStateChanged(GameState gameState){
 				//react on changes. -> update the state.
 				//Add update stuff here, for UI updates use method below.
-
 				updateUI();
 			}
 
 			@Override
 			public void setupGameState(GameState gameState){
 				//initial setup
-
 				gameboard = gameState.getGameboard();
 				deedManager = gameState.getDeedManager();
 				gameboard.gameboardArray[0] = new GamePiece("Player 1");
-
-				if (currentPlayer == null) {
+				if (currentPlayer == null){
 					currentPlayer = GameState.getInstance().getPlayerFrom(Lobby.getInstance().getSelf().getAddress(), Lobby.getInstance().getSelf().getPort());
 				}
-
 				updateUI();
 			}
 		};
-
 		GameState.getInstance().subscribe(listener);
-
-		if (Lobby.getInstance().getSelf().getName().equals("SERVER")) {
+		if (Lobby.getInstance().getSelf().getName().equals("SERVER")){
 			GameServer.getInstance().setupGameState(getApplicationContext());
 			isHost = true;
 		}
@@ -383,18 +349,17 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	}
 
 	//use this method if nothing happened what would change the state. (e.g. Free Parking, Player on his own Street but no Action...)
-	void playerFinishedTurn() {
+	void playerFinishedTurn(){
 		GameState.getInstance().playerEndedTurn();
 		GameStateNetworkMessage message = new GameStateNetworkMessage();
 		message.setState(GameState.getInstance());
-
 		sendMessage(message);
 	}
 
 	void sendMessage(GameStateNetworkMessage message){
 		if (isHost){
 			GameServer.getInstance().updateGameState(message);
-		}else {
+		}else{
 			GameController.getInstance().updateGameState(message);
 		}
 	}
@@ -404,7 +369,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	 * 1. Do actions and modify the GameState.
 	 * 2. Create new GameStateNetworkMessage
 	 * 3. call sendMessage to send Update
-	 *
+	 * <p>
 	 * Important:
 	 * Currently the update-Mechanism updates 'players', 'gameboard', 'turnRotation', 'activePlayer'
 	 * if there is something you need to add, feel free to do so. (Add property to GameState + get/set and
@@ -413,7 +378,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	 */
 	@Override
 	public void performAcquiringDeed(Street street, Player player){
-
 		GameState.getInstance().getDeedManager().performAcquiringDeed(street, player);
 		GameState.getInstance().updatePlayer(player);
 		GameState.getInstance().playerEndedTurn();
@@ -548,85 +512,69 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
-	public void showTileInfo(GameTile gameTile, Player player) {
-
+	public void showTileInfo(GameTile gameTile, Player player){
 		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 		dialog.setTitle(gameTile.getName());
-
-		if (gameTile instanceof Street) {
+		if (gameTile instanceof Street){
 			Street street = (Street) gameTile;
-
 			//separate between tiles you own, others own and nobody owns.
 			//right now there is no difference between the fragments
-
-			if (street.getOwner() != null) {
-				if (street.getOwner() == player) {
+			if (street.getOwner() != null){
+				if (street.getOwner() == player){
 					FragmentManager fm = getSupportFragmentManager();
 					DeedFragment containerFragment = DeedFragment.newInstance().newInstance();
 					containerFragment.createViewModel(street);
-
 					containerFragment.show(fm, "dialog_container_fragment");
 				}
-
 				FragmentManager fm = getSupportFragmentManager();
 				DeedFragment containerFragment = DeedFragment.newInstance().newInstance();
 				containerFragment.createViewModel(street);
-
 				containerFragment.show(fm, "dialog_container_fragment");
-			} else {
+			}else{
 				dialog.setMessage("No Owner");
 				FragmentManager fm = getSupportFragmentManager();
 				DeedFragment containerFragment = DeedFragment.newInstance().newInstance();
 				containerFragment.createViewModel(street);
-
 				containerFragment.show(fm, "dialog_container_fragment");
 			}
-		} else if (gameTile instanceof Railroad) {
+		}else if (gameTile instanceof Railroad){
 			Railroad railroad = (Railroad) gameTile;
-
-			if (railroad.getOwner() != null) {
+			if (railroad.getOwner() != null){
 				dialog.setMessage("Owner: " + railroad.getOwner().getName());
-			} else {
+			}else{
 				dialog.setMessage("No Owner");
 			}
 			dialog.show();
-		} else if (gameTile instanceof Special) {
+		}else if (gameTile instanceof Special){
 			Special special = (Special) gameTile;
-
-			switch (special.getFieldType()) {
+			switch (special.getFieldType()){
 				case JAIL:
 					dialog.setMessage("Landing on this tile sends you to jail immediately");
 					break;
-
 				case GO:
 					dialog.setMessage("Moving past GO will get you $200");
 					break;
-
 				case FREEPARKING:
 					dialog.setMessage("Nothing happens.");
 					break;
-
 				case JAIL_VISITOR:
 					dialog.setMessage("If you are a visitor you can leave with your next turn. If you are jailed you need to throw a double for your escape!");
 					break;
 				case INCOME_TAX:
 					dialog.setMessage("Landing on this tile makes you pay $200");
 					break;
-
 				case LUXURY_TAX:
 					dialog.setMessage("Landing on this tile makes you pay 10% of your wealth");
 					break;
-
 				default:
 					break;
 			}
 			dialog.show();
-		} else if (gameTile instanceof Card) {
+		}else if (gameTile instanceof Card){
 			dialog.setMessage("Surprise Cards with either good or bad effect");
 			dialog.show();
 		}
 	}
-
 
 	public int getOldBalance(){
 		return oldBalance;
