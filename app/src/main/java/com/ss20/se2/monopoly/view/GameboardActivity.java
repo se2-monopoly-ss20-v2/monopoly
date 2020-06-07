@@ -41,6 +41,13 @@ import com.ss20.se2.monopoly.view.deed.DeedFragment;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 import com.ss20.se2.monopoly.view.dialog.DialogContainerFragment;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorManager;
+import android.hardware.SensorEventListener;
+import java.util.Objects;
+
 public class GameboardActivity extends AppCompatActivity implements DeedFragmentDelegate{
 
 	Button button_rollDice;
@@ -51,6 +58,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	TextView view_position;
 	TextView view_balance;
 	TextView updateBalance;
+	Button altbutton;
+
 	Dice dice = new Dice();
 	Dice dice2 = new Dice();
 	Gameboard gameboard;
@@ -65,8 +74,16 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	int roll1;
 	int roll2;
 	int doublescounter;
+
+	private SensorManager mSensorManager;
+	float accel;
+	float currentaccel;
+	float lastaccel;
+
 	int jailRollCounter;
+
 	boolean isHost;
+
 
 	public ImageView[] initializeUI(){
 		ImageView field0 = findViewById(R.id.tile_0);
@@ -131,52 +148,69 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		view_position = findViewById(R.id.number_playerposition);
 		view_balance = findViewById(R.id.text_balance);
 		updateBalance = findViewById(R.id.changeOfBalance);
-		button_rollDice.setOnClickListener(new View.OnClickListener(){
+		altbutton = findViewById(R.id.altbutton);
+
+
+		button_rollDice.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v){
-				int oldPosition = currentPlayer.getCurrentPosition();
-				boolean goTojailTurn = false;
-				boolean isinJail = currentPlayer.isInJail();
-				roll1 = dice.roll();
-				roll2 = dice2.roll();
-				amount = roll1 + roll2;
-				checkDouble(roll1, roll2);
-				if (checkDouble(roll1, roll2)){
-					doublescounter++;
-				}else{
-					doublescounter = 0;
-				}
-				if (doublescounter == 3){
-					int move = 10 - currentPlayer.getCurrentPosition();
-					gameboard.move("Player 1", move);
-					currentPlayer.setCurrentPosition(gameboard.getPosition("Player 1"));
-					movePlayerToJail(currentPlayer);
-					goTojailTurn = true;
-				}
-				setOldBalance(currentPlayer.getBalance());
-				if (!goTojailTurn && !isinJail){
-					gameboard.move("Player 1", amount);
-					updateBalance.setText("");
-					currentPlayer.setCurrentPosition(gameboard.getPosition("Player 1"));
-					if (currentPlayer.getCurrentPosition() < oldPosition){
-						checkGo(currentPlayer);
+			public void onClick(View v) {
+
+				Toast.makeText(getApplicationContext(), "Shake or tap to roll!", Toast.LENGTH_SHORT).show();
+
+				mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+				accel = 9f;
+				currentaccel = SensorManager.GRAVITY_EARTH;
+				lastaccel = SensorManager.GRAVITY_EARTH;
+				altbutton.setVisibility(View.VISIBLE);
+
+				final SensorEventListener mSensorListener = new SensorEventListener(){
+
+					@Override
+					public void onSensorChanged(SensorEvent event){
+
+						float x = event.values[0];
+						float y = event.values[1];
+						float z = event.values[2];
+
+						lastaccel = currentaccel;
+						currentaccel = (float) Math.sqrt((double) (x * x + y * y + z * z));
+						float delta = currentaccel - lastaccel;
+						accel = accel * 0.9f + delta;
+
+						if(accel > 11){
+
+							mSensorManager.unregisterListener(this);
+							altbutton.setVisibility(View.GONE);
+
+							processRoll();
+							findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
+							findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
+						}
 					}
-					checkPlayersPosition(currentPlayer);
-				}else if (isinJail){
-					jailRollCounter++;
-					if (checkDouble(roll1, roll2)){
-						movePlayerOutOfJail(currentPlayer);
-					}else if (jailRollCounter == 3){
-						playerFinishedTurn();
-						jailRollCounter = 0;
+
+					@Override
+					public void onAccuracyChanged(Sensor sensor, int accuracy){
+						//Method not needed but required for the sensor to work
 					}
+				};
+
+				//Alternative to shaking the device
+				altbutton.setOnClickListener(new View.OnClickListener(){
+					@Override
+					public void onClick(View v){
+
+						mSensorManager.unregisterListener(mSensorListener);
+						altbutton.setVisibility(View.GONE);
+
+						processRoll();
+						findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
+						findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
+					}
+				});
+
+				Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+						SensorManager.SENSOR_DELAY_GAME);
 				}
-				view_numberDice.setText("Roll 1: " + Integer.toString(roll1));
-				view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
-				view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
-				findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
-				findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
-			}
 		});
 		button_buyOut.setOnClickListener(new View.OnClickListener(){
 			@Override
@@ -200,6 +234,49 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			});
 		}
 	}
+
+	public void processRoll(){
+			int oldPosition = currentPlayer.getCurrentPosition();
+			boolean goTojailTurn = false;
+			boolean isinJail = currentPlayer.isInJail();
+			roll1 = dice.roll();
+			roll2 = dice2.roll();
+			amount = roll1 + roll2;
+			checkDouble(roll1, roll2);
+			if (checkDouble(roll1, roll2)){
+				doublescounter++;
+			}else{
+				doublescounter = 0;
+			}
+			if (doublescounter == 3){
+				int move = 10 - currentPlayer.getCurrentPosition();
+				gameboard.move("Player 1", move);
+				currentPlayer.setCurrentPosition(gameboard.getPosition("Player 1"));
+				movePlayerToJail(currentPlayer);
+				goTojailTurn = true;
+			}
+			setOldBalance(currentPlayer.getBalance());
+			if (!goTojailTurn && !isinJail){
+				gameboard.move("Player 1", amount);
+				updateBalance.setText("");
+				currentPlayer.setCurrentPosition(gameboard.getPosition("Player 1"));
+				if (currentPlayer.getCurrentPosition() < oldPosition){
+					checkGo(currentPlayer);
+				}
+				checkPlayersPosition(currentPlayer);
+			}else if (isinJail){
+				jailRollCounter++;
+				if (checkDouble(roll1, roll2)){
+					movePlayerOutOfJail(currentPlayer);
+				}else if (jailRollCounter == 3){
+					playerFinishedTurn();
+					jailRollCounter = 0;
+				}
+			}
+			view_numberDice.setText("Roll 1: " + Integer.toString(roll1));
+			view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
+			view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
+		}
 
 	public void checkPlayersPosition(final Player player){
 		GameTile currentTile = gameboard.gameTiles.get(player.getCurrentPosition());

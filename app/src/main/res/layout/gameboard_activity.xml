@@ -175,7 +175,7 @@
             android:id="@+id/button_roll_dice"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="roll dice!"
+            android:text="Start Turn!"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tile_30"
             app:layout_constraintTop_toTopOf="parent" />
@@ -490,7 +490,6 @@
             android:id="@+id/number_playerposition"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tile_35"
             app:layout_constraintTop_toBottomOf="@+id/text_playerposition" />
@@ -530,13 +529,24 @@
             app:layout_constraintTop_toBottomOf="@+id/view_number_dice2" />
 
     <Button
+            android:id="@+id/altbutton"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Roll Dice!"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/view_background"
+            app:layout_constraintTop_toBottomOf="@+id/doubles" />
+    <Button
             android:id="@+id/btn_buy_out"
             android:layout_height="wrap_content"
             android:layout_marginBottom="56dp"
-            android:layout_marginStart="36dp"
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:text="Buy Out"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/altbutton"
             app:layout_constraintBottom_toBottomOf="@+id/number_playerposition"
-            app:layout_constraintStart_toEndOf="@+id/tile_33" />
+            app:layout_constraintStart_toEndOf="@+id/view_background" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
