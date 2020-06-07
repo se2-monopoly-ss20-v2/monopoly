@@ -124,9 +124,9 @@ public class GameState implements Serializable{
 	}
 
 	public void updateStreet(Street street){
-		for (Deed d : allDeeds) {
-			if (d instanceof Street && street.getName().equals(d.getName())) {
-				d = street;
+		for(int i = 0; i < allDeeds.size(); i++){
+			if (allDeeds.get(i) instanceof Street && street.getName().equals(allDeeds.get(i).getName())) {
+				allDeeds.set(i, street);
 			}
 		}
 	}

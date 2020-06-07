@@ -123,7 +123,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	}
 
 	TextView[] initalizeHouseFields() {
-		TextView fieldPL = findViewById(R.id.textViewHousePL);
 		TextView field1 = findViewById(R.id.textViewHouse1);
 		TextView field3 = findViewById(R.id.textViewHouse3);
 		TextView field6 = findViewById(R.id.textViewHouse6);
@@ -146,8 +145,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		TextView field34 = findViewById(R.id.textViewHouse34);
 		TextView field37 = findViewById(R.id.textViewHouse37);
 		TextView field39 = findViewById(R.id.textViewHouse39);
+		TextView fieldPL = findViewById(R.id.textViewHousePL);
 
-		return new TextView[]{fieldPL, field1, fieldPL, field3, fieldPL, fieldPL, field6, fieldPL, field8, field9, fieldPL, field11, fieldPL, field13, field14, fieldPL, field16, fieldPL, field18, field19, fieldPL, field21, fieldPL, field23, field24, fieldPL, field26, field27, fieldPL, field29, fieldPL, field31, field32, fieldPL, field34, fieldPL, fieldPL, field37, fieldPL, field39};
+		return new TextView[]{field1, field3, fieldPL, field6, field8, field9, field11, fieldPL, field13, field14, fieldPL, field16, field18, field19, field21, field23, field24, fieldPL, field26, field27, fieldPL, field29, field31, field32, field34, fieldPL, field37, field39};
 
 	}
 
@@ -437,7 +437,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					dialog.dismiss();
 					int balance = street.getHouseCount() == 4 ? deedManager.performAcquiringHotelFor(street, player) : deedManager.performAcquiringHouseFor(street, player);
 					GameState.getInstance().updateStreet(street);
-					addHouseToBoard(player, street);
+					//addHouseToBoard(player, street);
 					view_balance.setText(getString(R.string.balance,  balance));
 					showDifference(getOldBalance(), player.getBalance());
 					playerFinishedTurn();
@@ -493,15 +493,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		} else {
 			//is players own utility
 			playerFinishedTurn();
-		}
-	}
-
-	void addHouseToBoard(Player player, Street street) {
-		TextView view = houseFields[player.getCurrentPosition()];
-		if (!street.getHasHotel()){
-			view.setText(String.valueOf(street.getHouseCount()));
-		} else {
-			view.setText("H");
 		}
 	}
 
@@ -652,7 +643,12 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					runOnUiThread(new Runnable(){
 						@Override
 						public void run(){
-							houseFields[finalI].setText(String.valueOf(s.getHouseCount()));
+							if (!s.getHasHotel()){
+								houseFields[finalI].setText(String.valueOf(s.getHouseCount()));
+							} else {
+								houseFields[finalI].setText("H");
+							}
+
 						}
 					});
 				}
