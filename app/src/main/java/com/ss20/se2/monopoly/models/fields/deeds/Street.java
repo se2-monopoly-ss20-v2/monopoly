@@ -54,6 +54,22 @@ public class Street extends Deed{
 		houseCount = 0;
 	}
 
+	public void setHouseCount(int houseCount){
+		this.houseCount = houseCount;
+	}
+
+	public void setCurrentRent(int currentRent){
+		this.currentRent = currentRent;
+	}
+
+	public void setInitialRent(int initialRent){
+		this.initialRent = initialRent;
+	}
+
+	public void setHasHotel(boolean hasHotel){
+		this.hasHotel = hasHotel;
+	}
+
 	public String getColor() {
 		return color;
 	}

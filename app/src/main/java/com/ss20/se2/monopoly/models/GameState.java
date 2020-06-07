@@ -6,6 +6,7 @@ import com.ss20.se2.monopoly.DeedManager;
 import com.ss20.se2.monopoly.models.fields.GameTile;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
+import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 
@@ -118,6 +119,14 @@ public class GameState implements Serializable{
 		for (Deed d : allDeeds){
 			if (deed.getName().equals(d.getName())) {
 				d.setOwner(deed.getOwner());
+			}
+		}
+	}
+
+	public void updateStreet(Street street){
+		for (Deed d : allDeeds) {
+			if (d instanceof Street && street.getName().equals(d.getName())) {
+				d = street;
 			}
 		}
 	}

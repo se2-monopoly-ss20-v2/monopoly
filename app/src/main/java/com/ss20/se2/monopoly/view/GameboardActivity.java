@@ -309,6 +309,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					currentPlayer.setBalance(differentBalance);
 				}
 
+				updateAllStreets();
 				updateUI();
 			}
 
@@ -404,7 +405,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		if (street.getOwner() == null) {
 			openBuyDialog(street, player);
 
-		} else if (street.getOwner() == player && deedManager.playerOwnsAllStreetsOf(street.getColor(), player) && !street.getHasHotel()) {
+			//TODO ADD in if below: && deedManager.playerOwnsAllStreetsOf(street.getColor(), player)
+		} else if (street.getOwner().getAddress().equals(player.getAddress()) && street.getOwner().getPort() == player.getPort()  && !street.getHasHotel()) {
 			final AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 			dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener(){
 				@Override
@@ -434,12 +436,15 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				public void onClick(DialogInterface dialog, int which){
 					dialog.dismiss();
 					int balance = street.getHouseCount() == 4 ? deedManager.performAcquiringHotelFor(street, player) : deedManager.performAcquiringHouseFor(street, player);
+					GameState.getInstance().updateStreet(street);
 					addHouseToBoard(player, street);
 					view_balance.setText(getString(R.string.balance,  balance));
 					showDifference(getOldBalance(), player.getBalance());
 					playerFinishedTurn();
 				}
 			});
+
+			dialog.show();
 		} else if (!street.getOwner().getAddress().equals(player.getAddress()) && street.getOwner().getPort() != player.getPort()) {
 			//hostile owns it.
 			player.setBalance(player.getBalance() - street.getCurrentRent());
@@ -491,10 +496,13 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
-	void addHouseToBoard(Player player, Deed street) {
+	void addHouseToBoard(Player player, Street street) {
 		TextView view = houseFields[player.getCurrentPosition()];
-		Street s = (Street) street;
-		view.setText(s.getHouseCount());
+		if (!street.getHasHotel()){
+			view.setText(String.valueOf(street.getHouseCount()));
+		} else {
+			view.setText("H");
+		}
 	}
 
 	/**
@@ -518,7 +526,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			player.updateBalance(newBalance);
 			player.addDeedToPlayer(deed);
 			deed.setOwner(player);
-			addHouseToBoard(player, deed);
 			GameState.getInstance().updateDeed(deed);
 		}
 
@@ -633,6 +640,23 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		} else if (gameTile instanceof Card) {
 			dialog.setMessage("Surprise Cards with either good or bad effect");
 			dialog.show();
+		}
+	}
+
+	void updateAllStreets(){
+		for (int i = 0; i < GameState.getInstance().getAllDeeds().size(); i++){
+			if (GameState.getInstance().getAllDeeds().get(i) instanceof Street){
+				final Street s = (Street) GameState.getInstance().getAllDeeds().get(i);
+				if (s.getHouseCount() != 0){
+					final int finalI = i;
+					runOnUiThread(new Runnable(){
+						@Override
+						public void run(){
+							houseFields[finalI].setText(String.valueOf(s.getHouseCount()));
+						}
+					});
+				}
+			}
 		}
 	}
 

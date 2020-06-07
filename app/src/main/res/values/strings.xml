@@ -61,5 +61,6 @@
     <string name="youPaidTo">You paid %1$d to %2$s.</string>
     <string name="buyHotelOnDeed">You are about to buy a hotel on %1$s for € %2$d</string>
     <string name="buyHotelHeader">Buy Hotel?</string>
+    <string name="zeroHouses" translatable="false"> </string>
 
 </resources>

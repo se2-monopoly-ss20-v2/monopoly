@@ -577,7 +577,7 @@
             android:id="@+id/textViewHouse11"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintEnd_toStartOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_12" />
 
@@ -585,7 +585,7 @@
             android:id="@+id/textViewHouse13"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintEnd_toStartOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_14" />
 
@@ -593,7 +593,7 @@
             android:id="@+id/textViewHouse14"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintEnd_toStartOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_15" />
 
@@ -601,7 +601,7 @@
             android:id="@+id/textViewHouse16"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintEnd_toStartOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_17" />
 
@@ -609,7 +609,7 @@
             android:id="@+id/textViewHouse18"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintEnd_toStartOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_19" />
 
@@ -617,7 +617,7 @@
             android:id="@+id/textViewHouse19"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintEnd_toStartOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_20" />
 
@@ -625,7 +625,7 @@
             android:id="@+id/textViewHouse21"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintBottom_toTopOf="@+id/tile_middle"
             app:layout_constraintStart_toEndOf="@+id/tile_20" />
 
@@ -633,7 +633,7 @@
             android:id="@+id/textViewHouse23"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintBottom_toTopOf="@+id/tile_middle"
             app:layout_constraintStart_toEndOf="@+id/tile_22" />
 
@@ -641,7 +641,7 @@
             android:id="@+id/textViewHouse24"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintBottom_toTopOf="@+id/tile_middle"
             app:layout_constraintStart_toEndOf="@+id/tile_23" />
 
@@ -649,7 +649,7 @@
             android:id="@+id/textViewHouse27"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintBottom_toTopOf="@+id/tile_middle"
             app:layout_constraintStart_toEndOf="@+id/tile_26" />
 
@@ -657,7 +657,7 @@
             android:id="@+id/textViewHouse29"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintBottom_toTopOf="@+id/tile_middle"
             app:layout_constraintStart_toEndOf="@+id/tile_28" />
 
@@ -665,7 +665,7 @@
             android:id="@+id/textViewHouse31"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintStart_toEndOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_30" />
 
@@ -673,7 +673,7 @@
             android:id="@+id/textViewHouse32"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintStart_toEndOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_31" />
 
@@ -681,7 +681,7 @@
             android:id="@+id/textViewHouse34"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintStart_toEndOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_33" />
 
@@ -689,7 +689,7 @@
             android:id="@+id/textViewHouse37"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintStart_toEndOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_36" />
 
@@ -697,7 +697,7 @@
             android:id="@+id/textViewHouse39"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintStart_toEndOf="@+id/tile_middle"
             app:layout_constraintTop_toBottomOf="@+id/tile_38" />
 
@@ -705,7 +705,7 @@
             android:id="@+id/textViewHouse1"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             android:textColor="@android:color/white"
             app:layout_constraintStart_toEndOf="@+id/tile_2"
             app:layout_constraintTop_toBottomOf="@+id/tile_middle" />
@@ -714,7 +714,7 @@
             android:id="@+id/textViewHouse3"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             android:textColor="@android:color/white"
             app:layout_constraintStart_toEndOf="@+id/tile_4"
             app:layout_constraintTop_toBottomOf="@+id/tile_middle" />
@@ -723,7 +723,7 @@
             android:id="@+id/textViewHouse8"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintStart_toEndOf="@+id/tile_9"
             app:layout_constraintTop_toBottomOf="@+id/tile_middle" />
 
@@ -731,7 +731,7 @@
             android:id="@+id/textViewHouse9"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintStart_toEndOf="@+id/tile_10"
             app:layout_constraintTop_toBottomOf="@+id/tile_middle" />
 
@@ -739,7 +739,7 @@
             android:id="@+id/textViewHouse6"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintStart_toEndOf="@+id/tile_7"
             app:layout_constraintTop_toBottomOf="@+id/tile_middle" />
 
@@ -747,7 +747,7 @@
             android:id="@+id/textViewHouse26"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="1"
+            android:text="@string/zeroHouses"
             app:layout_constraintBottom_toTopOf="@+id/tile_middle"
             app:layout_constraintStart_toEndOf="@+id/tile_25" />
 
