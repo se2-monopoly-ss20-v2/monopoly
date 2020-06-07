@@ -392,12 +392,11 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 			dialog.setTitle(getString(headerId));
 			dialog.setMessage(getString(messageId, street.getName(), street.getHousePrice()));
-			
+
 			dialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog, int which){
-					int balance = street.getHouseCount() == 4 ? deedManager.performAcquiringHotelFor(street, player) : deedManager.performAcquiringHouseFor(street
-					,player);
+					int balance = street.getHouseCount() == 4 ? deedManager.performAcquiringHotelFor(street, player) : deedManager.performAcquiringHouseFor(street, player);
 					view_balance.setText(getString(R.string.balance,  balance));
 					showDifference(getOldBalance(), player.getBalance());
 					playerFinishedTurn();
