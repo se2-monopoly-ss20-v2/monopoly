@@ -474,6 +474,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			updatePlayersAfterPaymentAndEndTurn(owner, player);
 
 			showToast(due, owner.getName());
+		} else {
+			playerFinishedTurn();
 		}
 	}
 
