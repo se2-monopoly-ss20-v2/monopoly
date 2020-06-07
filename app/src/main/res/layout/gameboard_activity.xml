@@ -529,4 +529,23 @@
             app:layout_constraintStart_toEndOf="@+id/view_background"
             app:layout_constraintTop_toBottomOf="@+id/view_number_dice2" />
 
+    <Button
+            android:id="@+id/button_deeds"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Show Deeds"
+            app:layout_constraintTop_toBottomOf="@+id/changeOfBalance"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"/>
+
+    <ListView
+            android:id="@+id/deed_list"
+            android:layout_height="291dp"
+            android:layout_width="152dp"
+            app:layout_constraintTop_toBottomOf="@+id/button_deeds"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="invisible"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

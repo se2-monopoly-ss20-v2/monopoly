@@ -1,5 +1,7 @@
 package com.ss20.se2.monopoly.view;
 
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +11,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +45,8 @@ import com.ss20.se2.monopoly.view.deed.DeedFragment;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 import com.ss20.se2.monopoly.view.dialog.DialogContainerFragment;
 
+import java.util.ArrayList;
+
 public class GameboardActivity extends AppCompatActivity implements DeedFragmentDelegate{
 
 	Button button_rollDice;
@@ -51,6 +56,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	TextView view_position;
 	TextView view_balance;
 	TextView updateBalance;
+	Button btnshowdeeds;
+	ListView deedlistview;
 
 	Dice dice = new Dice();
 	Dice dice2 = new Dice();
@@ -137,6 +144,22 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		view_position = findViewById(R.id.number_playerposition);
 		view_balance = findViewById(R.id.text_balance);
 		updateBalance = findViewById(R.id.changeOfBalance);
+		btnshowdeeds = findViewById(R.id.button_deeds);
+		deedlistview = findViewById(R.id.deed_list);
+		final ArrayList<String> ownedList = new ArrayList<>();
+
+		ownedList.add("Test");
+		ownedList.add("Test2");
+		ownedList.add("Test");
+		ownedList.add("Test2");
+		ownedList.add("Test");
+		ownedList.add("Test2");
+		ownedList.add("Test");
+		ownedList.add("Test2");
+		ownedList.add("Test");
+		ownedList.add("Test2");
+		ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,ownedList);
+		deedlistview.setAdapter(arrayAdapter);
 
 
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +195,25 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 				findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
 				findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
+			}
+		});
+
+		btnshowdeeds.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v){
+
+				if (deedlistview.getVisibility() == View.VISIBLE){
+					deedlistview.setVisibility(View.INVISIBLE);
+				}else{
+					deedlistview.setVisibility(View.VISIBLE);
+				}
+				deedlistview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+						Toast.makeText(GameboardActivity.this, "clicked item"+position+" "+ownedList.get(position).toString(),Toast.LENGTH_SHORT).show();
+					}
+				});
+
 			}
 		});
 
@@ -488,6 +530,20 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			dialog.setMessage("Surprise Cards with either good or bad effect");
 			dialog.show();
 		}
+	}
+
+	public boolean mortgage(Street street){
+		/*Mortage a street
+
+		view_balance.setText(getString(R.string.balance,  player.getBalance()));
+		Toast.makeText(this, "You mortgaged " + street.getName(), Toast.LENGTH_SHORT).show();
+		showDifference(getOldBalance(), player.getBalance());
+
+		p.balance = p.balance + street.mortage
+
+
+		* */
+		return true;
 	}
 
 
