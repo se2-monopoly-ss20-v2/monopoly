@@ -1,14 +1,18 @@
 package com.ss20.se2.monopoly.view;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.widget.ImageView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +71,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	int roll1;
 	int roll2;
 	int doublescounter;
+	ImageView[] fields;
+	TextView[] houseFields;
 
 	boolean isHost;
 
@@ -116,13 +122,43 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 	}
 
+	TextView[] initalizeHouseFields() {
+		TextView fieldPL = findViewById(R.id.textViewHousePL);
+		TextView field1 = findViewById(R.id.textViewHouse1);
+		TextView field3 = findViewById(R.id.textViewHouse3);
+		TextView field6 = findViewById(R.id.textViewHouse6);
+		TextView field8 = findViewById(R.id.textViewHouse8);
+		TextView field9 = findViewById(R.id.textViewHouse9);
+		TextView field11 = findViewById(R.id.textViewHouse11);
+		TextView field13 = findViewById(R.id.textViewHouse13);
+		TextView field14 = findViewById(R.id.textViewHouse14);
+		TextView field16 = findViewById(R.id.textViewHouse16);
+		TextView field18 = findViewById(R.id.textViewHouse18);
+		TextView field19 = findViewById(R.id.textViewHouse19);
+		TextView field21 = findViewById(R.id.textViewHouse21);
+		TextView field23 = findViewById(R.id.textViewHouse23);
+		TextView field24 = findViewById(R.id.textViewHouse24);
+		TextView field26 = findViewById(R.id.textViewHouse26);
+		TextView field27 = findViewById(R.id.textViewHouse27);
+		TextView field29 = findViewById(R.id.textViewHouse29);
+		TextView field31 = findViewById(R.id.textViewHouse31);
+		TextView field32 = findViewById(R.id.textViewHouse32);
+		TextView field34 = findViewById(R.id.textViewHouse34);
+		TextView field37 = findViewById(R.id.textViewHouse37);
+		TextView field39 = findViewById(R.id.textViewHouse39);
+
+		return new TextView[]{fieldPL, field1, fieldPL, field3, fieldPL, fieldPL, field6, fieldPL, field8, field9, fieldPL, field11, fieldPL, field13, field14, fieldPL, field16, fieldPL, field18, field19, fieldPL, field21, fieldPL, field23, field24, fieldPL, field26, field27, fieldPL, field29, fieldPL, field31, field32, fieldPL, field34, fieldPL, fieldPL, field37, fieldPL, field39};
+
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.gameboard_activity);
 
 
-		final ImageView[] fields = initializeUI();
+		fields = initializeUI();
+		houseFields = initalizeHouseFields();
 		chanceCards = new ChanceCardDeck();
 		communityCards = new CommunityCardDeck();
 		chanceCards.initializeDeck();
@@ -396,7 +432,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			dialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog, int which){
+					dialog.dismiss();
 					int balance = street.getHouseCount() == 4 ? deedManager.performAcquiringHotelFor(street, player) : deedManager.performAcquiringHouseFor(street, player);
+					addHouseToBoard(player, street);
 					view_balance.setText(getString(R.string.balance,  balance));
 					showDifference(getOldBalance(), player.getBalance());
 					playerFinishedTurn();
@@ -453,6 +491,12 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
+	void addHouseToBoard(Player player, Deed street) {
+		TextView view = houseFields[player.getCurrentPosition()];
+		Street s = (Street) street;
+		view.setText(s.getHouseCount());
+	}
+
 	/**
 	 * Use this method as an example of how we update our State.
 	 * 1. Do actions and modify the GameState.
@@ -474,6 +518,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			player.updateBalance(newBalance);
 			player.addDeedToPlayer(deed);
 			deed.setOwner(player);
+			addHouseToBoard(player, deed);
 			GameState.getInstance().updateDeed(deed);
 		}
 
