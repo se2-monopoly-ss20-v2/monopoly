@@ -45,11 +45,13 @@ public class DeedManager implements Serializable{
 		return player.getBalance();
 	}
 
-	public void performAcquiringHotelFor(Street street, Player player) {
+	public int performAcquiringHotelFor(Street street, Player player) {
 		if (street.getHotelPrice() <= player.getBalance()) {
 			int newBalance = player.getBalance() - street.getHotelPrice();
 			player.updateBalance(newBalance);
 			street.upgradeToHotel();
 		}
+
+		return player.getBalance();
 	}
 }

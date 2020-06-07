@@ -380,6 +380,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 			int headerId = 0;
 			int messageId = 0;
+
 			if (street.getHouseCount() == 4) {
 				//Player is eligible to upgrade to hotel.
 				headerId = R.string.buyHotelHeader;
@@ -388,14 +389,15 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				headerId = R.string.buyHouseTitle;
 				messageId = R.string.buyHouseOnDeed;
 			}
+
 			dialog.setTitle(getString(headerId));
 			dialog.setMessage(getString(messageId, street.getName(), street.getHousePrice()));
-
-			//TODO modify dialog
+			
 			dialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog, int which){
-					int balance = deedManager.performAcquiringHouseFor(street, player);
+					int balance = street.getHouseCount() == 4 ? deedManager.performAcquiringHotelFor(street, player) : deedManager.performAcquiringHouseFor(street
+					,player);
 					view_balance.setText(getString(R.string.balance,  balance));
 					showDifference(getOldBalance(), player.getBalance());
 					playerFinishedTurn();
@@ -467,7 +469,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	@Override
 	public void performAcquiringDeed(Deed deed, Player player){
 
-		//GameState.getInstance().getDeedManager().performAcquiringDeed(deed, player);
 		if (deed.getPrice() <= player.getBalance()) {
 			//PLAYER CAN BUY IT
 			int newBalance = player.getBalance() - deed.getPrice();
