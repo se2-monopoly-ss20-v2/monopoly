@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Player implements Serializable{
 
+	private static final long serialVersionUID = -558553967080513790L;
 	private String name;
 	private InetAddress address;
 	private int port;

@@ -537,5 +537,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/view_background"
             app:layout_constraintTop_toBottomOf="@+id/doubles" />
+    <Button
+            android:id="@+id/btn_buy_out"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="56dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:text="Buy Out"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/altbutton"
+            app:layout_constraintBottom_toBottomOf="@+id/number_playerposition"
+            app:layout_constraintStart_toEndOf="@+id/view_background" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
