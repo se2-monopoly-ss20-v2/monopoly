@@ -252,6 +252,18 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				playerFinishedTurn();
 			}
 		});
+
+		exposeButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				expose(currentPlayer);
+				exposeButton.setEnabled(false);
+				playerFinishedTurn();
+			}
+		});
+
+
 		setup();
 		for (int i = 0; i < fields.length; i++){
 			final ImageView view = fields[i];
@@ -685,11 +697,64 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
+	public void expose(final Player player){
+
+
+		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+		dialog.setTitle("Expose a player!");
+		dialog.setMessage("You are about to accuse your predecessor of cheating. If your suspicion is right, he will loose its cheated street and he gets to pay you a fine");
+		dialog.setButton(AlertDialog.BUTTON_POSITIVE, "Expose", new DialogInterface.OnClickListener(){
+			@Override
+			public void onClick(DialogInterface dialog, int which){
+				dialog.dismiss();
+
+				// expose turned out to be true
+				if(cheatManager.getLatestCheater() != null){
+
+					Player cheater = cheatManager.getLatestCheater();
+					int balanceCheater = cheater.getBalance();
+					int balanceExposer = player.getBalance();
+					cheater.removeDeedFromPlayer(cheatManager.getCheatedStreet());
+					cheatManager.getCheatedStreet().setOwner(null);
+
+					cheater.setBalance(balanceCheater-300);
+					player.setBalance(balanceExposer + 300);
+				}
+				else{
+					int newBalance = player.getBalance() - 300;
+					player.setBalance(newBalance);
+
+				}
+				cheatManager.flushCheater();
+				playerFinishedTurn();
+
+		/*GameState.getInstance().updatePlayer(player);
+		GameState.getInstance().playerEndedTurn();
+		GameStateNetworkMessage message = new GameStateNetworkMessage();
+		message.setState(GameState.getInstance());
+		sendMessage(message);*/
+			}
+		});
+		dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
+
+	}
+
 	public void cheat(Player player, Street street){
+
+		cheatManager.flushCheater();
+		cheatManager.setLatestCheater(player);
+		cheatManager.setCheatedStreet(street);
 
 		deedManager.cheatStreet(street, player);
 		GameState.getInstance().getDeedManager().cheatStreet(street, player);
 		GameState.getInstance().updatePlayer(player);
+		//GameState.getInstance().
 		GameState.getInstance().playerEndedTurn();
 		GameStateNetworkMessage message = new GameStateNetworkMessage();
 		message.setState(GameState.getInstance());
