@@ -12,7 +12,9 @@
     "housePrice": 30,
     "hotelPrice": 60,
     "color": "violet",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 6,
+    "initialRent": 6
   },
   {
     "name": "Community Chest",
@@ -26,7 +28,9 @@
     "housePrice": 30,
     "hotelPrice": 60,
     "color": "violet",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 6,
+    "initialRent": 6
   },
   {
     "name": "Income Tax",
@@ -38,7 +42,9 @@
     "type": "Railroad",
     "price": 200,
     "mortgage": 100,
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 25,
+    "initialRent": 25
   },
   {
     "name": "The Angel, Islington",
@@ -48,7 +54,9 @@
     "housePrice": 50,
     "hotelPrice": 100,
     "color": "lightBlue",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 10,
+    "initialRent": 10
   },
   {
     "name": "Chance",
@@ -62,7 +70,9 @@
     "housePrice": 50,
     "hotelPrice": 100,
     "color": "lightBlue",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 10,
+    "initialRent": 10
   },
   {
     "name": "Pentonville Road",
@@ -72,7 +82,9 @@
     "housePrice": 60,
     "hotelPrice": 120,
     "color": "lightBlue",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 12,
+    "initialRent": 12
   },
   {
     "name": "Just Visiting",
@@ -87,14 +99,17 @@
     "housePrice": 70,
     "hotelPrice": 140,
     "color": "pink",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 14,
+    "initialRent": 14
   },
   {
     "name": "Electric Company",
     "type": "Utility",
     "price": 140,
     "mortgage": 70,
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "utilityType": "ELECTRIC_COMPANY"
   },
   {
     "name": "Whitehall",
@@ -104,7 +119,9 @@
     "housePrice": 70,
     "hotelPrice": 140,
     "color": "pink",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 14,
+    "initialRent": 14
   },
   {
     "name": "Northumberland Avenue",
@@ -114,14 +131,18 @@
     "housePrice": 80,
     "hotelPrice": 160,
     "color": "pink",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 16,
+    "initialRent": 16
   },
   {
     "name": "Marylebone Station",
     "type": "Railroad",
     "price": 200,
     "mortgage": 100,
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 25,
+    "initialRent": 25
   },
   {
     "name": "Bow Street",
@@ -131,7 +152,9 @@
     "housePrice": 90,
     "hotelPrice": 180,
     "color": "orange",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 18,
+    "initialRent": 18
   },
   {
     "name": "Community Chest",
@@ -145,7 +168,9 @@
     "housePrice": 90,
     "hotelPrice": 180,
     "color": "orange",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 18,
+    "initialRent": 18
   },
   {
     "name": "Vine Street",
@@ -155,7 +180,9 @@
     "housePrice": 100,
     "hotelPrice": 200,
     "color": "orange",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 20,
+    "initialRent": 20
   },
   {
     "name": "Free Parking",
@@ -170,7 +197,9 @@
     "housePrice": 110,
     "hotelPrice": 220,
     "color": "red",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 22,
+    "initialRent": 22
   },
   {
     "name": "Chance",
@@ -184,7 +213,9 @@
     "housePrice": 110,
     "hotelPrice": 200,
     "color": "red",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 22,
+    "initialRent": 22
   },
   {
     "name": "Trafalgar Square",
@@ -194,14 +225,18 @@
     "housePrice": 120,
     "hotelPrice": 240,
     "color": "red",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 24,
+    "initialRent": 24
   },
   {
     "name": "Fenchurch Street Station",
     "type": "Railroad",
     "price": 200,
     "mortgage": 100,
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 25,
+    "initialRent": 25
   },
   {
     "name": "Leicester Square",
@@ -211,7 +246,9 @@
     "housePrice": 130,
     "hotelPrice": 260,
     "color": "yellow",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 26,
+    "initialRent": 26
   },
   {
     "name": "Coventry Street",
@@ -221,14 +258,17 @@
     "housePrice": 130,
     "hotelPrice": 260,
     "color": "yellow",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 26,
+    "initialRent": 26
   },
   {
     "name": "Water Company",
     "type": "Utility",
     "price": 140,
     "mortgage": 70,
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "utilityType": "WATER_WORKS"
   },
   {
     "name": "Piccadilly",
@@ -238,7 +278,9 @@
     "housePrice": 140,
     "hotelPrice": 280,
     "color": "yellow",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 28,
+    "initialRent": 28
   },
   {
     "name": "Jail",
@@ -253,7 +295,9 @@
     "housePrice": 150,
     "hotelPrice": 300,
     "color": "green",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 30,
+    "initialRent": 30
   },
   {
     "name": "Oxford Street",
@@ -263,7 +307,9 @@
     "housePrice": 150,
     "hotelPrice": 300,
     "color": "green",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 30,
+    "initialRent": 30
   },
   {
     "name": "Community Chest",
@@ -277,14 +323,18 @@
     "housePrice": 160,
     "hotelPrice": 320,
     "color": "green",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 32,
+    "initialRent": 32
   },
   {
     "name": "Liverpool Street Station",
     "type": "Railroad",
     "price": 200,
     "mortgage": 100,
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 25,
+    "initialRent": 25
   },
   {
     "name": "Chance",
@@ -298,7 +348,9 @@
     "housePrice": 175,
     "hotelPrice": 350,
     "color": "darkBlue",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 35,
+    "initialRent": 35
   },
   {
     "name": "Free Parking",
@@ -313,6 +365,8 @@
     "housePrice": 200,
     "hotelPrice": 400,
     "color": "darkBlue",
-    "isMortgaged": "false"
+    "isMortgaged": "false",
+    "currentRent": 40,
+    "initialRent": 40
   }
 ]

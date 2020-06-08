@@ -1,18 +1,21 @@
 package com.ss20.se2.monopoly;
 
 import com.ss20.se2.monopoly.models.GamePiece;
+import com.ss20.se2.monopoly.models.Gameboard;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.cards.ChanceCard;
 import com.ss20.se2.monopoly.models.fields.cards.CommunityCard;
 import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 import com.ss20.se2.monopoly.models.fields.deeds.Utility;
+import com.ss20.se2.monopoly.models.fields.deeds.UtilityType;
 import com.ss20.se2.monopoly.models.fields.specials.Special;
 import com.ss20.se2.monopoly.models.fields.specials.SpecialFieldType;
 
 import org.junit.Test;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -41,8 +44,8 @@ public class DataStructureUnitTest{
 		CommunityCard co1 = new CommunityCard("Go To","Go To");
 		CommunityCard co2 = new CommunityCard("Get Money","Get Money");
 		assertEquals("Go To", co1.getName());
-		Utility u1 = new Utility("Wasserwerk", 200, 10, false);
-		Utility u2 = new Utility("Elektrizitätswerk", 200, 15, false);
+		Utility u1 = new Utility("Wasserwerk", 200, 10,false, UtilityType.WATER_WORKS);
+		Utility u2 = new Utility("Elektrizitätswerk", 200, 15, false, UtilityType.ELECTRIC_COMPANY);
 		assertEquals("Wasserwerk", u1.getName());
 		assertEquals(200, u2.getPrice());
 		assertEquals(15, u2.getMortgage());
@@ -63,9 +66,9 @@ public class DataStructureUnitTest{
 		p1.setCurrentPosition(8);
 		assertEquals(8, p1.getCurrentPosition());
 		assertEquals(gp, p1.getSelectedPiece());
-		Utility u1 = new Utility("Wasserwerk", 200, 100, false);
+		Utility u1 = new Utility("Wasserwerk", 200, 100, false, UtilityType.WATER_WORKS);
 		Railroad r1 = new Railroad("Hauptbahnhof", 200, 100, false);
-		Street s1 = new Street("Esterhazy", 100, 50, false, 175, 300, "green");
+		Street s1 = new Street("Esterhazy", 100, 50, false,175, 300, "green");
 		p1.addDeedToPlayer(u1);
 		p1.addDeedToPlayer(r1);
 		assertEquals(2, p1.getPlayersDeeds().size());
@@ -82,5 +85,21 @@ public class DataStructureUnitTest{
 		assertEquals(1, p1.getPlayersCards().size());
 		s1.setOwner(p1);
 		assertEquals(p1, s1.getOwner());
+	}
+
+	@Test
+	public void railroadTests() {
+		Railroad r1 = new Railroad("Hauptbahnhof", 200, 100, false);
+
+		assertEquals(25, r1.getRent1RR());
+		assertEquals(50, r1.getRent2RR());
+		assertEquals(100, r1.getRent3RR());
+		assertEquals(200, r1.getRent4RR());
+		assertEquals(25, r1.getCurrentRent());
+
+		assertEquals(25, r1.getRentRelativeTo(1));
+		assertEquals(50, r1.getRentRelativeTo(2));
+		assertEquals(100, r1.getRentRelativeTo(3));
+		assertEquals(200, r1.getRentRelativeTo(4));
 	}
 }

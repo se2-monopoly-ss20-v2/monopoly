@@ -33,7 +33,7 @@
     <string name="deedDoubleRent">If a player owns all Streets of a color, then the rent at all Streets which don\'t have a house placed on it is doubled.</string>
     <string name="deedHousePrice">1 House costs:</string>
     <string name="deedHotelPrice">1 Hotel costs:</string>
-    <string name="deedMortgageValue">The Mortgage for this Street is:</string>
+    <string name="deedMortgageValue">The Mortgage for this Street is</string>
     <string name="currencyNumber" translatable="false">€ %1$d</string>
     <string name="buyBtn">Buy</string>
     <string name="cancelBtn">Cancel</string>
@@ -50,5 +50,17 @@
         <item>Hat</item>
         <item>Penguin</item>
     </string-array>
+    <string name="Train">Train</string>
+    <string name="railroadRent">Rent</string>
+    <string name="rentTwoRR">If you own 2 Railroads</string>
+    <string name="rentThreeRR">If you own 3 Railroads</string>
+    <string name="rentFourRR">If you own 4 Railroads</string>
+    <string name="electricInfo">If you own the Electric Company, then the Rent is 4 times higher, than the dices eyes show.</string>
+    <string name="waterInfo">If you own the Water Works, then the Rent is 4 times higher, than the dices eyes show.</string>
+    <string name="bothUtilityInfos">If you own both works, then the Rent is 10 times higher, than the dices eyes show.</string>
+    <string name="youPaidTo">You paid %1$d to %2$s.</string>
+    <string name="buyHotelOnDeed">You are about to buy a hotel on %1$s for € %2$d</string>
+    <string name="buyHotelHeader">Buy Hotel?</string>
+    <string name="zeroHouses" translatable="false"> </string>
 
 </resources>

@@ -3,6 +3,11 @@ package com.ss20.se2.monopoly.models;
 import android.content.Context;
 
 import com.ss20.se2.monopoly.DeedManager;
+import com.ss20.se2.monopoly.models.fields.GameTile;
+import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
+import com.ss20.se2.monopoly.models.fields.deeds.Street;
+import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 
 import java.io.Serializable;
@@ -16,6 +21,7 @@ public class GameState implements Serializable{
 	private Player currentActivePlayer;
 	private int turnRotation;
 	private Gameboard gameboard;
+	private List<Deed> allDeeds;
 	private DeedManager deedManager;
 	private List<Player> players;
 	private transient List<OnGameStateChangedListener> listeners;
@@ -24,6 +30,7 @@ public class GameState implements Serializable{
 	private GameState(){
 		this.players = new ArrayList<>();
 		this.listeners = new ArrayList<>();
+		this.allDeeds = new ArrayList<>();
 	}
 
 	public static GameState getInstance(){
@@ -39,11 +46,17 @@ public class GameState implements Serializable{
 			this.players.add(player);
 		}
 
+		turnRotation = 0;
+		currentActivePlayer = players.get(turnRotation);
+
 		gameboard = new Gameboard(context);
 		deedManager = new DeedManager(gameboard);
-		turnRotation = 0;
 
-		currentActivePlayer = players.get(turnRotation);
+		for(GameTile gameTile : gameboard.gameTiles) {
+			if (gameTile instanceof Deed) {
+				allDeeds.add((Deed) gameTile);
+			}
+		}
 	}
 
 	public List<Player> getPlayers(){
@@ -83,6 +96,14 @@ public class GameState implements Serializable{
 		return deedManager;
 	}
 
+	public List<Deed> getAllDeeds(){
+		return allDeeds;
+	}
+
+	public void setAllDeeds(List<Deed> allDeeds){
+		this.allDeeds = allDeeds;
+	}
+
 	public void updatePlayer(Player player) {
 		for (Player p : players) {
 			if (p.getAddress().equals(player.getAddress()) && p.getPort() == player.getPort()){
@@ -94,6 +115,21 @@ public class GameState implements Serializable{
 		}
 	}
 
+	public void updateDeed(Deed deed){
+		for (Deed d : allDeeds){
+			if (deed.getName().equals(d.getName())) {
+				d.setOwner(deed.getOwner());
+			}
+		}
+	}
+
+	public void updateStreet(Street street){
+		for(int i = 0; i < allDeeds.size(); i++){
+			if (allDeeds.get(i) instanceof Street && street.getName().equals(allDeeds.get(i).getName())) {
+				allDeeds.set(i, street);
+			}
+		}
+	}
 	public void playerEndedTurn() {
 
 		if (turnRotation < (players.size() - 1)){
@@ -103,6 +139,36 @@ public class GameState implements Serializable{
 		}
 
 		currentActivePlayer = players.get(turnRotation);
+	}
+
+	public int getBalanceOfSpecificPlayer(Player player) {
+		for (Player p : players) {
+			if (p.getAddress().equals(player.getAddress()) && p.getPort() == player.getPort()){
+				return p.getBalance();
+			}
+		}
+		return -1;
+	}
+
+	public boolean playerOwnsBothUtilities(Player player) {
+		for (Deed deed : allDeeds) {
+			if (deed instanceof Utility && (deed.getOwner() == null || (!deed.getOwner().getAddress().equals(player.getAddress()) || deed.getOwner().getPort() != player.getPort()))) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public int countOfPlayersRailroads(Player player) {
+		int count = 0;
+		for (Deed deed : allDeeds) {
+			if (deed instanceof Railroad && (deed.getOwner() != null && (deed.getOwner().getAddress().equals(player.getAddress()) || deed.getOwner().getPort() == player.getPort()))){
+				count++;
+			}
+		}
+
+		return count;
 	}
 
 	public void setDeedManager(DeedManager deedManager){
@@ -119,10 +185,6 @@ public class GameState implements Serializable{
 
 	public void subscribe(OnGameStateChangedListener listener){
 		listeners.add(listener);
-	}
-
-	public void unsubscribe(OnGameStateChangedListener listener){
-		listeners.remove(listener);
 	}
 
 	public void notifyListenersForSetup(){
