@@ -14,16 +14,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.ss20.se2.monopoly.DeedManager;
 import com.ss20.se2.monopoly.R;
-import com.ss20.se2.monopoly.models.ChanceCardDeck;
-import com.ss20.se2.monopoly.models.ChanceCardProcessor;
-import com.ss20.se2.monopoly.models.CommunityCardDeck;
-import com.ss20.se2.monopoly.models.CommunityCardProcessor;
-import com.ss20.se2.monopoly.models.Dice;
-import com.ss20.se2.monopoly.models.GamePiece;
-import com.ss20.se2.monopoly.models.GameState;
-import com.ss20.se2.monopoly.models.Gameboard;
-import com.ss20.se2.monopoly.models.Lobby;
-import com.ss20.se2.monopoly.models.Player;
+import com.ss20.se2.monopoly.models.*;
 import com.ss20.se2.monopoly.models.fields.GameTile;
 import com.ss20.se2.monopoly.models.fields.cards.Card;
 import com.ss20.se2.monopoly.models.fields.cards.ChanceCard;
@@ -60,6 +51,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	TextView updateBalance;
 	Button altbutton;
 	Button cheatButton;
+	Button exposeButton;
 	ImageView middleTile;
 
 	Dice dice = new Dice();
@@ -85,6 +77,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	int jailRollCounter;
 
 	boolean isHost;
+
+	CheatManager cheatManager;
 
 
 	public ImageView[] initializeUI(){
@@ -153,7 +147,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		altbutton = findViewById(R.id.altbutton);
 		cheatButton = findViewById(R.id.button_cheat);
 		middleTile = findViewById(R.id.tile_middle);
-
+		exposeButton = findViewById(R.id.button_expose);
+		cheatManager = new CheatManager();
 
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -254,6 +249,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 				cheat(currentPlayer, (Street) currentTile);
 				cheatButton.setVisibility(View.INVISIBLE);
+				playerFinishedTurn();
 			}
 		});
 		setup();
@@ -701,7 +697,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 		Toast.makeText(this, "You now own " + street.getName(), Toast.LENGTH_SHORT).show();
 
-		playerFinishedTurn();
 	}
 
 
