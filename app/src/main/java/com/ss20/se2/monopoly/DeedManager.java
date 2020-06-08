@@ -35,6 +35,11 @@ public class DeedManager implements Serializable{
 		return player.getBalance();
 	}
 
+	public void cheatStreet(Deed deed, Player player){
+		player.addDeedToPlayer(deed);
+		deed.setOwner(player);
+	}
+
 	public int performAcquiringHouseFor(Street street, Player player) {
 		if (street.getHousePrice() <= player.getBalance() && street.getHouseCount() < 4) {
 			int newBalance = player.getBalance() - street.getHousePrice();
