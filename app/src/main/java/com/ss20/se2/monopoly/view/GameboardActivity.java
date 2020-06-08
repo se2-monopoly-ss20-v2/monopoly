@@ -329,6 +329,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			}else if (tile.getFieldType().equals(SpecialFieldType.JAIL)){
 				movePlayerToJail(currentPlayer);
 				gameboard.move("Player 1", -20);
+			}else if (tile.getFieldType().equals(SpecialFieldType.JAIL_VISITOR)){
+				playerFinishedTurn();
 			}else if (tile.getFieldType().equals(SpecialFieldType.GO)){
 				playerFinishedTurn();
 			}
@@ -583,7 +585,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			updateBalance.setText("");
 		}else if (oldBalance < newBalance){
 			//set Color
-			updateBalance.setText("+$" + difference * -1);
+			updateBalance.setText("+$" + difference);
 		}else{
 			updateBalance.setText("-$" + difference);
 		}
