@@ -1,5 +1,6 @@
 package com.ss20.se2.monopoly.view;
 
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -198,7 +199,14 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				deedlistview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-						Toast.makeText(GameboardActivity.this, "clicked item"+position+" "+currentPlayer.getPlayersDeeds().get(position).toString(),Toast.LENGTH_SHORT).show();
+						if (currentPlayer.getPlayersDeeds().get(position).getIsMortgaged() == false){
+							mortgage(currentPlayer.getPlayersDeeds().get(position), currentPlayer);
+						}else if (currentPlayer.getPlayersDeeds().get(position).getIsMortgaged() == true){
+							payMortgage(currentPlayer.getPlayersDeeds().get(position), currentPlayer);
+						}
+
+
+						//Toast.makeText(GameboardActivity.this, "clicked item"+position+" "+currentPlayer.getPlayersDeeds().get(position).toString(),Toast.LENGTH_SHORT).show();
 					}
 				});
 
@@ -520,18 +528,76 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
-	public boolean mortgage(Street street){
-		/*Mortage a street
+	public void mortgage(GameTile gameTile, Player player){
 
-		view_balance.setText(getString(R.string.balance,  player.getBalance()));
-		Toast.makeText(this, "You mortgaged " + street.getName(), Toast.LENGTH_SHORT).show();
-		showDifference(getOldBalance(), player.getBalance());
+		int balance = player.getBalance();
 
-		p.balance = p.balance + street.mortage
+		if(gameTile instanceof Street){
+			Street street = (Street) gameTile;
+			int mortgage = street.getMortgage();
+			player.setBalance(balance + mortgage);
+			street.setIsMortgaged(true);
 
+			view_balance.setText(getString(R.string.balance,  player.getBalance()));
+			Toast.makeText(this, "You mortgaged " + street.getName(), Toast.LENGTH_SHORT).show();
+			showDifference(getOldBalance(), player.getBalance());
+		}else if (gameTile instanceof Railroad){
+			Railroad railroad = (Railroad) gameTile;
+			int mortgage = railroad.getMortgage();
+			player.setBalance(balance + mortgage);
+			railroad.setIsMortgaged(true);
 
-		* */
-		return true;
+			view_balance.setText(getString(R.string.balance,  player.getBalance()));
+			Toast.makeText(this, "You mortgaged " + railroad.getName(), Toast.LENGTH_SHORT).show();
+			showDifference(getOldBalance(), player.getBalance());
+
+		}else if (gameTile instanceof Utility){
+			Utility utility = (Utility) gameTile;
+			int mortgage = utility.getMortgage();
+			player.setBalance(balance + mortgage);
+			utility.setIsMortgaged(true);
+
+			view_balance.setText(getString(R.string.balance,  player.getBalance()));
+			Toast.makeText(this, "You mortgaged " + utility.getName(), Toast.LENGTH_SHORT).show();
+			showDifference(getOldBalance(), player.getBalance());
+
+		}
+	}
+
+	public void payMortgage(GameTile gameTile, Player player){
+		int balance = player.getBalance();
+
+		if(gameTile instanceof Street){
+			Street street = (Street) gameTile;
+			int mortgage = street.getMortgage();
+			player.setBalance(balance - mortgage);
+			street.setIsMortgaged(false);
+
+			view_balance.setText(getString(R.string.balance,  player.getBalance()));
+			Toast.makeText(this, "You paid the mortgage for " + street.getName(), Toast.LENGTH_SHORT).show();
+			showDifference(getOldBalance(), player.getBalance());
+		}else if (gameTile instanceof Railroad){
+			Railroad railroad = (Railroad) gameTile;
+			int mortgage = railroad.getMortgage();
+			player.setBalance(balance - mortgage);
+			railroad.setIsMortgaged(false);
+
+			view_balance.setText(getString(R.string.balance,  player.getBalance()));
+			Toast.makeText(this, "You paid the mortgage for " + railroad.getName(), Toast.LENGTH_SHORT).show();
+			showDifference(getOldBalance(), player.getBalance());
+
+		}else if (gameTile instanceof Utility){
+			Utility utility = (Utility) gameTile;
+			int mortgage = utility.getMortgage();
+			player.setBalance(balance - mortgage);
+			utility.setIsMortgaged(false);
+
+			view_balance.setText(getString(R.string.balance,  player.getBalance()));
+			Toast.makeText(this, "You paid the mortgage for " + utility.getName(), Toast.LENGTH_SHORT).show();
+			showDifference(getOldBalance(), player.getBalance());
+
+		}
+
 	}
 
 
