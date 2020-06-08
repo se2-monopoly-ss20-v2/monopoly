@@ -84,7 +84,7 @@ public class DeedLogicInstrumentedTests{
 	}
 
 	@Test
-	public void performAcquiringHouseOnDeed() {
+	public void performAcquiringHouseAndHotelOnDeed() {
 		int balanceAfterFirstPurchase = player1.getBalance() - street1.getPrice();
 		int balanceAfterSecond = balanceAfterFirstPurchase - street2.getPrice();
 
@@ -100,5 +100,9 @@ public class DeedLogicInstrumentedTests{
 		assertEquals(3, street1.getHouseCount());
 		deedManager.performAcquiringHouseFor(street1, player1);
 		assertEquals(4, street1.getHouseCount());
+
+		assertFalse(street1.getHasHotel());
+		deedManager.performAcquiringHotelFor(street1, player1);
+		assertTrue(street1.getHasHotel());
 	}
 }

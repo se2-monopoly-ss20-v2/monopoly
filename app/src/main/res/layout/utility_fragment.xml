@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        tools:context=".view.deed.utility.UtilityFragment">
+
+    <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
+
+        <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="vertical">
+
+            <ImageView
+                    android:id="@+id/imageViewUtility"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3pt"
+                    android:layout_width="match_parent"
+                    android:src="@drawable/electric" />
+
+            <TextView
+                    android:gravity="center"
+                    android:id="@+id/textViewUtilityTitle"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="TextView"
+                    android:textAllCaps="true"
+                    android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_margin="10pt"
+                android:layout_width="match_parent"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3pt"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView13"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/deedValue" />
+
+                <TextView
+                        android:gravity="right"
+                        android:id="@+id/textViewUtilityDeedValue"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="TextView"
+                        android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/textViewUtilityInfo"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3pt"
+                    android:layout_width="match_parent"
+                    android:minLines="3"
+                    android:text="@string/electricInfo" />
+
+            <TextView
+                    android:id="@+id/textViewUtilityBothInfo"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3pt"
+                    android:layout_width="match_parent"
+                    android:text="@string/bothUtilityInfos" />
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/textView25"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="@string/deedMortgageValue" />
+
+                <TextView
+                        android:gravity="right"
+                        android:id="@+id/textViewUtilityMortgage"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:text="TextView"
+                        android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
