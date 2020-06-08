@@ -261,9 +261,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 						}else if (currentPlayer.getPlayersDeeds().get(position).getIsMortgaged() == true){
 							payMortgage(currentPlayer.getPlayersDeeds().get(position), currentPlayer);
 						}
-
-
-						//Toast.makeText(GameboardActivity.this, "clicked item"+position+" "+currentPlayer.getPlayersDeeds().get(position).toString(),Toast.LENGTH_SHORT).show();
 					}
 				});
 
@@ -701,76 +698,108 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
-	public void mortgage(GameTile gameTile, Player player){
+	public void mortgage( final GameTile gameTile, final Player player){
 
-		int balance = player.getBalance();
+		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+		dialog.setCanceledOnTouchOutside(false);
+		dialog.setTitle("Mortgage");
+		dialog.setMessage("Do you want to mortgage your deed?");
+		dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener(){
+			@Override
+			public void onClick(DialogInterface dialog, int which){
+				dialog.dismiss();
+			}
+		});
+		dialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener(){
+			@Override
+			public void onClick(DialogInterface dialog, int which){
+				int balance = player.getBalance();
 
-		if(gameTile instanceof Street){
-			Street street = (Street) gameTile;
-			int mortgage = street.getMortgage();
-			player.setBalance(balance + mortgage);
-			street.setIsMortgaged(true);
+				if(gameTile instanceof Street){
+					Street street = (Street) gameTile;
+					int mortgage = street.getMortgage();
+					player.setBalance(balance + mortgage);
+					street.setIsMortgaged(true);
 
-			view_balance.setText(getString(R.string.balance,  player.getBalance()));
-			Toast.makeText(this, "You mortgaged " + street.getName(), Toast.LENGTH_SHORT).show();
-			showDifference(getOldBalance(), player.getBalance());
-		}else if (gameTile instanceof Railroad){
-			Railroad railroad = (Railroad) gameTile;
-			int mortgage = railroad.getMortgage();
-			player.setBalance(balance + mortgage);
-			railroad.setIsMortgaged(true);
+					view_balance.setText(getString(R.string.balance,  player.getBalance()));
+					Toast.makeText(GameboardActivity.this, "You mortgaged " + street.getName(), Toast.LENGTH_SHORT).show();
+					showDifference(getOldBalance(), player.getBalance());
+				}else if (gameTile instanceof Railroad){
+					Railroad railroad = (Railroad) gameTile;
+					int mortgage = railroad.getMortgage();
+					player.setBalance(balance + mortgage);
+					railroad.setIsMortgaged(true);
 
-			view_balance.setText(getString(R.string.balance,  player.getBalance()));
-			Toast.makeText(this, "You mortgaged " + railroad.getName(), Toast.LENGTH_SHORT).show();
-			showDifference(getOldBalance(), player.getBalance());
+					view_balance.setText(getString(R.string.balance,  player.getBalance()));
+					Toast.makeText(GameboardActivity.this, "You mortgaged " + railroad.getName(), Toast.LENGTH_SHORT).show();
+					showDifference(getOldBalance(), player.getBalance());
 
-		}else if (gameTile instanceof Utility){
-			Utility utility = (Utility) gameTile;
-			int mortgage = utility.getMortgage();
-			player.setBalance(balance + mortgage);
-			utility.setIsMortgaged(true);
+				}else if (gameTile instanceof Utility){
+					Utility utility = (Utility) gameTile;
+					int mortgage = utility.getMortgage();
+					player.setBalance(balance + mortgage);
+					utility.setIsMortgaged(true);
 
-			view_balance.setText(getString(R.string.balance,  player.getBalance()));
-			Toast.makeText(this, "You mortgaged " + utility.getName(), Toast.LENGTH_SHORT).show();
-			showDifference(getOldBalance(), player.getBalance());
+					view_balance.setText(getString(R.string.balance,  player.getBalance()));
+					Toast.makeText(GameboardActivity.this, "You mortgaged " + utility.getName(), Toast.LENGTH_SHORT).show();
+					showDifference(getOldBalance(), player.getBalance());
+				}
+			}
+		});
+		dialog.show();
 
-		}
 	}
 
-	public void payMortgage(GameTile gameTile, Player player){
-		int balance = player.getBalance();
+	public void payMortgage(final GameTile gameTile, final Player player){
 
-		if(gameTile instanceof Street){
-			Street street = (Street) gameTile;
-			int mortgage = street.getMortgage();
-			player.setBalance(balance - mortgage);
-			street.setIsMortgaged(false);
+		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+		dialog.setCanceledOnTouchOutside(false);
+		dialog.setTitle("Pay Mortgage");
+		dialog.setMessage("Do you want to pay your mortgage?");
+		dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener(){
+			@Override
+			public void onClick(DialogInterface dialog, int which){
+				dialog.dismiss();
+			}
+		});
+		dialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener(){
+			@Override
+			public void onClick(DialogInterface dialog, int which){
+				int balance = player.getBalance();
 
-			view_balance.setText(getString(R.string.balance,  player.getBalance()));
-			Toast.makeText(this, "You paid the mortgage for " + street.getName(), Toast.LENGTH_SHORT).show();
-			showDifference(getOldBalance(), player.getBalance());
-		}else if (gameTile instanceof Railroad){
-			Railroad railroad = (Railroad) gameTile;
-			int mortgage = railroad.getMortgage();
-			player.setBalance(balance - mortgage);
-			railroad.setIsMortgaged(false);
+				if(gameTile instanceof Street){
+					Street street = (Street) gameTile;
+					int mortgage = street.getMortgage();
+					player.setBalance(balance - mortgage);
+					street.setIsMortgaged(false);
 
-			view_balance.setText(getString(R.string.balance,  player.getBalance()));
-			Toast.makeText(this, "You paid the mortgage for " + railroad.getName(), Toast.LENGTH_SHORT).show();
-			showDifference(getOldBalance(), player.getBalance());
+					view_balance.setText(getString(R.string.balance,  player.getBalance()));
+					Toast.makeText(GameboardActivity.this, "You paid the mortgage for " + street.getName(), Toast.LENGTH_SHORT).show();
+					showDifference(getOldBalance(), player.getBalance());
+				}else if (gameTile instanceof Railroad){
+					Railroad railroad = (Railroad) gameTile;
+					int mortgage = railroad.getMortgage();
+					player.setBalance(balance - mortgage);
+					railroad.setIsMortgaged(false);
 
-		}else if (gameTile instanceof Utility){
-			Utility utility = (Utility) gameTile;
-			int mortgage = utility.getMortgage();
-			player.setBalance(balance - mortgage);
-			utility.setIsMortgaged(false);
+					view_balance.setText(getString(R.string.balance,  player.getBalance()));
+					Toast.makeText(GameboardActivity.this, "You paid the mortgage for " + railroad.getName(), Toast.LENGTH_SHORT).show();
+					showDifference(getOldBalance(), player.getBalance());
 
-			view_balance.setText(getString(R.string.balance,  player.getBalance()));
-			Toast.makeText(this, "You paid the mortgage for " + utility.getName(), Toast.LENGTH_SHORT).show();
-			showDifference(getOldBalance(), player.getBalance());
+				}else if (gameTile instanceof Utility){
+					Utility utility = (Utility) gameTile;
+					int mortgage = utility.getMortgage();
+					player.setBalance(balance - mortgage);
+					utility.setIsMortgaged(false);
 
-		}
+					view_balance.setText(getString(R.string.balance,  player.getBalance()));
+					Toast.makeText(GameboardActivity.this, "You paid the mortgage for " + utility.getName(), Toast.LENGTH_SHORT).show();
+					showDifference(getOldBalance(), player.getBalance());
 
+				}
+			}
+		});
+		dialog.show();
 	}
 
 
