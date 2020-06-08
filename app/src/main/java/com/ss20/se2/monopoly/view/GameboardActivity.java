@@ -655,6 +655,22 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
+	public void cheat(Player player, Street street){
+
+		deedManager.cheatStreet(street, player);
+		GameState.getInstance().getDeedManager().cheatStreet(street, player);
+		GameState.getInstance().updatePlayer(player);
+		GameState.getInstance().playerEndedTurn();
+		GameStateNetworkMessage message = new GameStateNetworkMessage();
+		message.setState(GameState.getInstance());
+		sendMessage(message);
+
+		Toast.makeText(this, "You now own " + street.getName(), Toast.LENGTH_SHORT).show();
+
+		playerFinishedTurn();
+	}
+
+
 	public int getOldBalance(){
 		return oldBalance;
 	}
