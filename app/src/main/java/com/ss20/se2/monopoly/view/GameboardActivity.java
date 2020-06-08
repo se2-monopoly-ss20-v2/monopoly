@@ -146,21 +146,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		updateBalance = findViewById(R.id.changeOfBalance);
 		btnshowdeeds = findViewById(R.id.button_deeds);
 		deedlistview = findViewById(R.id.deed_list);
-		final ArrayList<String> ownedList = new ArrayList<>();
-
-		ownedList.add("Test");
-		ownedList.add("Test2");
-		ownedList.add("Test");
-		ownedList.add("Test2");
-		ownedList.add("Test");
-		ownedList.add("Test2");
-		ownedList.add("Test");
-		ownedList.add("Test2");
-		ownedList.add("Test");
-		ownedList.add("Test2");
-		ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,ownedList);
-		deedlistview.setAdapter(arrayAdapter);
-
 
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -202,6 +187,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			@Override
 			public void onClick(View v){
 
+				ArrayAdapter arrayAdapter = new ArrayAdapter(GameboardActivity.this, android.R.layout.simple_list_item_1,currentPlayer.getPlayersDeeds());
+				deedlistview.setAdapter(arrayAdapter);
+
 				if (deedlistview.getVisibility() == View.VISIBLE){
 					deedlistview.setVisibility(View.INVISIBLE);
 				}else{
@@ -210,7 +198,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				deedlistview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-						Toast.makeText(GameboardActivity.this, "clicked item"+position+" "+ownedList.get(position).toString(),Toast.LENGTH_SHORT).show();
+						Toast.makeText(GameboardActivity.this, "clicked item"+position+" "+currentPlayer.getPlayersDeeds().get(position).toString(),Toast.LENGTH_SHORT).show();
 					}
 				});
 
