@@ -347,6 +347,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			dialog.show();
 			communityCardProcessor.performAction(player, communityCard);
 			view_balance.setText("Balance: " + player.getBalance());
+			playerFinishedTurn();
 		}else if (currentTile instanceof ChanceCard){
 			ChanceCard chanceCard = chanceCards.getNextCard();
 			AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
@@ -362,6 +363,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			dialog.show();
 			chanceCardProcessor.performAction(player, chanceCard);
 			view_balance.setText("Balance: " + player.getBalance());
+			playerFinishedTurn();
 		}
 	}
 
