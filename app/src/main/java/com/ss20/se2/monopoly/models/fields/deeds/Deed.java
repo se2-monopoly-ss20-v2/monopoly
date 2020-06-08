@@ -49,4 +49,9 @@ public abstract class Deed extends GameTile {
 	public void setIsMortgaged(boolean isMortgaged){
 		this.isMortgaged = isMortgaged;
 	}
+
+	@Override
+	public String toString(){
+		return this.getName();
+	}
 }
