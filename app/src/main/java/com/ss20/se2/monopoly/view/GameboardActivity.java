@@ -59,6 +59,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	TextView view_balance;
 	TextView updateBalance;
 	Button altbutton;
+	Button cheatButton;
+	ImageView middleTile;
 
 	Dice dice = new Dice();
 	Dice dice2 = new Dice();
@@ -149,6 +151,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		view_balance = findViewById(R.id.text_balance);
 		updateBalance = findViewById(R.id.changeOfBalance);
 		altbutton = findViewById(R.id.altbutton);
+		cheatButton = findViewById(R.id.button_cheat);
+		middleTile = findViewById(R.id.tile_middle);
 
 
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
@@ -205,11 +209,30 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 						processRoll();
 						findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
 						findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
+
+
+						GameTile currentTile = gameboard.gameTiles.get(currentPlayer.getCurrentPosition());
+
+						if(currentTile instanceof Street){
+							final Street street = (Street) currentTile;
+							if(street.getOwner() == null){
+								middleTile.setOnClickListener(new View.OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										cheatButton.setVisibility(View.VISIBLE);
+										middleTile.setOnClickListener(null);
+									}
+
+								});
+							}
+						}
+
 					}
 				});
 
 				Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 						SensorManager.SENSOR_DELAY_GAME);
+				cheatButton.setVisibility(View.INVISIBLE);
 				}
 		});
 		button_buyOut.setOnClickListener(new View.OnClickListener(){
@@ -220,6 +243,17 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				int balance = currentPlayer.getBalance();
 				view_balance.setText(getString(R.string.balance, balance));
 				showDifference(getOldBalance(), currentPlayer.getBalance());
+			}
+		});
+
+		cheatButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				GameTile currentTile = gameboard.gameTiles.get(currentPlayer.getCurrentPosition());
+
+				cheat(currentPlayer, (Street) currentTile);
+				cheatButton.setVisibility(View.INVISIBLE);
 			}
 		});
 		setup();
