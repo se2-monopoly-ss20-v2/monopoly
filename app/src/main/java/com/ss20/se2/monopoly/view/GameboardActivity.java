@@ -1,6 +1,5 @@
 package com.ss20.se2.monopoly.view;
 
-import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -263,7 +262,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 						}
 					}
 				});
-
 			}
 		});
 
@@ -724,6 +722,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					view_balance.setText(getString(R.string.balance,  player.getBalance()));
 					Toast.makeText(GameboardActivity.this, "You mortgaged " + street.getName(), Toast.LENGTH_SHORT).show();
 					showDifference(getOldBalance(), player.getBalance());
+
 				}else if (gameTile instanceof Railroad){
 					Railroad railroad = (Railroad) gameTile;
 					int mortgage = railroad.getMortgage();
@@ -776,6 +775,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					view_balance.setText(getString(R.string.balance,  player.getBalance()));
 					Toast.makeText(GameboardActivity.this, "You paid the mortgage for " + street.getName(), Toast.LENGTH_SHORT).show();
 					showDifference(getOldBalance(), player.getBalance());
+
 				}else if (gameTile instanceof Railroad){
 					Railroad railroad = (Railroad) gameTile;
 					int mortgage = railroad.getMortgage();
