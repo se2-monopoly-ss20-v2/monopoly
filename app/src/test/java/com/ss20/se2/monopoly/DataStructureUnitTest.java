@@ -20,13 +20,13 @@ public class DataStructureUnitTest{
 
 	@Test
 	public void createGameTilesTest(){
-		Railroad r1 = new Railroad("Hauptbahnhof", 200, 100);
-		Railroad r2 = new Railroad("Südbahnhof", 200, 100);
+		Railroad r1 = new Railroad("Hauptbahnhof", 200, 100, false);
+		Railroad r2 = new Railroad("Südbahnhof", 200, 100, false);
 		assertEquals(200, r1.getPrice());
 		assertEquals(100, r1.getMortgage());
 		assertEquals("Südbahnhof", r2.getName());
-		Street s1 = new Street("Esterhazy", 100, 50, 175, 300, "pink");
-		Street s2 = new Street("Operngasse", 300, 150, 275, 500, "violet");
+		Street s1 = new Street("Esterhazy", 100, 50, false, 175, 300, "pink");
+		Street s2 = new Street("Operngasse", 300, 150, false,275, 500, "violet");
 		assertEquals(100, s1.getPrice());
 		assertEquals(150, s2.getMortgage());
 		assertEquals(175, s1.getHousePrice());
@@ -41,8 +41,8 @@ public class DataStructureUnitTest{
 		CommunityCard co1 = new CommunityCard("Go To","Go To");
 		CommunityCard co2 = new CommunityCard("Get Money","Get Money");
 		assertEquals("Go To", co1.getName());
-		Utility u1 = new Utility("Wasserwerk", 200, 10);
-		Utility u2 = new Utility("Elektrizitätswerk", 200, 15);
+		Utility u1 = new Utility("Wasserwerk", 200, 10, false);
+		Utility u2 = new Utility("Elektrizitätswerk", 200, 15, false);
 		assertEquals("Wasserwerk", u1.getName());
 		assertEquals(200, u2.getPrice());
 		assertEquals(15, u2.getMortgage());
@@ -63,9 +63,9 @@ public class DataStructureUnitTest{
 		p1.setCurrentPosition(8);
 		assertEquals(8, p1.getCurrentPosition());
 		assertEquals(gp, p1.getSelectedPiece());
-		Utility u1 = new Utility("Wasserwerk", 200, 100);
-		Railroad r1 = new Railroad("Hauptbahnhof", 200, 100);
-		Street s1 = new Street("Esterhazy", 100, 50, 175, 300, "green");
+		Utility u1 = new Utility("Wasserwerk", 200, 100, false);
+		Railroad r1 = new Railroad("Hauptbahnhof", 200, 100, false);
+		Street s1 = new Street("Esterhazy", 100, 50, false, 175, 300, "green");
 		p1.addDeedToPlayer(u1);
 		p1.addDeedToPlayer(r1);
 		assertEquals(2, p1.getPlayersDeeds().size());
