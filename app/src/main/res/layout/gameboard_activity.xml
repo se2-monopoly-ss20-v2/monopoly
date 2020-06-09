@@ -779,6 +779,16 @@
             app:layout_constraintTop_toBottomOf="@+id/altbutton"
             app:layout_constraintBottom_toBottomOf="@+id/number_playerposition"
             app:layout_constraintStart_toEndOf="@+id/view_background" />
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@color/colorAccent"
+            android:id="@+id/player_1"
+            app:layout_constraintEnd_toEndOf="@+id/tile_0" app:layout_constraintBottom_toBottomOf="parent"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@color/colorPrimary"
+            android:id="@+id/player_2"
+            app:layout_constraintEnd_toStartOf="@+id/player_1" app:layout_constraintBottom_toBottomOf="@+id/tile_0"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
