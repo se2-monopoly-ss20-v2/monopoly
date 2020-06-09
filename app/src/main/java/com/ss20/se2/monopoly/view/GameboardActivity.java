@@ -1,6 +1,7 @@
 package com.ss20.se2.monopoly.view;
 
-
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +56,7 @@ import android.hardware.SensorManager;
 import android.hardware.SensorEventListener;
 import java.util.Objects;
 
+
 public class GameboardActivity extends AppCompatActivity implements DeedFragmentDelegate{
 
 	Button button_rollDice;
@@ -64,9 +67,15 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	TextView view_position;
 	TextView view_balance;
 	TextView updateBalance;
+
+	Button btnshowdeeds;
+	ListView deedlistview;
+
 	Button altbutton;
 	ImageView player1;
 	ImageView player2;
+	Button addUpBtn;
+
 
 	Dice dice = new Dice();
 	Dice dice2 = new Dice();
@@ -198,6 +207,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		view_position = findViewById(R.id.number_playerposition);
 		view_balance = findViewById(R.id.text_balance);
 		updateBalance = findViewById(R.id.changeOfBalance);
+
+		btnshowdeeds = findViewById(R.id.button_deeds);
+		deedlistview = findViewById(R.id.deed_list);
 		altbutton = findViewById(R.id.altbutton);
 		player1 = findViewById(R.id.player_1);
 		player2 = findViewById(R.id.player_2);
@@ -208,6 +220,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		duck = findViewById(R.id.duck);
 		hat = findViewById(R.id.hat);
 		penguin = findViewById(R.id.penguin);
+		addUpBtn = findViewById(R.id.addUpBtn);
 
 
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
@@ -277,10 +290,41 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				showDifference(getOldBalance(), currentPlayer.getBalance());
 			}
 		});
+
+		btnshowdeeds.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v){
+
+				ArrayAdapter arrayAdapter = new ArrayAdapter(GameboardActivity.this, android.R.layout.simple_list_item_1,currentPlayer.getPlayersDeeds());
+				deedlistview.setAdapter(arrayAdapter);
+
+				if (deedlistview.getVisibility() == View.VISIBLE){
+					deedlistview.setVisibility(View.INVISIBLE);
+				}else{
+					deedlistview.setVisibility(View.VISIBLE);
+				}
+				deedlistview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+						if (!currentPlayer.getPlayersDeeds().get(position).getIsMortgaged()){
+							mortgage(currentPlayer.getPlayersDeeds().get(position), currentPlayer);
+						}else if (currentPlayer.getPlayersDeeds().get(position).getIsMortgaged()){
+							payMortgage(currentPlayer.getPlayersDeeds().get(position), currentPlayer);
+						}
+					}
+				});
+			}
+		});
+
+
+		addUpBtn.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v){
+				addUp(currentPlayer);
+			}
+		});
+
 		setup();
-
-
-
 		for (int i = 0; i < fields.length; i++){
 			final ImageView view = fields[i];
 			view.setOnClickListener(new View.OnClickListener(){
@@ -341,16 +385,25 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		GameTile currentTile = gameboard.gameTiles.get(player.getCurrentPosition());
 		if (currentTile instanceof Street){
 			final Street street = (Street) currentTile;
-			handlePlayerOnStreet(street, player);
-
+			if (street.getIsMortgaged()){
+				playerFinishedTurn();
+			}else{
+				handlePlayerOnStreet(street, player);
+			}
 		}else if (currentTile instanceof Railroad) {
 			Railroad railroad = (Railroad) currentTile;
-			handlePlayerOnRailroad(railroad, player);
-
+			if (railroad.getIsMortgaged()){
+				playerFinishedTurn();
+			}else{
+				handlePlayerOnRailroad(railroad, player);
+			}
 		}else if (currentTile instanceof Utility){
 			Utility utility = (Utility) currentTile;
-			handlePlayerOnUtility(utility, player);
-
+			if(utility.getIsMortgaged()){
+				playerFinishedTurn();
+			}else{
+				handlePlayerOnUtility(utility, player);
+			}
 		}else if (currentTile instanceof Special){
 			Special tile = (Special) currentTile;
 			if (tile.getFieldType().equals(SpecialFieldType.FREEPARKING)){
@@ -383,6 +436,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			dialog.show();
 			communityCardProcessor.performAction(player, communityCard);
 			view_balance.setText("Balance: " + player.getBalance());
+			checkGameOver(player);
 
 			GameState.getInstance().updatePlayer(player);
 			playerFinishedTurn();
@@ -402,6 +456,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			dialog.show();
 			chanceCardProcessor.performAction(player, chanceCard);
 			view_balance.setText("Balance: " + player.getBalance());
+			checkGameOver(player);
 
 			GameState.getInstance().updatePlayer(player);
 			playerFinishedTurn();
@@ -535,7 +590,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				The playerOwnsAllStreetsOf(_:) has been removed due to the missing trading function.
 				deedManager.playerOwnsAllStreetsOf(street.getColor(), player)
 			 */
-		} else if (street.getOwner().getAddress().equals(player.getAddress()) && street.getOwner().getPort() == player.getPort()  && !street.getHasHotel()) {
+		}else if (street.getOwner().getAddress().equals(player.getAddress()) && street.getOwner().getPort() == player.getPort()  && !street.getHasHotel()) {
 			final AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 			dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener(){
 				@Override
@@ -578,6 +633,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			player.setBalance(player.getBalance() - street.getCurrentRent());
 			street.getOwner().setBalance(street.getOwner().getBalance() + street.getCurrentRent());
 
+			checkGameOver(player);
 			updatePlayersAfterPaymentAndEndTurn(street.getOwner(), player);
 
 			showToast(street.getCurrentRent(), street.getOwner().getName());
@@ -599,6 +655,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			player.setBalance(player.getBalance() - due);
 			owner.setBalance(owner.getBalance() + due);
 
+			checkGameOver(player);
 			updatePlayersAfterPaymentAndEndTurn(owner, player);
 
 			showToast(due, owner.getName());
@@ -617,6 +674,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			player.setBalance(player.getBalance() - dueRent);
 			owner.setBalance(owner.getBalance() + dueRent);
 
+			checkGameOver(player);
 			updatePlayersAfterPaymentAndEndTurn(owner, player);
 
 			showToast(dueRent, owner.getName());
@@ -726,6 +784,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			}
 		});
 		dialog.show();
+		checkGameOver(player);
 		showDifference(getOldBalance(), player.getBalance());
 	}
 
@@ -764,6 +823,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			}
 		});
 		dialog.show();
+		checkGameOver(player);
 		showDifference(getOldBalance(), player.getBalance());
 	}
 
@@ -848,6 +908,113 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
+	public void mortgage( final GameTile gameTile, final Player player){
+
+		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+		dialog.setCanceledOnTouchOutside(false);
+		dialog.setTitle("Mortgage");
+		dialog.setMessage("Do you want to mortgage your deed?");
+		dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener(){
+			@Override
+			public void onClick(DialogInterface dialog, int which){
+				dialog.dismiss();
+			}
+		});
+		dialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener(){
+			@Override
+			public void onClick(DialogInterface dialog, int which){
+				int balance = player.getBalance();
+				String s = "You mortgaged ";
+
+				if(gameTile instanceof Street){
+					Street street = (Street) gameTile;
+					int mortgage = street.getMortgage();
+					player.setBalance(balance + mortgage);
+					street.setIsMortgaged(true);
+
+					view_balance.setText(getString(R.string.balance,  player.getBalance()));
+					Toast.makeText(GameboardActivity.this, s + street.getName(), Toast.LENGTH_SHORT).show();
+					showDifference(getOldBalance(), player.getBalance());
+
+				}else if (gameTile instanceof Railroad){
+					Railroad railroad = (Railroad) gameTile;
+					int mortgage = railroad.getMortgage();
+					player.setBalance(balance + mortgage);
+					railroad.setIsMortgaged(true);
+
+					view_balance.setText(getString(R.string.balance,  player.getBalance()));
+					Toast.makeText(GameboardActivity.this, s + railroad.getName(), Toast.LENGTH_SHORT).show();
+					showDifference(getOldBalance(), player.getBalance());
+
+				}else if (gameTile instanceof Utility){
+					Utility utility = (Utility) gameTile;
+					int mortgage = utility.getMortgage();
+					player.setBalance(balance + mortgage);
+					utility.setIsMortgaged(true);
+
+					view_balance.setText(getString(R.string.balance,  player.getBalance()));
+					Toast.makeText(GameboardActivity.this, s + utility.getName(), Toast.LENGTH_SHORT).show();
+					showDifference(getOldBalance(), player.getBalance());
+				}
+			}
+		});
+		dialog.show();
+
+	}
+
+	public void payMortgage(final GameTile gameTile, final Player player){
+
+		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+		dialog.setCanceledOnTouchOutside(false);
+		dialog.setTitle("Pay Mortgage");
+		dialog.setMessage("Do you want to pay your mortgage?");
+		dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener(){
+			@Override
+			public void onClick(DialogInterface dialog, int which){
+				dialog.dismiss();
+			}
+		});
+		dialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener(){
+			@Override
+			public void onClick(DialogInterface dialog, int which){
+				int balance = player.getBalance();
+				String s = "You paid the mortgage for ";
+
+				if(gameTile instanceof Street){
+					Street street = (Street) gameTile;
+					int mortgage = street.getMortgage();
+					player.setBalance(balance - mortgage);
+					street.setIsMortgaged(false);
+
+					view_balance.setText(getString(R.string.balance,  player.getBalance()));
+					Toast.makeText(GameboardActivity.this, s + street.getName(), Toast.LENGTH_SHORT).show();
+					showDifference(getOldBalance(), player.getBalance());
+
+				}else if (gameTile instanceof Railroad){
+					Railroad railroad = (Railroad) gameTile;
+					int mortgage = railroad.getMortgage();
+					player.setBalance(balance - mortgage);
+					railroad.setIsMortgaged(false);
+
+					view_balance.setText(getString(R.string.balance,  player.getBalance()));
+					Toast.makeText(GameboardActivity.this, s + railroad.getName(), Toast.LENGTH_SHORT).show();
+					showDifference(getOldBalance(), player.getBalance());
+
+				}else if (gameTile instanceof Utility){
+					Utility utility = (Utility) gameTile;
+					int mortgage = utility.getMortgage();
+					player.setBalance(balance - mortgage);
+					utility.setIsMortgaged(false);
+
+					view_balance.setText(getString(R.string.balance,  player.getBalance()));
+					Toast.makeText(GameboardActivity.this, s + utility.getName(), Toast.LENGTH_SHORT).show();
+					showDifference(getOldBalance(), player.getBalance());
+
+				}
+			}
+		});
+		dialog.show();
+	}
 
 	void updateAllStreets(){
 		for (int i = 0; i < GameState.getInstance().getAllDeeds().size(); i++){
@@ -866,6 +1033,63 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				}
 			}
 		}
+	}
+
+	public void checkGameOver(Player player){
+		int balance = player.getBalance();
+		if (balance <= 0){
+			AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+			dialog.setTitle("Game Over");
+			dialog.setMessage("You are out of funds!");
+			dialog.setCanceledOnTouchOutside(false);
+			dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener(){
+				@Override
+				public void onClick(DialogInterface dialog, int which){
+					addUp(player);
+				}
+			});
+			dialog.show();
+		}
+	}
+
+	public void addUp (Player player){
+		int balance = player.getBalance();
+		int deedTotal = 0;
+		int houseTotal = 0;
+		int hotelTotal = 0;
+
+		for(Deed d :player.getPlayersDeeds()){
+			int temp = d.getPrice();
+			deedTotal += temp;
+			if (d instanceof Street){
+				Street s = (Street) d;
+				int temp2;
+				int cost = s.getHousePrice();
+				//Currently only gives 0 therefore houseTotal is always 0
+				int amount = s.getHouseCount();
+				temp2 = cost * amount;
+				houseTotal +=temp2;
+
+				if(s.getHasHotel()){
+					int temp3 = s.getHotelPrice();
+					hotelTotal += temp3;
+				}
+
+			}
+		}
+
+		int total = balance + deedTotal + houseTotal + hotelTotal;
+
+		String s1 = "Total Balance: " + balance;
+		String s2 = "Total Deedvalue: " + deedTotal;
+		String s3 = "Total Housevalue: " + houseTotal;
+		String s4 = "Total Hotelvalue: " + hotelTotal;
+		String s5 = "Total Belongings: " + total;
+		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+		dialog.setTitle("Summary");
+		dialog.setMessage(s1 +"\n"+ s2 +"\n"+ s3 +"\n"+ s4 +"\n"+ s5);
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
 	}
 
 	public void setPlayerIcon(Player player){

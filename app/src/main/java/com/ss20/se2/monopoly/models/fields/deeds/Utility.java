@@ -4,8 +4,8 @@ public class Utility extends Deed{
 
 	private UtilityType utilityType;
 
-	public Utility(String name, int price, int mortgage, UtilityType type){
-		super(name, price, mortgage);
+	public Utility(String name, int price, int mortgage, boolean isMortgaged, UtilityType type){
+		super(name, price, mortgage, isMortgaged);
 
 		this.utilityType = type;
 	}
