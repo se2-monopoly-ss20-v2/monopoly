@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,10 +35,13 @@ import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 import com.ss20.se2.monopoly.models.Player;
+import com.ss20.se2.monopoly.models.*;
 import com.ss20.se2.monopoly.models.fields.GameTile;
 import com.ss20.se2.monopoly.models.fields.cards.Card;
 import com.ss20.se2.monopoly.models.fields.cards.ChanceCard;
 import com.ss20.se2.monopoly.models.fields.cards.CommunityCard;
+import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 
 import com.ss20.se2.monopoly.network.client.GameController;
@@ -50,6 +54,7 @@ import com.ss20.se2.monopoly.view.deed.DeedFragment;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 import com.ss20.se2.monopoly.view.dialog.DialogContainerFragment;
 
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
@@ -72,6 +77,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	ListView deedlistview;
 
 	Button altbutton;
+	Button cheatButton;
+	Button exposeButton;
+	ImageView middleTile;
 	Button addUpBtn;
 
 
@@ -218,6 +226,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		penguin = findViewById(R.id.penguin);
 		addUpBtn = findViewById(R.id.addUpBtn);
 
+		cheatButton = findViewById(R.id.button_cheat);
+		middleTile = findViewById(R.id.tile_middle);
+		exposeButton = findViewById(R.id.button_expose);
 
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -230,6 +241,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				currentaccel = SensorManager.GRAVITY_EARTH;
 				lastaccel = SensorManager.GRAVITY_EARTH;
 				altbutton.setVisibility(View.VISIBLE);
+				exposeButton.setEnabled(true);
 
 				final SensorEventListener mSensorListener = new SensorEventListener(){
 
@@ -269,11 +281,29 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 						altbutton.setVisibility(View.GONE);
 
 						processRoll();
+
+						GameTile currentTile = gameboard.gameTiles.get(currentPlayer.getCurrentPosition());
+
+						if(currentTile instanceof Street){
+							final Street street = (Street) currentTile;
+							if(street.getOwner() == null){
+								middleTile.setOnClickListener(new View.OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										cheatButton.setVisibility(View.VISIBLE);
+										middleTile.setOnClickListener(null);
+									}
+
+								});
+							}
+						}
+
 					}
 				});
 
 				Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 						SensorManager.SENSOR_DELAY_GAME);
+				cheatButton.setVisibility(View.INVISIBLE);
 				}
 		});
 		button_buyOut.setOnClickListener(new View.OnClickListener(){
@@ -286,6 +316,50 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				showDifference(getOldBalance(), currentPlayer.getBalance());
 			}
 		});
+
+		cheatButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				GameTile currentTile = gameboard.gameTiles.get(currentPlayer.getCurrentPosition());
+
+				cheat(currentPlayer, (Street) currentTile);
+				cheatButton.setVisibility(View.INVISIBLE);
+				//playerFinishedTurn();
+			}
+		});
+
+		exposeButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+				dialog.setTitle("Expose a player!");
+				dialog.setMessage("You are about to accuse your predecessor of cheating. If your suspicion is right, he will loose its cheated street and he gets to pay you a fine");
+				dialog.setButton(AlertDialog.BUTTON_POSITIVE, "Expose", new DialogInterface.OnClickListener(){
+					@Override
+					public void onClick(DialogInterface dialog, int which){
+						dialog.dismiss();
+
+						expose(currentPlayer);
+
+					}
+				});
+				dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+				dialog.show();
+
+
+				exposeButton.setEnabled(false);
+				//playerFinishedTurn();
+			}
+		});
+
+
 
 		btnshowdeeds.setOnClickListener(new View.OnClickListener(){
 			@Override
@@ -321,6 +395,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		});
 
 		setup();
+
 		for (int i = 0; i < fields.length; i++){
 			final ImageView view = fields[i];
 			view.setOnClickListener(new View.OnClickListener(){
@@ -1031,6 +1106,73 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
+	public void expose(Player player){
+
+
+				// expose turned out to be true
+				if(GameState.getInstance().getCheatManager().getLatestCheater() != null){
+
+					Player cheater = GameState.getInstance().getCheatManager().getLatestCheater();
+					int balanceCheater = cheater.getBalance();
+					int balanceExposer = player.getBalance();
+					cheater.removeDeedFromPlayer(GameState.getInstance().getCheatManager().getCheatedStreet());
+					GameState.getInstance().getCheatManager().getCheatedStreet().setOwner(null);
+
+					cheater.setBalance(balanceCheater - 300);
+					player.setBalance(balanceExposer + 300);
+
+					GameState.getInstance().updatePlayer(player);
+					GameState.getInstance().updatePlayer(cheater);
+
+					AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+					dialog.setTitle("You are right!");
+					dialog.setMessage("The cheater looses the cheated street and pays you $300");
+					dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener(){
+						@Override
+						public void onClick(DialogInterface dialog, int which){
+							dialog.dismiss();
+						}
+					});
+					dialog.show();
+
+				}
+				else{
+					int newBalance = player.getBalance() - 300;
+					player.setBalance(newBalance);
+					GameState.getInstance().updatePlayer(player);
+
+					AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+					dialog.setTitle("Wrong accusation!");
+					dialog.setMessage("The other player did not cheat.. -$300");
+					dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener(){
+						@Override
+						public void onClick(DialogInterface dialog, int which){
+							dialog.dismiss();
+						}
+					});
+					dialog.show();
+
+
+				}
+
+				GameState.getInstance().getCheatManager().flushCheater();
+				showDifference(oldBalance, player.getBalance());
+
+	}
+
+	public void cheat(Player player, Street street){
+
+		GameState.getInstance().getCheatManager().flushCheater();
+		GameState.getInstance().getCheatManager().setLatestCheater(player);
+		GameState.getInstance().getCheatManager().setCheatedStreet(street);
+
+		GameState.getInstance().getDeedManager().cheatStreet(street, player);
+		GameState.getInstance().updatePlayer(player);
+
+		playerFinishedTurn();
+
+		Toast.makeText(this, "You now own " + street.getName(), Toast.LENGTH_SHORT).show();
+	}
 	public void checkGameOver(Player player){
 		int balance = player.getBalance();
 		if (balance <= 0){
@@ -1180,7 +1322,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
-	public int getOldBalance() {
+	public int getOldBalance(){
 		return oldBalance;
 	}
 

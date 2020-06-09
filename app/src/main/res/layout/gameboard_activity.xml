@@ -790,6 +790,24 @@
             app:layout_constraintTop_toBottomOf="@+id/altbutton"
             app:layout_constraintBottom_toBottomOf="@+id/number_playerposition"
             app:layout_constraintStart_toEndOf="@+id/view_background" />
+    <Button
+            android:text="Cheat!"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_cheat" app:layout_constraintTop_toTopOf="@+id/number_playerposition"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tile_35" android:visibility="invisible" android:enabled="true"
+            app:layout_constraintHorizontal_bias="0.507"/>
+    <Button
+            android:text="Expose!"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_expose"
+            app:layout_constraintTop_toBottomOf="@+id/button_cheat" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.242" app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintEnd_toEndOf="@+id/button_cheat"
+            app:layout_constraintStart_toStartOf="@+id/button_cheat"/>
     <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp" app:srcCompat="@color/colorAccent"
