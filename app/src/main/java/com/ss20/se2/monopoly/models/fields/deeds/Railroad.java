@@ -5,8 +5,8 @@ public class Railroad extends Deed{
 	private int currentRent;
 	private int initialRent;
 
-	public Railroad(String name, int price, int mortgage){
-		super(name, price, mortgage);
+	public Railroad(String name, int price, int mortgage, boolean isMortgaged){
+		super(name, price, mortgage, isMortgaged);
 		currentRent = 25;
 		initialRent = 25;
 	}

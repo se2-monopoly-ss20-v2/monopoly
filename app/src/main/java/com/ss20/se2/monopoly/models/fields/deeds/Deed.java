@@ -16,12 +16,14 @@ public abstract class Deed extends GameTile {
 	private int price;
 	private int mortgage;
 	private Player owner;
+	private boolean isMortgaged;
 
 
-	Deed(String name, int price, int mortgage){
+	Deed(String name, int price, int mortgage, boolean isMortgaged){
 		super(name);
 		this.price = price;
 		this.mortgage = mortgage;
+		this.isMortgaged = isMortgaged;
 	}
 
 	public int getPrice(){
@@ -38,5 +40,18 @@ public abstract class Deed extends GameTile {
 
 	public void setOwner(Player owner){
 		this.owner = owner;
+	}
+
+	public boolean getIsMortgaged(){
+		return isMortgaged;
+	}
+
+	public void setIsMortgaged(boolean isMortgaged){
+		this.isMortgaged = isMortgaged;
+	}
+
+	@Override
+	public String toString(){
+		return this.getName();
 	}
 }

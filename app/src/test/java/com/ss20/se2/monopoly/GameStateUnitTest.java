@@ -61,8 +61,8 @@ public class GameStateUnitTest{
 		Gameboard gb = GameState.getInstance().getGameboard();
 		GameState.getInstance().setGameboard(gb);
 		List<Deed> deeds = GameState.getInstance().getAllDeeds();
-		Street firstStreet = new Street("ASDF", 200, 20, 20, 10, "orange");
-		Street secondStreet = new Street("JKL", 200, 20, 20, 10, "orange");
+		Street firstStreet = new Street("ASDF", 200, 20, false, 20, 10, "orange");
+		Street secondStreet = new Street("JKL", 200, 20, false,20, 10, "orange");
 		deeds.add(firstStreet);
 
 
@@ -121,10 +121,10 @@ public class GameStateUnitTest{
 
 	@Test
 	public void GameStateUtilityCheck() throws UnknownHostException {
-		Street street = new Street("ASDF", 200, 20, 20, 10, "orange");
+		Street street = new Street("ASDF", 200, 20, false, 20, 10, "orange");
 		Player player = new Player("Hannes2", 20, new GamePiece("shoe"), 0,InetAddress.getByName("192.168.0.2"), 11 );
-		Utility water = new Utility("WaterWorks", 140, 75, UtilityType.WATER_WORKS);
-		Utility electric = new Utility("Electric", 140, 75, UtilityType.ELECTRIC_COMPANY);
+		Utility water = new Utility("WaterWorks", 140, 75, false, UtilityType.WATER_WORKS);
+		Utility electric = new Utility("Electric", 140, 75, false, UtilityType.ELECTRIC_COMPANY);
 
 		List<Deed> allDeeds = new ArrayList<>();
 		allDeeds.add(street);
@@ -144,10 +144,10 @@ public class GameStateUnitTest{
 
 	@Test
 	public void GameStateRailroadCount() throws UnknownHostException {
-		Street street = new Street("ASDF", 200, 20, 20, 10, "orange");
+		Street street = new Street("ASDF", 200, 20,false, 20, 10, "orange");
 		Player player = new Player("Hannes2", 20, new GamePiece("shoe"), 0,InetAddress.getByName("192.168.0.2"), 11 );
-		Railroad railroad = new Railroad("Haupt", 200, 100);
-		Railroad railroad2 = new Railroad("Neben", 200, 100);
+		Railroad railroad = new Railroad("Haupt", 200, 100, false);
+		Railroad railroad2 = new Railroad("Neben", 200, 100, false);
 
 		List<Deed> allDeeds = new ArrayList<>();
 		allDeeds.add(street);

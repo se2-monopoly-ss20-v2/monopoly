@@ -12,6 +12,7 @@
     "housePrice": 30,
     "hotelPrice": 60,
     "color": "violet",
+    "isMortgaged": "false",
     "currentRent": 6,
     "initialRent": 6
   },
@@ -27,9 +28,9 @@
     "housePrice": 30,
     "hotelPrice": 60,
     "color": "violet",
+    "isMortgaged": "false",
     "currentRent": 6,
     "initialRent": 6
-
   },
   {
     "name": "Income Tax",
@@ -41,6 +42,7 @@
     "type": "Railroad",
     "price": 200,
     "mortgage": 100,
+    "isMortgaged": "false",
     "currentRent": 25,
     "initialRent": 25
   },
@@ -52,6 +54,7 @@
     "housePrice": 50,
     "hotelPrice": 100,
     "color": "lightBlue",
+    "isMortgaged": "false",
     "currentRent": 10,
     "initialRent": 10
   },
@@ -67,6 +70,7 @@
     "housePrice": 50,
     "hotelPrice": 100,
     "color": "lightBlue",
+    "isMortgaged": "false",
     "currentRent": 10,
     "initialRent": 10
   },
@@ -78,6 +82,7 @@
     "housePrice": 60,
     "hotelPrice": 120,
     "color": "lightBlue",
+    "isMortgaged": "false",
     "currentRent": 12,
     "initialRent": 12
   },
@@ -94,6 +99,7 @@
     "housePrice": 70,
     "hotelPrice": 140,
     "color": "pink",
+    "isMortgaged": "false",
     "currentRent": 14,
     "initialRent": 14
   },
@@ -102,6 +108,7 @@
     "type": "Utility",
     "price": 140,
     "mortgage": 70,
+    "isMortgaged": "false",
     "utilityType": "ELECTRIC_COMPANY"
   },
   {
@@ -112,6 +119,7 @@
     "housePrice": 70,
     "hotelPrice": 140,
     "color": "pink",
+    "isMortgaged": "false",
     "currentRent": 14,
     "initialRent": 14
   },
@@ -123,6 +131,7 @@
     "housePrice": 80,
     "hotelPrice": 160,
     "color": "pink",
+    "isMortgaged": "false",
     "currentRent": 16,
     "initialRent": 16
   },
@@ -131,6 +140,7 @@
     "type": "Railroad",
     "price": 200,
     "mortgage": 100,
+    "isMortgaged": "false",
     "currentRent": 25,
     "initialRent": 25
   },
@@ -142,6 +152,7 @@
     "housePrice": 90,
     "hotelPrice": 180,
     "color": "orange",
+    "isMortgaged": "false",
     "currentRent": 18,
     "initialRent": 18
   },
@@ -157,6 +168,7 @@
     "housePrice": 90,
     "hotelPrice": 180,
     "color": "orange",
+    "isMortgaged": "false",
     "currentRent": 18,
     "initialRent": 18
   },
@@ -168,6 +180,7 @@
     "housePrice": 100,
     "hotelPrice": 200,
     "color": "orange",
+    "isMortgaged": "false",
     "currentRent": 20,
     "initialRent": 20
   },
@@ -184,6 +197,7 @@
     "housePrice": 110,
     "hotelPrice": 220,
     "color": "red",
+    "isMortgaged": "false",
     "currentRent": 22,
     "initialRent": 22
   },
@@ -199,6 +213,7 @@
     "housePrice": 110,
     "hotelPrice": 200,
     "color": "red",
+    "isMortgaged": "false",
     "currentRent": 22,
     "initialRent": 22
   },
@@ -210,6 +225,7 @@
     "housePrice": 120,
     "hotelPrice": 240,
     "color": "red",
+    "isMortgaged": "false",
     "currentRent": 24,
     "initialRent": 24
   },
@@ -218,6 +234,7 @@
     "type": "Railroad",
     "price": 200,
     "mortgage": 100,
+    "isMortgaged": "false",
     "currentRent": 25,
     "initialRent": 25
   },
@@ -229,6 +246,7 @@
     "housePrice": 130,
     "hotelPrice": 260,
     "color": "yellow",
+    "isMortgaged": "false",
     "currentRent": 26,
     "initialRent": 26
   },
@@ -240,6 +258,7 @@
     "housePrice": 130,
     "hotelPrice": 260,
     "color": "yellow",
+    "isMortgaged": "false",
     "currentRent": 26,
     "initialRent": 26
   },
@@ -248,6 +267,7 @@
     "type": "Utility",
     "price": 140,
     "mortgage": 70,
+    "isMortgaged": "false",
     "utilityType": "WATER_WORKS"
   },
   {
@@ -258,6 +278,7 @@
     "housePrice": 140,
     "hotelPrice": 280,
     "color": "yellow",
+    "isMortgaged": "false",
     "currentRent": 28,
     "initialRent": 28
   },
@@ -274,6 +295,7 @@
     "housePrice": 150,
     "hotelPrice": 300,
     "color": "green",
+    "isMortgaged": "false",
     "currentRent": 30,
     "initialRent": 30
   },
@@ -285,6 +307,7 @@
     "housePrice": 150,
     "hotelPrice": 300,
     "color": "green",
+    "isMortgaged": "false",
     "currentRent": 30,
     "initialRent": 30
   },
@@ -300,6 +323,7 @@
     "housePrice": 160,
     "hotelPrice": 320,
     "color": "green",
+    "isMortgaged": "false",
     "currentRent": 32,
     "initialRent": 32
   },
@@ -308,6 +332,7 @@
     "type": "Railroad",
     "price": 200,
     "mortgage": 100,
+    "isMortgaged": "false",
     "currentRent": 25,
     "initialRent": 25
   },
@@ -323,6 +348,7 @@
     "housePrice": 175,
     "hotelPrice": 350,
     "color": "darkBlue",
+    "isMortgaged": "false",
     "currentRent": 35,
     "initialRent": 35
   },
@@ -339,6 +365,7 @@
     "housePrice": 200,
     "hotelPrice": 400,
     "color": "darkBlue",
+    "isMortgaged": "false",
     "currentRent": 40,
     "initialRent": 40
   }
