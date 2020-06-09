@@ -268,6 +268,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		});
 		setup();
 
+		//todo: remove before merge
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
