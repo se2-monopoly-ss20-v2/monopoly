@@ -42,7 +42,7 @@ public class GameState implements Serializable{
 
 	public void setupGame(List<LobbyPlayer> lobbyPlayers, Context context){
 		for (LobbyPlayer lobbyPlayer : lobbyPlayers){
-			Player player = new Player(lobbyPlayer.getName(), 100000,lobbyPlayer.getGamePiece(),1, lobbyPlayer.getAddress(),lobbyPlayer.getPort());
+			Player player = new Player(lobbyPlayer.getName(), 100000,lobbyPlayer.getGamePiece(),0, lobbyPlayer.getAddress(),lobbyPlayer.getPort());
 			this.players.add(player);
 		}
 
