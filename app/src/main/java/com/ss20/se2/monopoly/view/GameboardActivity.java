@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -289,9 +288,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				deedlistview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-						if (currentPlayer.getPlayersDeeds().get(position).getIsMortgaged() == false){
+						if (!currentPlayer.getPlayersDeeds().get(position).getIsMortgaged()){
 							mortgage(currentPlayer.getPlayersDeeds().get(position), currentPlayer);
-						}else if (currentPlayer.getPlayersDeeds().get(position).getIsMortgaged() == true){
+						}else if (currentPlayer.getPlayersDeeds().get(position).getIsMortgaged()){
 							payMortgage(currentPlayer.getPlayersDeeds().get(position), currentPlayer);
 						}
 					}
@@ -359,16 +358,25 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		GameTile currentTile = gameboard.gameTiles.get(player.getCurrentPosition());
 		if (currentTile instanceof Street){
 			final Street street = (Street) currentTile;
-			handlePlayerOnStreet(street, player);
-
+			if (street.getIsMortgaged()){
+				playerFinishedTurn();
+			}else{
+				handlePlayerOnStreet(street, player);
+			}
 		}else if (currentTile instanceof Railroad) {
 			Railroad railroad = (Railroad) currentTile;
-			handlePlayerOnRailroad(railroad, player);
-
+			if (railroad.getIsMortgaged()){
+				playerFinishedTurn();
+			}else{
+				handlePlayerOnRailroad(railroad, player);
+			}
 		}else if (currentTile instanceof Utility){
 			Utility utility = (Utility) currentTile;
-			handlePlayerOnUtility(utility, player);
-
+			if(utility.getIsMortgaged()){
+				playerFinishedTurn();
+			}else{
+				handlePlayerOnUtility(utility, player);
+			}
 		}else if (currentTile instanceof Special){
 			Special tile = (Special) currentTile;
 			if (tile.getFieldType().equals(SpecialFieldType.FREEPARKING)){
@@ -549,7 +557,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				The playerOwnsAllStreetsOf(_:) has been removed due to the missing trading function.
 				deedManager.playerOwnsAllStreetsOf(street.getColor(), player)
 			 */
-		} else if (street.getOwner().getAddress().equals(player.getAddress()) && street.getOwner().getPort() == player.getPort()  && !street.getHasHotel()) {
+		}else if (street.getOwner().getAddress().equals(player.getAddress()) && street.getOwner().getPort() == player.getPort()  && !street.getHasHotel()) {
 			final AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 			dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener(){
 				@Override
@@ -878,6 +886,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			@Override
 			public void onClick(DialogInterface dialog, int which){
 				int balance = player.getBalance();
+				String s = "You mortgaged ";
 
 				if(gameTile instanceof Street){
 					Street street = (Street) gameTile;
@@ -886,7 +895,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					street.setIsMortgaged(true);
 
 					view_balance.setText(getString(R.string.balance,  player.getBalance()));
-					Toast.makeText(GameboardActivity.this, "You mortgaged " + street.getName(), Toast.LENGTH_SHORT).show();
+					Toast.makeText(GameboardActivity.this, s + street.getName(), Toast.LENGTH_SHORT).show();
 					showDifference(getOldBalance(), player.getBalance());
 
 				}else if (gameTile instanceof Railroad){
@@ -896,7 +905,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					railroad.setIsMortgaged(true);
 
 					view_balance.setText(getString(R.string.balance,  player.getBalance()));
-					Toast.makeText(GameboardActivity.this, "You mortgaged " + railroad.getName(), Toast.LENGTH_SHORT).show();
+					Toast.makeText(GameboardActivity.this, s + railroad.getName(), Toast.LENGTH_SHORT).show();
 					showDifference(getOldBalance(), player.getBalance());
 
 				}else if (gameTile instanceof Utility){
@@ -906,7 +915,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					utility.setIsMortgaged(true);
 
 					view_balance.setText(getString(R.string.balance,  player.getBalance()));
-					Toast.makeText(GameboardActivity.this, "You mortgaged " + utility.getName(), Toast.LENGTH_SHORT).show();
+					Toast.makeText(GameboardActivity.this, s + utility.getName(), Toast.LENGTH_SHORT).show();
 					showDifference(getOldBalance(), player.getBalance());
 				}
 			}
@@ -931,6 +940,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			@Override
 			public void onClick(DialogInterface dialog, int which){
 				int balance = player.getBalance();
+				String s = "You paid the mortgage for ";
 
 				if(gameTile instanceof Street){
 					Street street = (Street) gameTile;
@@ -939,7 +949,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					street.setIsMortgaged(false);
 
 					view_balance.setText(getString(R.string.balance,  player.getBalance()));
-					Toast.makeText(GameboardActivity.this, "You paid the mortgage for " + street.getName(), Toast.LENGTH_SHORT).show();
+					Toast.makeText(GameboardActivity.this, s + street.getName(), Toast.LENGTH_SHORT).show();
 					showDifference(getOldBalance(), player.getBalance());
 
 				}else if (gameTile instanceof Railroad){
@@ -949,7 +959,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					railroad.setIsMortgaged(false);
 
 					view_balance.setText(getString(R.string.balance,  player.getBalance()));
-					Toast.makeText(GameboardActivity.this, "You paid the mortgage for " + railroad.getName(), Toast.LENGTH_SHORT).show();
+					Toast.makeText(GameboardActivity.this, s + railroad.getName(), Toast.LENGTH_SHORT).show();
 					showDifference(getOldBalance(), player.getBalance());
 
 				}else if (gameTile instanceof Utility){
@@ -959,7 +969,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					utility.setIsMortgaged(false);
 
 					view_balance.setText(getString(R.string.balance,  player.getBalance()));
-					Toast.makeText(GameboardActivity.this, "You paid the mortgage for " + utility.getName(), Toast.LENGTH_SHORT).show();
+					Toast.makeText(GameboardActivity.this, s + utility.getName(), Toast.LENGTH_SHORT).show();
 					showDifference(getOldBalance(), player.getBalance());
 
 				}
