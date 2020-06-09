@@ -14,7 +14,7 @@ import org.junit.Test;
 import java.net.InetAddress;
 import java.util.Stack;
 
-public class ChanceCardTests {
+public class ChanceCardTest {
 
     GamePiece cat;
     ChanceCardDeck deck;
@@ -86,7 +86,6 @@ public class ChanceCardTests {
         ChanceCard parking = new ChanceCard("PARKING", "You left your card in a no-parking zone. -$25");
         chanceCardProcessor.performAction(player, parking);
         Assert.assertTrue(player.getBalance()==oldBalance-25);
-
     }
 
     @Test
@@ -95,6 +94,5 @@ public class ChanceCardTests {
         ChanceCard kickstart = new ChanceCard("KICKSTART", "Someone donated $100 to your kickstart project. Of course you are spending it on a new TV");
         chanceCardProcessor.performAction(player, kickstart);
         Assert.assertTrue(player.getBalance()==oldBalance+100);
-
     }
 }
