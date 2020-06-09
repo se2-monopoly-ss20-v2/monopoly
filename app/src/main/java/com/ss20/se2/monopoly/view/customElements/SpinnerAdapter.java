@@ -27,7 +27,7 @@ public class SpinnerAdapter extends ArrayAdapter<String>{
 		LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View row = inflater.inflate(R.layout.spinner_value_layout, parent, false);
 		ImageView imageView = (ImageView) row.findViewById(R.id.spinnerImages);
-		//imageView.setImageResource(imageArray[position]); todo: remove comment
+		imageView.setImageResource(imageArray[position]);
 		return row;
 	}
 
@@ -36,7 +36,7 @@ public class SpinnerAdapter extends ArrayAdapter<String>{
 		LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View row = inflater.inflate(R.layout.spinner_value_layout, parent, false);
 		ImageView imageView = (ImageView) row.findViewById(R.id.spinnerImages);
-		//imageView.setImageResource(imageArray[position]);
+		imageView.setImageResource(imageArray[position]);
 		return row;
 	}
 }
