@@ -3,7 +3,6 @@ package com.ss20.se2.monopoly;
 
 import com.ss20.se2.monopoly.models.*;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
-import org.junit.Assert;
 import org.junit.Test;
 
 
