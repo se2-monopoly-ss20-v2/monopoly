@@ -10,8 +10,8 @@ public class Street extends Deed{
 	private int initialRent;
 	private boolean hasHotel = false;
 
-	public Street(String name, int price, int mortgage, int housePrice, int hotelPrice, String color){
-		super(name, price, mortgage);
+	public Street(String name, int price, int mortgage, boolean isMortgaged, int housePrice, int hotelPrice, String color){
+		super(name, price, mortgage, isMortgaged);
 		this.housePrice = housePrice;
 		this.hotelPrice = hotelPrice;
 		this.color = color;
