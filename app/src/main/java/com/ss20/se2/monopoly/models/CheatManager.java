@@ -2,7 +2,9 @@ package com.ss20.se2.monopoly.models;
 
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 
-public class CheatManager {
+import java.io.Serializable;
+
+public class CheatManager implements Serializable {
 
     Player latestCheater;
     Street cheatedStreet;
