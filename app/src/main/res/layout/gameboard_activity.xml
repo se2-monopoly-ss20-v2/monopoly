@@ -781,6 +781,46 @@
             android:layout_height="20dp" app:srcCompat="@color/colorPrimary"
             android:id="@+id/player_2"
             app:layout_constraintEnd_toStartOf="@+id/player_1" app:layout_constraintBottom_toBottomOf="@+id/tile_0"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@drawable/boat" tools:layout_editor_absoluteY="81dp"
+            tools:layout_editor_absoluteX="16dp" android:id="@+id/boat" android:visibility="invisible"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@drawable/car"
+            android:id="@+id/car" app:layout_constraintStart_toEndOf="@+id/boat"
+            app:layout_constraintTop_toTopOf="@+id/boat" android:visibility="invisible"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@drawable/cat"
+            android:id="@+id/cat" app:layout_constraintStart_toEndOf="@+id/car"
+            app:layout_constraintTop_toTopOf="@+id/car" android:visibility="invisible"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@drawable/dino"
+            android:id="@+id/dino" app:layout_constraintStart_toEndOf="@+id/cat"
+            app:layout_constraintTop_toTopOf="@+id/cat" android:visibility="invisible"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@drawable/dog"
+            android:id="@+id/dog"
+            app:layout_constraintTop_toBottomOf="@+id/boat"
+            app:layout_constraintStart_toStartOf="@+id/boat" android:visibility="invisible"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@drawable/duck"
+            android:id="@+id/duck" app:layout_constraintStart_toEndOf="@+id/dog"
+            app:layout_constraintTop_toBottomOf="@+id/car" android:visibility="invisible"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@drawable/hat"
+            android:id="@+id/hat" app:layout_constraintStart_toEndOf="@+id/duck"
+            app:layout_constraintTop_toBottomOf="@+id/cat" android:visibility="invisible"/>
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp" app:srcCompat="@drawable/penguin"
+            android:id="@+id/penguin" app:layout_constraintStart_toEndOf="@+id/hat"
+            app:layout_constraintTop_toBottomOf="@+id/dino" android:visibility="invisible"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
