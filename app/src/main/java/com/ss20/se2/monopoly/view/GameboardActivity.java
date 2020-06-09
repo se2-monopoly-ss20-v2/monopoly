@@ -2,7 +2,6 @@ package com.ss20.se2.monopoly.view;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -241,6 +240,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 
 		setup();
+
 		for (int i = 0; i < fields.length; i++){
 			final ImageView view = fields[i];
 			view.setOnClickListener(new View.OnClickListener(){
@@ -454,7 +454,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	}
 
 	void sendMessage(GameStateNetworkMessage message){
-		Log.d("MSG", "reached");
 		if (isHost){
 			GameServer.getInstance().updateGameState(message);
 		}else{
@@ -677,10 +676,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	public void expose(Player player){
 
 
-		Log.d("Cheater: ", GameState.getInstance().getCheatManager().getLatestCheater().getName());
-		Log.d("Exposer: ", player.getName());
-
-
 				// expose turned out to be true
 				if(GameState.getInstance().getCheatManager().getLatestCheater() != null){
 
@@ -689,9 +684,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					int balanceExposer = player.getBalance();
 					cheater.removeDeedFromPlayer(GameState.getInstance().getCheatManager().getCheatedStreet());
 					GameState.getInstance().getCheatManager().getCheatedStreet().setOwner(null);
-
-					Log.d("Cheater: ", cheater.getName());
-					Log.d("Exposer: ", player.getName());
 
 					cheater.setBalance(balanceCheater - 300);
 					player.setBalance(balanceExposer + 300);
@@ -703,13 +695,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				}
 
 				GameState.getInstance().getCheatManager().flushCheater();
-				//playerFinishedTurn();
-
-				/*GameState.getInstance().updatePlayer(player);
-				GameState.getInstance().playerEndedTurn();
-				GameStateNetworkMessage message = new GameStateNetworkMessage();
-				message.setState(GameState.getInstance());
-				sendMessage(message);*/
 
 	}
 
@@ -722,15 +707,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		GameState.getInstance().getDeedManager().cheatStreet(street, player);
 		GameState.getInstance().updatePlayer(player);
 
-		Log.d("Street", GameState.getInstance().getCheatManager().getCheatedStreet().getName())
-		/*GameState.getInstance().playerEndedTurn();
-		GameStateNetworkMessage message = new GameStateNetworkMessage();
-		message.setState(GameState.getInstance());
-		sendMessage(message)*/;
 		playerFinishedTurn();
 
 		Toast.makeText(this, "You now own " + street.getName(), Toast.LENGTH_SHORT).show();
-
 	}
 
 
