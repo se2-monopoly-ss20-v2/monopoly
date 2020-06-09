@@ -263,7 +263,9 @@ public class RequestHandler implements Runnable{
 			GameState.getInstance().setAllDeeds(message.getState().getAllDeeds());
 			GameState.getInstance().setTurnRotation(message.getState().getTurnRotation());
 			GameState.getInstance().setCurrentActivePlayer(message.getState().getCurrentActivePlayer());
+			GameState.getInstance().setCheatManager(message.getState().getCheatManager());
 			GameState.getInstance().notifyListeners();
+
 
 			GameServer.getInstance().sendResponseToAll(response);
 		}
