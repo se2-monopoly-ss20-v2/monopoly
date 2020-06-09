@@ -72,8 +72,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	ListView deedlistview;
 
 	Button altbutton;
-	ImageView player1;
-	ImageView player2;
 	Button addUpBtn;
 
 
@@ -211,8 +209,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		btnshowdeeds = findViewById(R.id.button_deeds);
 		deedlistview = findViewById(R.id.deed_list);
 		altbutton = findViewById(R.id.altbutton);
-		player1 = findViewById(R.id.player_1);
-		player2 = findViewById(R.id.player_2);
 		boat = findViewById(R.id.boat);
 		car = findViewById(R.id.car);
 		dino = findViewById(R.id.dino);
