@@ -932,6 +932,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					cheater.setBalance(balanceCheater - 300);
 					player.setBalance(balanceExposer + 300);
 
+					GameState.getInstance().updatePlayer(player);
+					GameState.getInstance().updatePlayer(cheater);
+
 					AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 					dialog.setTitle("You are right!");
 					dialog.setMessage("The cheater looses the cheated street and pays you $300");
@@ -947,6 +950,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				else{
 					int newBalance = player.getBalance() - 300;
 					player.setBalance(newBalance);
+					GameState.getInstance().updatePlayer(player);
 
 					AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 					dialog.setTitle("Wrong accusation!");
