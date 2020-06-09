@@ -84,6 +84,14 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	int doublescounter;
 	ImageView[] fields;
 	TextView[] houseFields;
+	ImageView boat;
+	ImageView car;
+	ImageView cat;
+	ImageView dino;
+	ImageView dog;
+	ImageView duck;
+	ImageView hat;
+	ImageView penguin;
 
 	private SensorManager mSensorManager;
 	float accel;
@@ -193,6 +201,13 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		altbutton = findViewById(R.id.altbutton);
 		player1 = findViewById(R.id.player_1);
 		player2 = findViewById(R.id.player_2);
+		boat = findViewById(R.id.boat);
+		car = findViewById(R.id.car);
+		dino = findViewById(R.id.dino);
+		dog = findViewById(R.id.dog);
+		duck = findViewById(R.id.duck);
+		hat = findViewById(R.id.hat);
+		penguin = findViewById(R.id.penguin);
 
 
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
@@ -264,12 +279,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		});
 		setup();
 
-		//todo: remove before merge
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 
 
 		for (int i = 0; i < fields.length; i++){
@@ -867,7 +876,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		Log.d("POSITION: ", Integer.toString(pos));
 		Log.d("PIECENAME: ", pieceName);
 
-		if (pieceName.equals("Boat")){
+		/*if (pieceName.equals("Boat")){
 			player1.setX(fields[pos].getX());
 			player1.setY(fields[pos].getY());
 
@@ -878,39 +887,63 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			player2.setY(fields[pos].getY());
 
 			Log.d("Update: " ,"Player Car with pink icon was set on" + pos);
-		}
+		}*/
 
 
 		switch (pieceName){
 			case "Boat":
+				boat.setX(fields[pos].getX());
+				boat.setY(fields[pos].getY());
+				boat.setVisibility(View.VISIBLE);
 
 				break;
 
 			case "Car":
+				car.setX(fields[pos].getX());
+				car.setY(fields[pos].getY());
+				car.setVisibility(View.VISIBLE);
 
 				break;
 
 			case "Cat":
+				cat.setX(fields[pos].getX());
+				cat.setY(fields[pos].getY());
+				cat.setVisibility(View.VISIBLE);
 
 				break;
 
 			case "Dino":
+				dino.setX(fields[pos].getX());
+				dino.setY(fields[pos].getY());
+				dino.setVisibility(View.VISIBLE);
 
 				break;
 
 			case "Dog":
+				dog.setX(fields[pos].getX());
+				dog.setY(fields[pos].getY());
+				dog.setVisibility(View.VISIBLE);
 
 				break;
 
 			case "Duck":
+				duck.setX(fields[pos].getX());
+				duck.setY(fields[pos].getY());
+				duck.setVisibility(View.VISIBLE);
 
 				break;
 
 			case "Hat":
+				hat.setX(fields[pos].getX());
+				hat.setY(fields[pos].getY());
+				hat.setVisibility(View.VISIBLE);
 
 				break;
 
 			case "Penguin":
+				penguin.setX(fields[pos].getX());
+				penguin.setY(fields[pos].getY());
+				penguin.setVisibility(View.VISIBLE);
 
 				break;
 
