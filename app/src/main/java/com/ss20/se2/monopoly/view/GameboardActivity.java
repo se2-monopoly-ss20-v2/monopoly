@@ -227,8 +227,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 							altbutton.setVisibility(View.GONE);
 
 							processRoll();
-							findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
-							findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
 						}
 					}
 
@@ -247,8 +245,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 						altbutton.setVisibility(View.GONE);
 
 						processRoll();
-						findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
-						findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
 					}
 				});
 
