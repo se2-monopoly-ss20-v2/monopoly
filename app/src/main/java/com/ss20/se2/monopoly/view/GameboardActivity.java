@@ -2,6 +2,7 @@ package com.ss20.se2.monopoly.view;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -64,6 +65,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	TextView view_balance;
 	TextView updateBalance;
 	Button altbutton;
+	ImageView player1;
+	ImageView player2;
 
 	Dice dice = new Dice();
 	Dice dice2 = new Dice();
@@ -188,6 +191,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		view_balance = findViewById(R.id.text_balance);
 		updateBalance = findViewById(R.id.changeOfBalance);
 		altbutton = findViewById(R.id.altbutton);
+		player1 = findViewById(R.id.player_1);
+		player2 = findViewById(R.id.player_2);
 
 
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
@@ -262,6 +267,14 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			}
 		});
 		setup();
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+
 		for (int i = 0; i < fields.length; i++){
 			final ImageView view = fields[i];
 			view.setOnClickListener(new View.OnClickListener(){
@@ -451,6 +464,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					button_rollDice.setEnabled(false);
 					button_buyOut.setEnabled(false);
 				}
+				setplayerIcons();
 			}
 		});
 	}
@@ -843,6 +857,70 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			}
 		}
 	}
+
+	public void setplayerIcons(){
+
+
+		for (Player player:GameState.getInstance().getPlayers()) {
+
+			String pieceName = player.getSelectedPiece().getName();
+			int pos = player.getCurrentPosition();
+
+			Log.d("POSITION: ", Integer.toString(pos));
+			Log.d("PIECENAME: ", pieceName);
+
+			if (pieceName.equals("Boat")){
+				player1.setX(fields[pos].getX());
+				Log.d("Update: ", "Player Boat with blue icon was set on" + pos);
+			}
+			else if (pieceName.equals("Car")){
+				player2.setX(fields[pos].getX());
+				Log.d("Update: " ,"Player Car with pink icon was set on" + pos);
+			}
+
+
+			switch (pieceName){
+				case "Boat":
+
+					break;
+
+				case "Car":
+
+					break;
+
+				case "Cat":
+
+					break;
+
+				case "Dino":
+
+					break;
+
+				case "Dog":
+
+					break;
+
+				case "Duck":
+
+					break;
+
+				case "Hat":
+
+					break;
+
+				case "Pengui":
+
+					break;
+
+				default:
+					break;
+
+			}
+
+		}
+
+	}
+
 
 
 	public int getOldBalance() {
