@@ -15,15 +15,22 @@ import android.widget.Button;
 
 import com.ss20.se2.monopoly.R;
 import com.ss20.se2.monopoly.models.Player;
+import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
+import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.view.deed.DeedFragment;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
+import com.ss20.se2.monopoly.view.deed.railroad.RailroadFragment;
+import com.ss20.se2.monopoly.view.deed.utility.UtilityFragment;
 
 public class DialogContainerFragment extends DialogFragment{
 
 	private Street street;
 	private DeedFragmentDelegate delegate;
 	private Player player;
+	private Railroad railroad;
+	private Utility utility;
 
 	public DialogContainerFragment() {
 		//Empty because Android needs an constructor without args.
@@ -33,8 +40,15 @@ public class DialogContainerFragment extends DialogFragment{
 		return new DialogContainerFragment();
 	}
 
-	public void setupViewModel(Street street, Player player, DeedFragmentDelegate delegate){
-		this.street = street;
+	public void setupViewModel(Deed deed, Player player, DeedFragmentDelegate delegate) {
+		if (deed instanceof Street) {
+			this.street = (Street) deed;
+		} else if (deed instanceof Railroad) {
+			this.railroad = (Railroad) deed;
+		}else if (deed instanceof Utility) {
+			this.utility = (Utility) deed;
+		}
+
 		this.delegate = delegate;
 		this.player = player;
 	}
@@ -51,10 +65,16 @@ public class DialogContainerFragment extends DialogFragment{
 		buy.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
-				delegate.performAcquiringDeed(street, player);
+				if (utility == null){
+					delegate.performAcquiringDeed((street == null ? railroad : street), player);
+				}else{
+					delegate.performAcquiringDeed(utility, player);
+				}
+
 				dismiss();
 			}
 		});
+
 		Button cancel = view.findViewById(R.id.buttonCancel);
 		cancel.setOnClickListener(new View.OnClickListener(){
 			@Override
@@ -63,9 +83,21 @@ public class DialogContainerFragment extends DialogFragment{
 				dismiss();
 			}
 		});
-		DeedFragment deedFragment = new DeedFragment();
+
 		FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-		transaction.replace(R.id.deedFragmentContainer, deedFragment).commit();
-		deedFragment.createViewModel(street);
+
+		if (street != null) {
+			DeedFragment deedFragment = new DeedFragment();
+			transaction.replace(R.id.deedFragmentContainer, deedFragment).commit();
+			deedFragment.createViewModel(street);
+		} else if (railroad != null) {
+			RailroadFragment railroadFragment = new RailroadFragment();
+			transaction.replace(R.id.deedFragmentContainer, railroadFragment).commit();
+			railroadFragment.createViewModel(railroad);
+		} else if (utility != null) {
+			UtilityFragment utilityFragment = new UtilityFragment();
+			transaction.replace(R.id.deedFragmentContainer, utilityFragment).commit();
+			utilityFragment.createViewModel(utility);
+		}
 	}
 }

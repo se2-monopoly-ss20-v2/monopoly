@@ -119,6 +119,7 @@ class ResponseHandler implements Runnable{
 			GameState.getInstance().setCurrentActivePlayer(response.getState().getCurrentActivePlayer());
 			GameState.getInstance().setCheatManager(response.getState().getCheatManager());
 
+			GameState.getInstance().setAllDeeds(response.getState().getAllDeeds());
 			GameState.getInstance().notifyListeners();
 		}
 
@@ -130,6 +131,7 @@ class ResponseHandler implements Runnable{
 			GameState.getInstance().setTurnRotation(response.getState().getTurnRotation());
 			GameState.getInstance().setDeedManager(response.getState().getDeedManager());
 			GameState.getInstance().setCheatManager(response.getState().getCheatManager());
+			GameState.getInstance().setAllDeeds(response.getState().getAllDeeds());
 
 			GameState.getInstance().notifyListenersForSetup();
 		}
