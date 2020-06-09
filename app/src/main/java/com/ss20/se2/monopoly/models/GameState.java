@@ -19,6 +19,7 @@ public class GameState implements Serializable{
 	private DeedManager deedManager;
 	private List<Player> players;
 	private transient List<OnGameStateChangedListener> listeners;
+	private CheatManager cheatManager;
 
 
 	private GameState(){
@@ -41,6 +42,7 @@ public class GameState implements Serializable{
 
 		gameboard = new Gameboard(context);
 		deedManager = new DeedManager(gameboard);
+		cheatManager = new CheatManager();
 		turnRotation = 0;
 
 		currentActivePlayer = players.get(turnRotation);
@@ -140,5 +142,12 @@ public class GameState implements Serializable{
 		for (OnGameStateChangedListener listener: listeners) {
 			listener.onGameStateChanged(instance);
 		}
+	}
+	public CheatManager getCheatManager() {
+		return cheatManager;
+	}
+
+	public void setCheatManager(CheatManager cheatManager) {
+		this.cheatManager = cheatManager;
 	}
 }
