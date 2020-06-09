@@ -71,6 +71,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	ListView deedlistview;
 
 	Button altbutton;
+	Button addUpBtn;
 
 
 	Dice dice = new Dice();
@@ -199,6 +200,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		btnshowdeeds = findViewById(R.id.button_deeds);
 		deedlistview = findViewById(R.id.deed_list);
 		altbutton = findViewById(R.id.altbutton);
+		addUpBtn = findViewById(R.id.addUpBtn);
 
 
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
@@ -295,6 +297,14 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 						}
 					}
 				});
+			}
+		});
+
+
+		addUpBtn.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v){
+				addUp(currentPlayer);
 			}
 		});
 
@@ -409,6 +419,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			dialog.show();
 			communityCardProcessor.performAction(player, communityCard);
 			view_balance.setText("Balance: " + player.getBalance());
+			checkGameOver(player);
 
 			playerFinishedTurn();
 
@@ -427,6 +438,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			dialog.show();
 			chanceCardProcessor.performAction(player, chanceCard);
 			view_balance.setText("Balance: " + player.getBalance());
+			checkGameOver(player);
 			playerFinishedTurn();
 		}
 	}
@@ -600,6 +612,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			player.setBalance(player.getBalance() - street.getCurrentRent());
 			street.getOwner().setBalance(street.getOwner().getBalance() + street.getCurrentRent());
 
+			checkGameOver(player);
 			updatePlayersAfterPaymentAndEndTurn(street.getOwner(), player);
 
 			showToast(street.getCurrentRent(), street.getOwner().getName());
@@ -621,6 +634,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			player.setBalance(player.getBalance() - due);
 			owner.setBalance(owner.getBalance() + due);
 
+			checkGameOver(player);
 			updatePlayersAfterPaymentAndEndTurn(owner, player);
 
 			showToast(due, owner.getName());
@@ -639,6 +653,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			player.setBalance(player.getBalance() - dueRent);
 			owner.setBalance(owner.getBalance() + dueRent);
 
+			checkGameOver(player);
 			updatePlayersAfterPaymentAndEndTurn(owner, player);
 
 			showToast(dueRent, owner.getName());
@@ -748,6 +763,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			}
 		});
 		dialog.show();
+		checkGameOver(player);
 		showDifference(getOldBalance(), player.getBalance());
 	}
 
@@ -786,6 +802,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			}
 		});
 		dialog.show();
+		checkGameOver(player);
 		showDifference(getOldBalance(), player.getBalance());
 	}
 
@@ -995,6 +1012,63 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				}
 			}
 		}
+	}
+
+	public void checkGameOver(Player player){
+		int balance = player.getBalance();
+		if (balance <= 0){
+			AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+			dialog.setTitle("Game Over");
+			dialog.setMessage("You are out of funds!");
+			dialog.setCanceledOnTouchOutside(false);
+			dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener(){
+				@Override
+				public void onClick(DialogInterface dialog, int which){
+					addUp(player);
+				}
+			});
+			dialog.show();
+		}
+	}
+
+	public void addUp (Player player){
+		int balance = player.getBalance();
+		int deedTotal = 0;
+		int houseTotal = 0;
+		int hotelTotal = 0;
+
+		for(Deed d :player.getPlayersDeeds()){
+			int temp = d.getPrice();
+			deedTotal += temp;
+			if (d instanceof Street){
+				Street s = (Street) d;
+				int temp2;
+				int cost = s.getHousePrice();
+				//Currently only gives 0 therefore houseTotal is always 0
+				int amount = s.getHouseCount();
+				temp2 = cost * amount;
+				houseTotal +=temp2;
+
+				if(s.getHasHotel()){
+					int temp3 = s.getHotelPrice();
+					hotelTotal += temp3;
+				}
+
+			}
+		}
+
+		int total = balance + deedTotal + houseTotal + hotelTotal;
+
+		String s1 = "Total Balance: " + balance;
+		String s2 = "Total Deedvalue: " + deedTotal;
+		String s3 = "Total Housevalue: " + houseTotal;
+		String s4 = "Total Hotelvalue: " + hotelTotal;
+		String s5 = "Total Belongings: " + total;
+		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+		dialog.setTitle("Summary");
+		dialog.setMessage(s1 +"\n"+ s2 +"\n"+ s3 +"\n"+ s4 +"\n"+ s5);
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
 	}
 
 

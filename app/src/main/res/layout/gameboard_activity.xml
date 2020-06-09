@@ -799,5 +799,15 @@
             app:layout_constraintBottom_toBottomOf="@+id/number_playerposition"
             app:layout_constraintStart_toEndOf="@+id/view_background" />
 
+    <Button
+            android:id="@+id/addUpBtn"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Add Up"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tile_10"
+            app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
