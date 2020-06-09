@@ -329,6 +329,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			view_numberDice.setText("Roll 1: " + Integer.toString(roll1));
 			view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
 			view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
+			setPlayerIcon(currentPlayer);
 		}
 
 	public void checkPlayersPosition(final Player player){
@@ -378,6 +379,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			communityCardProcessor.performAction(player, communityCard);
 			view_balance.setText("Balance: " + player.getBalance());
 
+			GameState.getInstance().updatePlayer(player);
 			playerFinishedTurn();
 
 		}else if (currentTile instanceof ChanceCard){
@@ -395,6 +397,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			dialog.show();
 			chanceCardProcessor.performAction(player, chanceCard);
 			view_balance.setText("Balance: " + player.getBalance());
+
+			GameState.getInstance().updatePlayer(player);
 			playerFinishedTurn();
 		}
 	}
@@ -465,7 +469,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					button_rollDice.setEnabled(false);
 					button_buyOut.setEnabled(false);
 				}
-				setplayerIcons();
+				setPlayerIcons();
 			}
 		});
 	}
@@ -859,70 +863,73 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
-	public void setplayerIcons(){
+	public void setPlayerIcon(Player player){
+
+		String pieceName = player.getSelectedPiece().getName();
+		int pos = player.getCurrentPosition();
+
+		Log.d("POSITION: ", Integer.toString(pos));
+		Log.d("PIECENAME: ", pieceName);
+
+		if (pieceName.equals("Boat")){
+			player1.setX(fields[pos].getX());
+			player1.setY(fields[pos].getY());
+
+			Log.d("Update: ", "Player Boat with blue icon was set on" + pos);
+		}
+		else if (pieceName.equals("Car")){
+			player2.setX(fields[pos].getX());
+			player2.setY(fields[pos].getY());
+
+			Log.d("Update: " ,"Player Car with pink icon was set on" + pos);
+		}
 
 
-		for (Player player:GameState.getInstance().getPlayers()) {
+		switch (pieceName){
+			case "Boat":
 
-			String pieceName = player.getSelectedPiece().getName();
-			int pos = player.getCurrentPosition();
+				break;
 
-			Log.d("POSITION: ", Integer.toString(pos));
-			Log.d("PIECENAME: ", pieceName);
+			case "Car":
 
-			if (pieceName.equals("Boat")){
-				player1.setX(fields[pos].getX());
-				Log.d("Update: ", "Player Boat with blue icon was set on" + pos);
-			}
-			else if (pieceName.equals("Car")){
-				player2.setX(fields[pos].getX());
-				Log.d("Update: " ,"Player Car with pink icon was set on" + pos);
-			}
+				break;
 
+			case "Cat":
 
-			switch (pieceName){
-				case "Boat":
+				break;
 
-					break;
+			case "Dino":
 
-				case "Car":
+				break;
 
-					break;
+			case "Dog":
 
-				case "Cat":
+				break;
 
-					break;
+			case "Duck":
 
-				case "Dino":
+				break;
 
-					break;
+			case "Hat":
 
-				case "Dog":
+				break;
 
-					break;
+			case "Penguin":
 
-				case "Duck":
+				break;
 
-					break;
-
-				case "Hat":
-
-					break;
-
-				case "Pengui":
-
-					break;
-
-				default:
-					break;
-
-			}
+			default:
+				break;
 
 		}
 
 	}
 
-
+	public void setPlayerIcons(){
+		for (Player player:GameState.getInstance().getPlayers()) {
+			setPlayerIcon(player);
+		}
+	}
 
 	public int getOldBalance() {
 		return oldBalance;
