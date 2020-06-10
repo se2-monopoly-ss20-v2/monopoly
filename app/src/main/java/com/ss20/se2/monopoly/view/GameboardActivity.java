@@ -1031,29 +1031,30 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
-	public void addUp (Player player){
+	public void addUp (final Player player){
 		int balance = player.getBalance();
 		int deedTotal = 0;
 		int houseTotal = 0;
 		int hotelTotal = 0;
 
-		for(Deed d :player.getPlayersDeeds()){
-			int temp = d.getPrice();
-			deedTotal += temp;
-			if (d instanceof Street){
-				Street s = (Street) d;
-				int temp2;
-				int cost = s.getHousePrice();
-				//Currently only gives 0 therefore houseTotal is always 0
-				int amount = s.getHouseCount();
-				temp2 = cost * amount;
-				houseTotal +=temp2;
-
-				if(s.getHasHotel()){
-					int temp3 = s.getHotelPrice();
-					hotelTotal += temp3;
+		for (int i = 0; i < GameState.getInstance().getAllDeeds().size(); i++){
+			if(GameState.getInstance().getAllDeeds().get(i) instanceof Street){
+				Street street = (Street) GameState.getInstance().getAllDeeds().get(i);
+				if (street.getOwner() != null && street.getOwner().getAddress().equals(player.getAddress()) && street.getOwner().getPort() == player.getPort()){
+					int temp = street.getPrice();
+					deedTotal += temp;
+					if (street.getHouseCount() != 0){
+						int temp2;
+						int cost = street.getHousePrice();
+						int houseamount = street.getHouseCount();
+						temp2 = cost * houseamount;
+						houseTotal += temp2;
+					}
+					if (street.getHasHotel()){
+						int temp3 = street.getHotelPrice();
+						hotelTotal += temp3;
+					}
 				}
-
 			}
 		}
 
