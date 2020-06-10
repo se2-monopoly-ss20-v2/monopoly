@@ -2,25 +2,33 @@ package com.ss20.se2.monopoly.network.server;
 
 import android.util.Log;
 
-import com.google.gson.JsonObject;
-import com.ss20.se2.monopoly.models.GamePiece;
+import com.ss20.se2.monopoly.models.GameState;
+import com.ss20.se2.monopoly.models.Lobby;
+import com.ss20.se2.monopoly.models.LobbyPlayer;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
+import com.ss20.se2.monopoly.network.gamestate.SetupGameStateNetworkMessage;
+import com.ss20.se2.monopoly.network.gamestate.GameStateResponse;
 import com.ss20.se2.monopoly.network.NetworkUtilities;
+import com.ss20.se2.monopoly.network.client.ChangeGamePieceNetworkMessage;
+import com.ss20.se2.monopoly.network.client.JoinLobbyNetworkMessage;
+import com.ss20.se2.monopoly.network.client.LeaveLobbyNetworkMessage;
+import com.ss20.se2.monopoly.network.client.NetworkMessage;
+import com.ss20.se2.monopoly.network.client.ReadyLobbyNetworkMessage;
+import com.ss20.se2.monopoly.network.gamestate.SetupGameStateResponse;
 import com.ss20.se2.monopoly.network.shared.GameActions;
-import com.ss20.se2.monopoly.network.shared.ResponseType;
 
-import java.net.InetAddress;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-class RequestHandler implements Runnable{
+public class RequestHandler implements Runnable{
 
 	private final AtomicBoolean running = new AtomicBoolean(false);
 	private static RequestHandler instance;
 	private GameActionProcessor gameActionProcessor;
-	private BlockingQueue<JsonObject> queue;
+	private BlockingQueue<NetworkMessage> queue;
 
 	private RequestHandler(){
 		this.queue = new LinkedBlockingDeque<>();
@@ -33,7 +41,7 @@ class RequestHandler implements Runnable{
 	 *
 	 * @return
 	 */
-	static RequestHandler getInstance(){
+	public static RequestHandler getInstance(){
 		if (instance == null){
 			instance = new RequestHandler();
 		}
@@ -56,7 +64,7 @@ class RequestHandler implements Runnable{
 	public void run(){
 		while (running.get()){
 			try{
-				JsonObject request = queue.take(); //blocks the thread until new request in queue
+				NetworkMessage request = queue.take(); //blocks the thread until new request in queue
 				executeRequest(request);
 			}catch (InterruptedException e){
 				Log.d(NetworkUtilities.TAG, e.toString());
@@ -68,12 +76,12 @@ class RequestHandler implements Runnable{
 	/**
 	 * Adds the request to a queue. The queue is processed by a thread.
 	 *
-	 * @param request
+	 * @param message
 	 */
-	synchronized void handleRequest(JsonObject request){
+	public synchronized void handleRequest(NetworkMessage message){
 		try{
 			Log.d(NetworkUtilities.TAG, "Handle request called");
-			queue.put(request);
+			queue.put(message);
 			Log.d(NetworkUtilities.TAG, "New request added to RequestHandler queue");
 		}catch (InterruptedException e){
 			Log.d(NetworkUtilities.TAG, e.toString());
@@ -87,202 +95,178 @@ class RequestHandler implements Runnable{
 	 *
 	 * @param request
 	 */
-	private void executeRequest(JsonObject request){
+	private void executeRequest(NetworkMessage request){
 		Log.d(NetworkUtilities.TAG, "Executing of request started");
+		if (request instanceof LeaveLobbyNetworkMessage){
+			gameActionProcessor.leaveLobby((LeaveLobbyNetworkMessage) request);
+		}else if (request instanceof JoinLobbyNetworkMessage){
+			gameActionProcessor.joinLobby((JoinLobbyNetworkMessage) request);
+		}else if (request instanceof ReadyLobbyNetworkMessage){
+			gameActionProcessor.changeReadyLobby((ReadyLobbyNetworkMessage) request);
+		}else if (request instanceof ChangeGamePieceNetworkMessage){
+			gameActionProcessor.changeGamePiece((ChangeGamePieceNetworkMessage) request);
+		}else if (request instanceof SetupGameStateNetworkMessage){
+			gameActionProcessor.setupGameState((SetupGameStateNetworkMessage) request);
+		}else if (request instanceof GameStateNetworkMessage){
+			gameActionProcessor.updateGameState((GameStateNetworkMessage) request);
+		}
 		// TODO: Use the classes of the request and the type to call the specific action method
 	}
 
 	private class GameActionProcessor implements GameActions{
 
 		@Override
-		public void joinGame(InetAddress address, int port){
-			// Add here individual functionality to game method and update server database
-			// ...
-			JsonObject response = new JsonObject();
-			String responseType = ResponseType.toString(ResponseType.GAME_JOINED);
-			response.addProperty("type", responseType);
-			// Gather the relevant changes and build the response
-			// ...
-			GameServer.getInstance().sendResponseToAll(response);
+		public void joinLobby(JoinLobbyNetworkMessage message){
+			LobbyPlayer player = new LobbyPlayer(message.getSenderName(), message.getSenderAddress(), message.getSenderPort(), message.getGamePiece(), false);
+			Lobby.getInstance().addPlayer(player);
+			Lobby.getInstance().calculateReadyState();
+			LobbyResponse lobbyResponse = new LobbyResponse();
+			lobbyResponse.setLobby(Lobby.getInstance());
+			Lobby.getInstance().notifyListeners();
+			GameServer.getInstance().sendResponseToAll(lobbyResponse);
 		}
 
 		@Override
-		public void leaveGame(){
-			// Add here individual functionality to game method and update server database
-			// ...
-			JsonObject response = new JsonObject();
-			String responseType = ResponseType.toString(ResponseType.GAME_LEFT);
-			response.addProperty("type", responseType);
-			// Gather the relevant changes and build the response
-			// ...
-			GameServer.getInstance().sendResponseToAll(response);
+		public void leaveLobby(LeaveLobbyNetworkMessage message){
+			LobbyPlayer lobbyPlayer = null;
+			for (LobbyPlayer player : Lobby.getInstance().getPlayers()){
+				if (player.getAddress().equals(message.getSenderAddress()) && player.getPort() == message.getSenderPort()){
+					lobbyPlayer = player;
+					break;
+				}
+			}
+			if (lobbyPlayer != null){
+				Lobby.getInstance().removePlayer(lobbyPlayer);
+			}
+			Lobby.getInstance().calculateReadyState();
+			LobbyResponse lobbyResponse = new LobbyResponse();
+			lobbyResponse.setLobby(Lobby.getInstance());
+			Lobby.getInstance().notifyListeners();
+			GameServer.getInstance().sendResponseToAll(lobbyResponse);
 		}
 
 		@Override
-		public void changeGamePiece(Player player, GamePiece gamePiece){
-			// Add here individual functionality to game method and update server database
-			// ...
-			JsonObject response = new JsonObject();
-			String responseType = ResponseType.toString(ResponseType.GAME_PIECE_CHANGED); // or GAME_PIECE_NOT_CHANGED (For example, if double)
-			response.addProperty("type", responseType);
-			// Gather the relevant changes and build the response
-			// ...
-			GameServer.getInstance().sendResponseToAll(response);
+		public void changeGamePiece(ChangeGamePieceNetworkMessage message){
+			LobbyPlayer lobbyPlayer = null;
+			for (LobbyPlayer player : Lobby.getInstance().getPlayers()){
+				if (player.getAddress().equals(message.getSenderAddress()) && player.getPort() == message.getSenderPort()){
+					lobbyPlayer = player;
+					break;
+				}
+			}
+			if (lobbyPlayer != null){
+				Lobby.getInstance().changeGamePieceOfPlayer(lobbyPlayer, message.getGamePiece());
+			}
+			Lobby.getInstance().calculateReadyState();
+			LobbyResponse lobbyResponse = new LobbyResponse();
+			lobbyResponse.setLobby(Lobby.getInstance());
+			Lobby.getInstance().notifyListeners();
+			GameServer.getInstance().sendResponseToAll(lobbyResponse);
+		}
+
+		@Override
+		public void changeReadyLobby(ReadyLobbyNetworkMessage message){
+			for (LobbyPlayer player : Lobby.getInstance().getPlayers()){
+				if (player.getAddress().equals(message.getSenderAddress()) && player.getPort() == message.getSenderPort()){
+					player.setReady(message.isValue());
+					break;
+				}
+			}
+			Lobby.getInstance().calculateReadyState();
+			LobbyResponse lobbyResponse = new LobbyResponse();
+			lobbyResponse.setLobby(Lobby.getInstance());
+			Lobby.getInstance().notifyListeners();
+			GameServer.getInstance().sendResponseToAll(lobbyResponse);
 		}
 
 		@Override
 		public void rollDice(){
-			// Add here individual functionality to game method and update server database
-			// ...
-			JsonObject response = new JsonObject();
-			String responseType = ResponseType.toString(ResponseType.DICE_ROLLED); // or DICE_NOT_ROLLED
-			response.addProperty("type", responseType);
-			// Gather the relevant changes and build the response
-			// ...
-			GameServer.getInstance().sendResponseToAll(response);
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void skipTurn(){
-			// Add here individual functionality to game method and update server database
-			// ...
-			JsonObject response = new JsonObject();
-			String responseType = ResponseType.toString(ResponseType.TURN_SKIPPED);
-			response.addProperty("type", responseType);
-			// Gather the relevant changes and build the response
-			// ...
-			GameServer.getInstance().sendResponseToAll(response);
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void buyDeed(Deed deed){
-			// Add here individual functionality to game method and update server database
-			// ...
-			JsonObject response = new JsonObject();
-			String responseType = ResponseType.toString(ResponseType.DEED_BOUGHT);
-			response.addProperty("type", responseType);
-			// Gather the relevant changes and build the response
-			// ...
-			GameServer.getInstance().sendResponseToAll(response);
+		public void buyDeed(Deed deed, Player newOwner){
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void sellDeed(Deed deed){
-			// Add here individual functionality to game method and update server database
-			// ...
-			JsonObject response = new JsonObject();
-			String responseType = ResponseType.toString(ResponseType.DEED_SOLD);
-			response.addProperty("type", responseType);
-			// Gather the relevant changes and build the response
-			// ...
-			GameServer.getInstance().sendResponseToAll(response);
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void buyHouse(Deed deed){
-			// Add here individual functionality to game method and update server database
-			// ...
-			JsonObject response = new JsonObject();
-			String responseType = ResponseType.toString(ResponseType.HOUSE_BOUGHT);
-			response.addProperty("type", responseType);
-			// Gather the relevant changes and build the response
-			// ...
-			GameServer.getInstance().sendResponseToAll(response);
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void sellHouse(Deed deed){
-			// Add here individual functionality to game method and update server database
-			// ...
-			JsonObject response = new JsonObject();
-			String responseType = ResponseType.toString(ResponseType.HOUSE_SOLD);
-			response.addProperty("type", responseType);
-			// Gather the relevant changes and build the response
-			// ...
-			GameServer.getInstance().sendResponseToAll(response);
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void buyHotel(Deed deed){
-			// Add here individual functionality to game method and update server database
-			// ...
-			JsonObject response = new JsonObject();
-			String responseType = ResponseType.toString(ResponseType.HOTEL_BOUGHT);
-			response.addProperty("type", responseType);
-			// Gather the relevant changes and build the response
-			// ...
-			GameServer.getInstance().sendResponseToAll(response);
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void sellHotel(Deed deed){
-			// Add here individual functionality to game method and update server database
-			// ...
-			JsonObject response = new JsonObject();
-			String responseType = ResponseType.toString(ResponseType.HOTEL_SOLD);
-			response.addProperty("type", responseType);
-			// Gather the relevant changes and build the response
-			// ...
-			GameServer.getInstance().sendResponseToAll(response);
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void raiseMortgage(Deed deed){
-			// Add here individual functionality to game method and update server database
-			// ...
-			JsonObject response = new JsonObject();
-			String responseType = ResponseType.toString(ResponseType.MORTGAGE_NOT_RAISED);
-			response.addProperty("type", responseType);
-			// Gather the relevant changes and build the response
-			// ...
-			GameServer.getInstance().sendResponseToAll(response);
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void redeemMortgage(Deed deed){
-			// Add here individual functionality to game method and update server database
-			// ...
-			JsonObject response = new JsonObject();
-			String responseType = ResponseType.toString(ResponseType.MORTGAGE_REDEEMED);
-			response.addProperty("type", responseType);
-			// Gather the relevant changes and build the response
-			// ...
-			GameServer.getInstance().sendResponseToAll(response);
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void tradeDeed(Deed deed, Player player){
-			// Add here individual functionality to game method and update server database
-			// ...
-			JsonObject response = new JsonObject();
-			String responseType = ResponseType.toString(ResponseType.DEED_TRADED);
-			response.addProperty("type", responseType);
-			// Gather the relevant changes and build the response
-			// ...
-			GameServer.getInstance().sendResponseToAll(response);
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void bidAtAuction(int amount){
-			// Add here individual functionality to game method and update server database
-			// ...
-			JsonObject response = new JsonObject();
-			String responseType = ResponseType.toString(ResponseType.BIDDEN_ON_AUCTION);
-			response.addProperty("type", responseType);
-			// Gather the relevant changes and build the response
-			// ...
-			GameServer.getInstance().sendResponseToAll(response);
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
 		public void cheat(){
-			// Add here individual functionality to game method and update server database
-			// ...
-			JsonObject response = new JsonObject();
-			String responseType = ResponseType.toString(ResponseType.CHEATED); // cheating can actually be any type
-			response.addProperty("type", responseType);
-			// Gather the relevant changes and build the response
-			// ...
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public void setupGameState(SetupGameStateNetworkMessage message){
+			SetupGameStateResponse response = new SetupGameStateResponse();
+			response.setState(message.getState());
+			GameState.getInstance().notifyListenersForSetup();
+			GameServer.getInstance().sendResponseToAll(response);
+		}
+
+		@Override
+		public void updateGameState(GameStateNetworkMessage message){
+			GameStateResponse response = new GameStateResponse();
+			response.setState(message.getState());
+
+			//update State here for Host
+			GameState.getInstance().setPlayers(message.getState().getPlayers());
+			GameState.getInstance().setGameboard(message.getState().getGameboard());
+			GameState.getInstance().setAllDeeds(message.getState().getAllDeeds());
+			GameState.getInstance().setTurnRotation(message.getState().getTurnRotation());
+			GameState.getInstance().setCurrentActivePlayer(message.getState().getCurrentActivePlayer());
+			GameState.getInstance().setCheatManager(message.getState().getCheatManager());
+			GameState.getInstance().notifyListeners();
+
+
 			GameServer.getInstance().sendResponseToAll(response);
 		}
 	}

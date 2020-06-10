@@ -1,6 +1,8 @@
 package com.ss20.se2.monopoly.models;
 
-public class GamePiece{
+import java.io.Serializable;
+
+public class GamePiece implements Serializable{
 
 	private String name;
 

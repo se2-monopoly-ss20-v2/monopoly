@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.HostLobbyFragment"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+        <ImageView
+                android:alpha="1"
+                android:id="@+id/lobby_background4"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:scaleType="fitStart"
+                android:src="@drawable/lobby_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/textView"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="52dp"
+                android:layout_marginTop="36dp"
+                android:layout_width="wrap_content"
+                android:text="@string/HostScreen"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/partnersTxtHost"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+                style="@style/Widget.AppCompat.Button"
+                android:background="@drawable/monoploy_button"
+                android:enabled="false"
+                android:id="@+id/startGameBtn"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="184dp"
+                android:layout_width="wrap_content"
+                android:text="Start Game"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.804" />
+
+        <ImageButton
+                style="@style/Widget.AppCompat.Button"
+                android:background="@drawable/monoploy_button"
+                android:id="@+id/backBtn"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="36dp"
+                android:layout_width="69dp"
+                android:src="@drawable/abc_vector_test"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:background="#EDEDED"
+                android:id="@+id/partnersTxtHost"
+                android:layout_height="0dp"
+                android:layout_marginBottom="151dp"
+                android:layout_marginStart="68dp"
+                android:layout_width="337dp"
+                android:text="Partners"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <Spinner
+                android:background="#EDEDED"
+                android:backgroundTint="#EDEDED"
+                android:id="@+id/gamePieceSpinnerHost"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="52dp"
+                android:layout_width="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.669"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

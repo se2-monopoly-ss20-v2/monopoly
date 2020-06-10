@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        tools:context=".view.dialog.DialogContainerFragment">
+
+    <ScrollView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+        <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="vertical" >
+
+            <TextView
+                    android:gravity="center"
+                    android:id="@+id/textView7"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="@string/buyDeedTitle"
+                    android:textSize="24sp" />
+
+            <FrameLayout
+                    android:id="@+id/deedFragmentContainer"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent">
+
+            </FrameLayout>
+
+            <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20pt"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20pt"
+                    android:paddingRight="20pt">
+
+                <Button
+                        android:id="@+id/buttonBuy"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:text="@string/buyBtn" />
+
+                <Button
+                        android:id="@+id/buttonCancel"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:text="@string/cancelBtn" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>
