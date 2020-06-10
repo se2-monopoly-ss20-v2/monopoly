@@ -1203,7 +1203,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	 */
 	public void cheat(Player player, Street street){
 
-		if(street.getOwner()==player){
+		if(street.getOwner()!=player){
 			GameState.getInstance().getCheatManager().flushCheater();
 			GameState.getInstance().getCheatManager().setLatestCheater(player);
 			GameState.getInstance().getCheatManager().setCheatedStreet(street);
