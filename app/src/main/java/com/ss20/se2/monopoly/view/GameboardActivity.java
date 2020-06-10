@@ -1046,8 +1046,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					if (street.getHouseCount() != 0){
 						int temp2;
 						int cost = street.getHousePrice();
-						int amount = street.getHouseCount();
-						temp2 = cost * amount;
+						int houseamount = street.getHouseCount();
+						temp2 = cost * houseamount;
 						houseTotal += temp2;
 					}
 					if (street.getHasHotel()){
