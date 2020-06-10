@@ -1127,21 +1127,28 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	 * exposing will not and a turn
 	 * cheater gets flushed
 	 *
+	 * ! Important for sprint meeting !
+	 *  Cheating player will not loose his street after being exposed
+	 *  Instead they will get a bigger penalty
+	 *  This might be changed again for final presentation
+	 *
 	 * @param player Player that is exposing a cheater
 	 */
 	public void expose(Player player){
 
 
+		Street street = GameState.getInstance().getCheatManager().getCheatedStreet();
 				// expose turned out to be true
 				if(GameState.getInstance().getCheatManager().getLatestCheater() != null){
 
 					Player cheater = GameState.getInstance().getCheatManager().getLatestCheater();
 					int balanceCheater = cheater.getBalance();
 					int balanceExposer = player.getBalance();
-					cheater.removeDeedFromPlayer(GameState.getInstance().getCheatManager().getCheatedStreet());
+					//cheater.removeDeedFromPlayer(GameState.getInstance().getCheatManager().getCheatedStreet());
 					GameState.getInstance().getCheatManager().getCheatedStreet().setOwner(null);
 
 					cheater.setBalance(balanceCheater - 300);
+					cheater.setBalance(balanceCheater - street.getPrice());
 					player.setBalance(balanceExposer + 300);
 
 					GameState.getInstance().updatePlayer(player);
@@ -1149,7 +1156,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 					AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 					dialog.setTitle("You are right!");
-					dialog.setMessage("The cheater looses the cheated street and pays you $300");
+					//dialog.setMessage("The cheater looses the cheated street and pays you $300");
+					dialog.setMessage("The cheater pays a fine to the bank and pays $300 to you");
 					dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener(){
 						@Override
 						public void onClick(DialogInterface dialog, int which){
