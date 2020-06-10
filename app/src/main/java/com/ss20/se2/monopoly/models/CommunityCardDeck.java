@@ -18,6 +18,9 @@ public class CommunityCardDeck {
 
     CommunityCard[] cards = new CommunityCard[]{card1,card2,card3,card4,card5,card6};
 
+    /**
+     * fills card deck with communitycards and shuffles them
+     */
     public void initializeDeck(){
         for (int i = 0; i < cards.length; i++) {
             stackOfCards.push(cards[i]);
@@ -25,6 +28,13 @@ public class CommunityCardDeck {
         Collections.shuffle(stackOfCards);
     }
 
+    /**
+     *  Gets a new card out of the deck
+     *  if the deck is empty, it will be
+     *  initialized and shuffled again
+     *
+     * @return CommunityCard
+     */
     public CommunityCard getNextCard() {
         if (!stackOfCards.isEmpty()) {
             return stackOfCards.pop();

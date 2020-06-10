@@ -3,6 +3,7 @@ package com.ss20.se2.monopoly.view;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,10 +35,13 @@ import com.ss20.se2.monopoly.models.fields.deeds.Utility;
 import com.ss20.se2.monopoly.network.gamestate.GameStateNetworkMessage;
 import com.ss20.se2.monopoly.network.gamestate.OnGameStateChangedListener;
 import com.ss20.se2.monopoly.models.Player;
+import com.ss20.se2.monopoly.models.*;
 import com.ss20.se2.monopoly.models.fields.GameTile;
 import com.ss20.se2.monopoly.models.fields.cards.Card;
 import com.ss20.se2.monopoly.models.fields.cards.ChanceCard;
 import com.ss20.se2.monopoly.models.fields.cards.CommunityCard;
+import com.ss20.se2.monopoly.models.fields.deeds.Deed;
+import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 
 import com.ss20.se2.monopoly.network.client.GameController;
@@ -49,6 +54,7 @@ import com.ss20.se2.monopoly.view.deed.DeedFragment;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 import com.ss20.se2.monopoly.view.dialog.DialogContainerFragment;
 
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
@@ -71,6 +77,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	ListView deedlistview;
 
 	Button altbutton;
+	Button cheatButton;
+	Button exposeButton;
+	ImageView middleTile;
 	Button addUpBtn;
 
 
@@ -90,6 +99,14 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	int doublescounter;
 	ImageView[] fields;
 	TextView[] houseFields;
+	ImageView boat;
+	ImageView car;
+	ImageView cat;
+	ImageView dino;
+	ImageView dog;
+	ImageView duck;
+	ImageView hat;
+	ImageView penguin;
 
 	private SensorManager mSensorManager;
 	float accel;
@@ -200,8 +217,18 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		btnshowdeeds = findViewById(R.id.button_deeds);
 		deedlistview = findViewById(R.id.deed_list);
 		altbutton = findViewById(R.id.altbutton);
+		boat = findViewById(R.id.boat);
+		car = findViewById(R.id.car);
+		dino = findViewById(R.id.dino);
+		dog = findViewById(R.id.dog);
+		duck = findViewById(R.id.duck);
+		hat = findViewById(R.id.hat);
+		penguin = findViewById(R.id.penguin);
 		addUpBtn = findViewById(R.id.addUpBtn);
 
+		cheatButton = findViewById(R.id.button_cheat);
+		middleTile = findViewById(R.id.tile_middle);
+		exposeButton = findViewById(R.id.button_expose);
 
 		button_rollDice.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -214,6 +241,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				currentaccel = SensorManager.GRAVITY_EARTH;
 				lastaccel = SensorManager.GRAVITY_EARTH;
 				altbutton.setVisibility(View.VISIBLE);
+				exposeButton.setEnabled(true);
 
 				final SensorEventListener mSensorListener = new SensorEventListener(){
 
@@ -235,8 +263,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 							altbutton.setVisibility(View.GONE);
 
 							processRoll();
-							findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
-							findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
 						}
 					}
 
@@ -255,13 +281,29 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 						altbutton.setVisibility(View.GONE);
 
 						processRoll();
-						findViewById(R.id.playericon).setX(fields[gameboard.getPosition("Player 1")].getX());
-						findViewById(R.id.playericon).setY(fields[gameboard.getPosition("Player 1")].getY());
+
+						GameTile currentTile = gameboard.gameTiles.get(currentPlayer.getCurrentPosition());
+
+						if(currentTile instanceof Street){
+							final Street street = (Street) currentTile;
+							if(street.getOwner() == null){
+								middleTile.setOnClickListener(new View.OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										cheatButton.setVisibility(View.VISIBLE);
+										middleTile.setOnClickListener(null);
+									}
+
+								});
+							}
+						}
+
 					}
 				});
 
 				Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 						SensorManager.SENSOR_DELAY_GAME);
+				cheatButton.setVisibility(View.INVISIBLE);
 				}
 		});
 		button_buyOut.setOnClickListener(new View.OnClickListener(){
@@ -274,6 +316,50 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				showDifference(getOldBalance(), currentPlayer.getBalance());
 			}
 		});
+
+		cheatButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				GameTile currentTile = gameboard.gameTiles.get(currentPlayer.getCurrentPosition());
+
+				cheat(currentPlayer, (Street) currentTile);
+				cheatButton.setVisibility(View.INVISIBLE);
+				//playerFinishedTurn();
+			}
+		});
+
+		exposeButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+				dialog.setTitle("Expose a player!");
+				dialog.setMessage("You are about to accuse your predecessor of cheating. If your suspicion is right, he will loose its cheated street and he gets to pay you a fine");
+				dialog.setButton(AlertDialog.BUTTON_POSITIVE, "Expose", new DialogInterface.OnClickListener(){
+					@Override
+					public void onClick(DialogInterface dialog, int which){
+						dialog.dismiss();
+
+						expose(currentPlayer);
+
+					}
+				});
+				dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+				dialog.show();
+
+
+				exposeButton.setEnabled(false);
+				//playerFinishedTurn();
+			}
+		});
+
+
 
 		btnshowdeeds.setOnClickListener(new View.OnClickListener(){
 			@Override
@@ -309,6 +395,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		});
 
 		setup();
+
 		for (int i = 0; i < fields.length; i++){
 			final ImageView view = fields[i];
 			view.setOnClickListener(new View.OnClickListener(){
@@ -362,6 +449,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			view_numberDice.setText("Roll 1: " + Integer.toString(roll1));
 			view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
 			view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
+			setPlayerIcon(currentPlayer);
 		}
 
 	public void checkPlayersPosition(final Player player){
@@ -421,6 +509,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			view_balance.setText("Balance: " + player.getBalance());
 			checkGameOver(player);
 
+			GameState.getInstance().updatePlayer(player);
 			playerFinishedTurn();
 
 		}else if (currentTile instanceof ChanceCard){
@@ -439,6 +528,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			chanceCardProcessor.performAction(player, chanceCard);
 			view_balance.setText("Balance: " + player.getBalance());
 			checkGameOver(player);
+
+			GameState.getInstance().updatePlayer(player);
 			playerFinishedTurn();
 		}
 	}
@@ -509,6 +600,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					button_rollDice.setEnabled(false);
 					button_buyOut.setEnabled(false);
 				}
+				setPlayerIcons();
 			}
 		});
 	}
@@ -811,6 +903,12 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		playerFinishedTurn();
 	}
 
+	/**
+	 * All changes of balance are shown in upper left corner
+	 *
+	 * @param oldBalance Balance the player had at turn start
+	 * @param newBalance Balance the player has after a turn
+	 */
 	public void showDifference(int oldBalance, int newBalance){
 		int difference = Math.abs(oldBalance - newBalance);
 		if (difference == 0){
@@ -823,6 +921,12 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
+	/**
+	 * Will show a description of a gametile after tapping on it
+	 *
+	 * @param gameTile Gametile the player is tapping on
+	 * @param player Player that is tapping on the Gametile
+	 */
 	public void showTileInfo(GameTile gameTile, Player player){
 		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 		dialog.setTitle(gameTile.getName());
@@ -1014,6 +1118,105 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
+	/**
+	 * Exposing has two outcomes:
+	 * 1: positive expose -> cheater looses his streets
+	 * and pays a fine to exposer
+	 * 2: negative expose -> exposer pays a fine to accused player
+	 * ----
+	 * exposing will not and a turn
+	 * cheater gets flushed
+	 *
+	 * ! Important for sprint meeting !
+	 *  Cheating player will not loose his street after being exposed
+	 *  Instead they will get a bigger penalty
+	 *  This might be changed again for final presentation
+	 *
+	 * @param player Player that is exposing a cheater
+	 */
+	public void expose(Player player){
+
+
+		Street street = GameState.getInstance().getCheatManager().getCheatedStreet();
+				// expose turned out to be true
+				if(GameState.getInstance().getCheatManager().getLatestCheater() != null){
+
+					Player cheater = GameState.getInstance().getCheatManager().getLatestCheater();
+					int balanceCheater = cheater.getBalance();
+					int balanceExposer = player.getBalance();
+					//cheater.removeDeedFromPlayer(GameState.getInstance().getCheatManager().getCheatedStreet());
+					GameState.getInstance().getCheatManager().getCheatedStreet().setOwner(null);
+
+					cheater.setBalance(balanceCheater - 300);
+					cheater.setBalance(balanceCheater - street.getPrice());
+					player.setBalance(balanceExposer + 300);
+
+					GameState.getInstance().updatePlayer(player);
+					GameState.getInstance().updatePlayer(cheater);
+
+					AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+					dialog.setTitle("You are right!");
+					//dialog.setMessage("The cheater looses the cheated street and pays you $300");
+					dialog.setMessage("The cheater pays a fine to the bank and pays $300 to you");
+					dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener(){
+						@Override
+						public void onClick(DialogInterface dialog, int which){
+							dialog.dismiss();
+						}
+					});
+					dialog.show();
+
+				}
+				else{
+					int newBalance = player.getBalance() - 300;
+					player.setBalance(newBalance);
+					GameState.getInstance().updatePlayer(player);
+
+					AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
+					dialog.setTitle("Wrong accusation!");
+					dialog.setMessage("The other player did not cheat.. -$300");
+					dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener(){
+						@Override
+						public void onClick(DialogInterface dialog, int which){
+							dialog.dismiss();
+						}
+					});
+					dialog.show();
+
+
+				}
+
+				GameState.getInstance().getCheatManager().flushCheater();
+				showDifference(oldBalance, player.getBalance());
+
+	}
+
+	/**
+	 * Cheating gives the player a street for free.
+	 * if there was a cheater before, he gets overwritten
+	 * and current player is now saved as latest cheater.
+	 * CheatedStreet is saved for exposing feature
+	 * Cheating ends a turn
+	 *
+	 * @param player cheating player
+	 * @param street Street which the cheating player want to "acquire"
+	 */
+	public void cheat(Player player, Street street){
+
+		if(street.getOwner()!=player){
+			GameState.getInstance().getCheatManager().flushCheater();
+			GameState.getInstance().getCheatManager().setLatestCheater(player);
+			GameState.getInstance().getCheatManager().setCheatedStreet(street);
+
+			GameState.getInstance().getDeedManager().cheatStreet(street, player);
+			GameState.getInstance().updatePlayer(player);
+
+			playerFinishedTurn();
+
+			Toast.makeText(this, "You now own " + street.getName(), Toast.LENGTH_SHORT).show();
+		}
+
+	}
 	public void checkGameOver(Player player){
 		int balance = player.getBalance();
 		if (balance <= 0){
@@ -1084,8 +1287,94 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		dialog.show();
 	}
 
+	/**
+	 * Gets name of selected gamepiece of a player and assigns it
+	 * to an imageview initialized above.
+	 * Playericon gets visible because they are all invisible after setup
+	 * @param player Player whose position gets updated
+	 */
+	public void setPlayerIcon(Player player){
 
-	public int getOldBalance() {
+		String pieceName = player.getSelectedPiece().getName();
+		int pos = player.getCurrentPosition();
+
+		Log.d("POSITION: ", Integer.toString(pos));
+		Log.d("PIECENAME: ", pieceName);
+
+		switch (pieceName){
+			case "Boat":
+				boat.setX(fields[pos].getX());
+				boat.setY(fields[pos].getY());
+				boat.setVisibility(View.VISIBLE);
+
+				break;
+
+			case "Car":
+				car.setX(fields[pos].getX());
+				car.setY(fields[pos].getY());
+				car.setVisibility(View.VISIBLE);
+
+				break;
+
+			case "Cat":
+				cat.setX(fields[pos].getX());
+				cat.setY(fields[pos].getY());
+				cat.setVisibility(View.VISIBLE);
+
+				break;
+
+			case "Dino":
+				dino.setX(fields[pos].getX());
+				dino.setY(fields[pos].getY());
+				dino.setVisibility(View.VISIBLE);
+
+				break;
+
+			case "Dog":
+				dog.setX(fields[pos].getX());
+				dog.setY(fields[pos].getY());
+				dog.setVisibility(View.VISIBLE);
+
+				break;
+
+			case "Duck":
+				duck.setX(fields[pos].getX());
+				duck.setY(fields[pos].getY());
+				duck.setVisibility(View.VISIBLE);
+
+				break;
+
+			case "Hat":
+				hat.setX(fields[pos].getX());
+				hat.setY(fields[pos].getY());
+				hat.setVisibility(View.VISIBLE);
+
+				break;
+
+			case "Penguin":
+				penguin.setX(fields[pos].getX());
+				penguin.setY(fields[pos].getY());
+				penguin.setVisibility(View.VISIBLE);
+
+				break;
+
+			default:
+				break;
+
+		}
+
+	}
+
+	/**
+	 * Iterates through every player and calls setPlayerIcon to update positions
+	 */
+	public void setPlayerIcons(){
+		for (Player player:GameState.getInstance().getPlayers()) {
+			setPlayerIcon(player);
+		}
+	}
+
+	public int getOldBalance(){
 		return oldBalance;
 	}
 

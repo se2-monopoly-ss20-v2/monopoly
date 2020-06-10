@@ -4,6 +4,12 @@ import com.ss20.se2.monopoly.models.fields.cards.Card;
 
 public class ChanceCardProcessor {
 
+    /**
+     * Performs an action according to card name
+     *
+     * @param player Player that draws a chancecard
+     * @param card Card that was drawn
+     */
     public void performAction(Player player, Card card){
 
         int balance = player.getBalance();
@@ -35,7 +41,7 @@ public class ChanceCardProcessor {
                 break;
 
             case "KICKSTART":
-                player.updateBalance(balance+200);
+                player.updateBalance(balance+100);
                 break;
 
             case "8":

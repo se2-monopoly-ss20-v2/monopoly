@@ -25,6 +25,7 @@ public class GameState implements Serializable{
 	private DeedManager deedManager;
 	private List<Player> players;
 	private transient List<OnGameStateChangedListener> listeners;
+	private CheatManager cheatManager;
 
 
 	private GameState(){
@@ -42,10 +43,13 @@ public class GameState implements Serializable{
 
 	public void setupGame(List<LobbyPlayer> lobbyPlayers, Context context){
 		for (LobbyPlayer lobbyPlayer : lobbyPlayers){
-			Player player = new Player(lobbyPlayer.getName(), 100000,lobbyPlayer.getGamePiece(),1, lobbyPlayer.getAddress(),lobbyPlayer.getPort());
+			Player player = new Player(lobbyPlayer.getName(), 100000,lobbyPlayer.getGamePiece(),0, lobbyPlayer.getAddress(),lobbyPlayer.getPort());
 			this.players.add(player);
 		}
 
+		gameboard = new Gameboard(context);
+		deedManager = new DeedManager(gameboard);
+		cheatManager = new CheatManager();
 		turnRotation = 0;
 		currentActivePlayer = players.get(turnRotation);
 
@@ -110,6 +114,7 @@ public class GameState implements Serializable{
 				p.setBalance(player.getBalance());
 				p.setPlayersDeeds(player.getPlayersDeeds());
 				p.setPlayersCards(player.getPlayersCards());
+				p.setCurrentPosition(player.getCurrentPosition());
 
 			}
 		}
@@ -187,6 +192,10 @@ public class GameState implements Serializable{
 		listeners.add(listener);
 	}
 
+	public void unsubscribe(OnGameStateChangedListener listener){
+		listeners.remove(listener);
+	}
+
 	public void notifyListenersForSetup(){
 		for (OnGameStateChangedListener listener : listeners){
 			listener.setupGameState(instance);
@@ -202,5 +211,12 @@ public class GameState implements Serializable{
 		for (OnGameStateChangedListener listener: listeners) {
 			listener.onGameStateChanged(instance);
 		}
+	}
+	public CheatManager getCheatManager() {
+		return cheatManager;
+	}
+
+	public void setCheatManager(CheatManager cheatManager) {
+		this.cheatManager = cheatManager;
 	}
 }

@@ -21,6 +21,9 @@ public class ChanceCardDeck {
 
     ChanceCard[] cards = new ChanceCard[]{card1,card2,card3,card4,card5,card6,card7};
 
+    /**
+     * fills card deck with chancecards and shuffles them
+     */
     public void initializeDeck(){
         for (int i = 0; i < cards.length; i++) {
             stackOfCards.push(cards[i]);
@@ -28,6 +31,13 @@ public class ChanceCardDeck {
         Collections.shuffle(stackOfCards);
     }
 
+    /**
+     *  Gets a new card out of the deck
+     *  if the deck is empty, it will be
+     *  initialized and shuffled again
+     *
+     * @return CommunityCard
+     */
     public ChanceCard getNextCard() {
         if (!stackOfCards.isEmpty()) {
             return stackOfCards.pop();
