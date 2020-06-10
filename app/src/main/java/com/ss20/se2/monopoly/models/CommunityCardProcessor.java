@@ -4,7 +4,12 @@ import com.ss20.se2.monopoly.models.fields.cards.Card;
 
 public class CommunityCardProcessor {
 
-
+    /**
+     * Performs an action according to card name
+     *
+     * @param player Player that draws a communitycard
+     * @param card Card that was drawn
+     */
     public void performAction(Player player, Card card){
 
         int balance = player.getBalance();

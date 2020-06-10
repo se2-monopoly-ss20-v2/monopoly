@@ -25,6 +25,9 @@ public class CheatManager implements Serializable {
         this.latestCheater = latestCheater;
     }
 
+    /**
+     * resets latest cheater
+     */
     public void flushCheater(){
         this.latestCheater = null;
     }

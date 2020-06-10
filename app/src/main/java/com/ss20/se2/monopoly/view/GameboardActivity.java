@@ -903,6 +903,12 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		playerFinishedTurn();
 	}
 
+	/**
+	 * All changes of balance are shown in upper left corner
+	 *
+	 * @param oldBalance Balance the player had at turn start
+	 * @param newBalance Balance the player has after a turn
+	 */
 	public void showDifference(int oldBalance, int newBalance){
 		int difference = Math.abs(oldBalance - newBalance);
 		if (difference == 0){
@@ -915,6 +921,12 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
+	/**
+	 * Will show a description of a gametile after tapping on it
+	 *
+	 * @param gameTile Gametile the player is tapping on
+	 * @param player Player that is tapping on the Gametile
+	 */
 	public void showTileInfo(GameTile gameTile, Player player){
 		AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 		dialog.setTitle(gameTile.getName());
@@ -1106,6 +1118,17 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		}
 	}
 
+	/**
+	 * Exposing has two outcomes:
+	 * 1: positive expose -> cheater looses his streets
+	 * and pays a fine to exposer
+	 * 2: negative expose -> exposer pays a fine to accused player
+	 * ----
+	 * exposing will not and a turn
+	 * cheater gets flushed
+	 *
+	 * @param player Player that is exposing a cheater
+	 */
 	public void expose(Player player){
 
 
@@ -1160,6 +1183,16 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 	}
 
+	/**
+	 * Cheating gives the player a street for free.
+	 * if there was a cheater before, he gets overwritten
+	 * and current player is now saved as latest cheater.
+	 * CheatedStreet is saved for exposing feature
+	 * Cheating ends a turn
+	 *
+	 * @param player cheating player
+	 * @param street Street which the cheating player want to "acquire"
+	 */
 	public void cheat(Player player, Street street){
 
 		GameState.getInstance().getCheatManager().flushCheater();
@@ -1230,6 +1263,12 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		dialog.show();
 	}
 
+	/**
+	 * Gets name of selected gamepiece of a player and assigns it
+	 * to an imageview initialized above.
+	 * Playericon gets visible because they are all invisible after setup
+	 * @param player Player whose position gets updated
+	 */
 	public void setPlayerIcon(Player player){
 
 		String pieceName = player.getSelectedPiece().getName();
@@ -1237,20 +1276,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 		Log.d("POSITION: ", Integer.toString(pos));
 		Log.d("PIECENAME: ", pieceName);
-
-		/*if (pieceName.equals("Boat")){
-			player1.setX(fields[pos].getX());
-			player1.setY(fields[pos].getY());
-
-			Log.d("Update: ", "Player Boat with blue icon was set on" + pos);
-		}
-		else if (pieceName.equals("Car")){
-			player2.setX(fields[pos].getX());
-			player2.setY(fields[pos].getY());
-
-			Log.d("Update: " ,"Player Car with pink icon was set on" + pos);
-		}*/
-
 
 		switch (pieceName){
 			case "Boat":
@@ -1316,6 +1341,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 	}
 
+	/**
+	 * Iterates through every player and calls setPlayerIcon to update positions
+	 */
 	public void setPlayerIcons(){
 		for (Player player:GameState.getInstance().getPlayers()) {
 			setPlayerIcon(player);
