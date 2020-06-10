@@ -1203,16 +1203,19 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	 */
 	public void cheat(Player player, Street street){
 
-		GameState.getInstance().getCheatManager().flushCheater();
-		GameState.getInstance().getCheatManager().setLatestCheater(player);
-		GameState.getInstance().getCheatManager().setCheatedStreet(street);
+		if(street.getOwner()==player){
+			GameState.getInstance().getCheatManager().flushCheater();
+			GameState.getInstance().getCheatManager().setLatestCheater(player);
+			GameState.getInstance().getCheatManager().setCheatedStreet(street);
 
-		GameState.getInstance().getDeedManager().cheatStreet(street, player);
-		GameState.getInstance().updatePlayer(player);
+			GameState.getInstance().getDeedManager().cheatStreet(street, player);
+			GameState.getInstance().updatePlayer(player);
 
-		playerFinishedTurn();
+			playerFinishedTurn();
 
-		Toast.makeText(this, "You now own " + street.getName(), Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "You now own " + street.getName(), Toast.LENGTH_SHORT).show();
+		}
+
 	}
 	public void checkGameOver(Player player){
 		int balance = player.getBalance();
