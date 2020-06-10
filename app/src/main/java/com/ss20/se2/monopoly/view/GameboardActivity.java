@@ -1055,6 +1055,18 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 						hotelTotal += temp3;
 					}
 				}
+			}else if(GameState.getInstance().getAllDeeds().get(i) instanceof Railroad){
+				Railroad railroad = (Railroad) GameState.getInstance().getAllDeeds().get(i);
+				if(railroad.getOwner() != null && railroad.getOwner().getAddress().equals(player.getAddress()) && railroad.getOwner().getPort() == player.getPort()){
+					int temp4 = railroad.getPrice();
+					deedTotal += temp4;
+				}
+			}else if(GameState.getInstance().getAllDeeds().get(i) instanceof Utility){
+				Utility utility = (Utility) GameState.getInstance().getAllDeeds().get(i);
+				if (utility.getOwner() != null && utility.getOwner().getAddress().equals(player.getAddress()) && utility.getOwner().getPort() == player.getPort()){
+					int temp5 = utility.getPrice();
+					deedTotal += temp5;
+				}
 			}
 		}
 
