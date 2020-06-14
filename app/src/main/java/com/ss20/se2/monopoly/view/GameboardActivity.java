@@ -370,8 +370,10 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 				if (deedlistview.getVisibility() == View.VISIBLE){
 					deedlistview.setVisibility(View.INVISIBLE);
+					addUpBtn.setVisibility(View.VISIBLE);
 				}else{
 					deedlistview.setVisibility(View.VISIBLE);
+					addUpBtn.setVisibility(View.INVISIBLE);
 				}
 				deedlistview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 					@Override
@@ -1243,7 +1245,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		for (int i = 0; i < GameState.getInstance().getAllDeeds().size(); i++){
 			if(GameState.getInstance().getAllDeeds().get(i) instanceof Street){
 				Street street = (Street) GameState.getInstance().getAllDeeds().get(i);
-				if (street.getOwner() != null && street.getOwner().getAddress().equals(player.getAddress()) && street.getOwner().getPort() == player.getPort()){
+				if (street.getOwner() != null && street.getOwner().getAddress().equals(player.getAddress()) && street.getOwner().getPort() == player.getPort() && !street.getIsMortgaged()){
 					int temp = street.getPrice();
 					deedTotal += temp;
 					if (street.getHouseCount() != 0){
@@ -1260,13 +1262,13 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				}
 			}else if(GameState.getInstance().getAllDeeds().get(i) instanceof Railroad){
 				Railroad railroad = (Railroad) GameState.getInstance().getAllDeeds().get(i);
-				if(railroad.getOwner() != null && railroad.getOwner().getAddress().equals(player.getAddress()) && railroad.getOwner().getPort() == player.getPort()){
+				if(railroad.getOwner() != null && railroad.getOwner().getAddress().equals(player.getAddress()) && railroad.getOwner().getPort() == player.getPort() && !railroad.getIsMortgaged()){
 					int temp4 = railroad.getPrice();
 					deedTotal += temp4;
 				}
 			}else if(GameState.getInstance().getAllDeeds().get(i) instanceof Utility){
 				Utility utility = (Utility) GameState.getInstance().getAllDeeds().get(i);
-				if (utility.getOwner() != null && utility.getOwner().getAddress().equals(player.getAddress()) && utility.getOwner().getPort() == player.getPort()){
+				if (utility.getOwner() != null && utility.getOwner().getAddress().equals(player.getAddress()) && utility.getOwner().getPort() == player.getPort() && !utility.getIsMortgaged()){
 					int temp5 = utility.getPrice();
 					deedTotal += temp5;
 				}
