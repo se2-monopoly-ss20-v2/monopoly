@@ -1,5 +1,6 @@
 package com.ss20.se2.monopoly;
 
+import com.ss20.se2.monopoly.models.Dice;
 import com.ss20.se2.monopoly.models.GamePiece;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.cards.ChanceCard;
@@ -126,5 +127,15 @@ public class DataStructureUnitTest{
 		assertEquals(50, r1.getRentRelativeTo(2));
 		assertEquals(100, r1.getRentRelativeTo(3));
 		assertEquals(200, r1.getRentRelativeTo(4));
+	}
+
+	@Test
+	public void diceTest(){
+		Dice d1 = new Dice();
+		int a = 1;
+		int b = 6;
+		d1.roll();
+		assertTrue(d1.roll() >= a);
+		assertTrue(d1.roll() <= b);
 	}
 }

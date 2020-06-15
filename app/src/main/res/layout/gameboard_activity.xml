@@ -821,7 +821,11 @@
     <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp" app:srcCompat="@drawable/boat" tools:layout_editor_absoluteY="81dp"
-            tools:layout_editor_absoluteX="16dp" android:id="@+id/boat" android:visibility="invisible"/>
+            tools:layout_editor_absoluteX="16dp" android:id="@+id/boat" android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@id/button_deeds"
+            app:layout_constraintEnd_toStartOf="@id/addUpBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
     <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp" app:srcCompat="@drawable/car"

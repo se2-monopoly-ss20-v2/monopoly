@@ -43,7 +43,7 @@ public class ChanceCardProcessor {
             case "KICKSTART":
                 player.updateBalance(balance+100);
                 break;
-                
+
             default:
                 break;
         }
