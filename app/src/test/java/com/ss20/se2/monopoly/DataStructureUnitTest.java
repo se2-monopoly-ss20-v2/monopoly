@@ -64,6 +64,10 @@ public class DataStructureUnitTest{
 		s1.upgradeToHotel();
 		assertEquals(true,s1.getHasHotel());
 		assertEquals(UtilityType.WATER_WORKS, u1.getType());
+		s1.getIsMortgaged();
+		assertEquals(false, s1.getIsMortgaged());
+		s1.setIsMortgaged(true);
+		assertEquals(true, s1.getIsMortgaged());
 
 	}
 

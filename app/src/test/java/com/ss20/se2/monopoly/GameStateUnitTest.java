@@ -168,11 +168,15 @@ public class GameStateUnitTest{
 
 	}
 
-	/*@Test
+	@Test
 	public void GameboardTest(){
+
+		GamePiece gp = new GamePiece("Player 1");
+		GamePiece[] gameboardArray = new GamePiece[40];
 		Gameboard gameboard = GameState.getInstance().getGameboard();
 		GameState.getInstance().setGameboard(gameboard);
-		gameboard.gameboardArray[0] = new GamePiece("Player 1");
+		//gameboard.gameboardArray[0] = new GamePiece("Player 1");
+		gameboardArray[0] = gp;
 
 		gameboard.getPosition("Player 1");
 		assertEquals(0, gameboard.getPosition("Player 1"));
@@ -183,7 +187,7 @@ public class GameStateUnitTest{
 		gameboard.move("Player 1", 16);
 		assertEquals(1, gameboard.getPosition("Player 1"));
 
-		List<Street> streets = new ArrayList<>();
+		/*List<Street> streets = new ArrayList<>();
 		List<Railroad> railroads = new ArrayList<>();
 		List<Utility> utilities = new ArrayList<>();
 
@@ -196,7 +200,7 @@ public class GameStateUnitTest{
 		railroads.add(r1);
 		assertEquals(r1, gameboard.getRailroads().get(0));
 		utilities.add(u1);
-		assertEquals(u1, gameboard.getUtilities().get(0));
+		assertEquals(u1, gameboard.getUtilities().get(0));*/
 
-	}*/
+	}
 }
