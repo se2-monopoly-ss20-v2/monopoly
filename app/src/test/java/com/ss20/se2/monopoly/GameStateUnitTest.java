@@ -171,6 +171,7 @@ public class GameStateUnitTest{
 	@Test
 	public void GameboardTest(){
 		Gameboard gameboard = GameState.getInstance().getGameboard();
+		GameState.getInstance().setGameboard(gameboard);
 		gameboard.gameboardArray[0] = new GamePiece("Player 1");
 
 		gameboard.getPosition("Player 1");

@@ -65,8 +65,8 @@ public class DataStructureUnitTest{
 		assertEquals(true,s1.getHasHotel());
 
 		assertEquals(UtilityType.WATER_WORKS, u1.getType());
-		u1.setType(UtilityType.ELECTRIC_COMPANY);
-		assertEquals(UtilityType.ELECTRIC_COMPANY, u1);
+		u1.setType(UtilityType.WATER_WORKS);
+		assertEquals(UtilityType.WATER_WORKS, u1);
 
 	}
 
