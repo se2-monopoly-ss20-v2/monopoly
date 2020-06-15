@@ -1,7 +1,7 @@
 package com.ss20.se2.monopoly;
 
+import com.ss20.se2.monopoly.models.Dice;
 import com.ss20.se2.monopoly.models.GamePiece;
-import com.ss20.se2.monopoly.models.Gameboard;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.cards.ChanceCard;
 import com.ss20.se2.monopoly.models.fields.cards.CommunityCard;
@@ -15,7 +15,6 @@ import com.ss20.se2.monopoly.models.fields.specials.SpecialFieldType;
 import org.junit.Test;
 
 import java.net.InetAddress;
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -51,6 +50,25 @@ public class DataStructureUnitTest{
 		assertEquals(15, u2.getMortgage());
 		Special special = new Special("Free Parking", SpecialFieldType.FREEPARKING);
 		assertEquals(SpecialFieldType.FREEPARKING, special.getFieldType());
+
+		s1.setHouseCount(0);
+		assertEquals(0, s1.getHouseCount());
+		s1.setInitialRent(100);
+		assertEquals(100, s1.getInitialRent());
+		s1.setCurrentRent(100);
+		assertEquals(100, s1.getCurrentRent());
+		s1.incrementHouseCount();
+		assertEquals(1, s1.getHouseCount());
+		s1.setHasHotel(false);
+		assertEquals(false, s1.getHasHotel());
+		s1.upgradeToHotel();
+		assertEquals(true,s1.getHasHotel());
+		assertEquals(UtilityType.WATER_WORKS, u1.getType());
+		s1.getIsMortgaged();
+		assertEquals(false, s1.getIsMortgaged());
+		s1.setIsMortgaged(true);
+		assertEquals(true, s1.getIsMortgaged());
+
 	}
 
 	@Test
@@ -85,6 +103,15 @@ public class DataStructureUnitTest{
 		assertEquals(1, p1.getPlayersCards().size());
 		s1.setOwner(p1);
 		assertEquals(p1, s1.getOwner());
+
+		p1.setInJail(false);
+		assertEquals(false, p1.isInJail());
+		p1.setInJail(true);
+		assertEquals(true, p1.isInJail());
+		p1.setHasTurn(false);
+		assertEquals(false,p1.isHasTurn());
+		p1.setHasTurn(true);
+		assertEquals(true,p1.isHasTurn());
 	}
 
 	@Test
@@ -101,5 +128,15 @@ public class DataStructureUnitTest{
 		assertEquals(50, r1.getRentRelativeTo(2));
 		assertEquals(100, r1.getRentRelativeTo(3));
 		assertEquals(200, r1.getRentRelativeTo(4));
+	}
+
+	@Test
+	public void diceTest(){
+		Dice d1 = new Dice();
+		int a = 1;
+		int b = 6;
+		d1.roll();
+		assertTrue(d1.roll() >= a);
+		assertTrue(d1.roll() <= b);
 	}
 }

@@ -13,7 +13,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,8 +39,6 @@ import com.ss20.se2.monopoly.models.fields.GameTile;
 import com.ss20.se2.monopoly.models.fields.cards.Card;
 import com.ss20.se2.monopoly.models.fields.cards.ChanceCard;
 import com.ss20.se2.monopoly.models.fields.cards.CommunityCard;
-import com.ss20.se2.monopoly.models.fields.deeds.Deed;
-import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
 import com.ss20.se2.monopoly.models.fields.deeds.Street;
 
 import com.ss20.se2.monopoly.network.client.GameController;
@@ -54,7 +51,6 @@ import com.ss20.se2.monopoly.view.deed.DeedFragment;
 import com.ss20.se2.monopoly.view.deed.DeedFragmentDelegate;
 import com.ss20.se2.monopoly.view.dialog.DialogContainerFragment;
 
-import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
@@ -64,12 +60,12 @@ import java.util.Objects;
 
 public class GameboardActivity extends AppCompatActivity implements DeedFragmentDelegate{
 
-	Button button_rollDice;
-	Button button_buyOut;
-	TextView view_numberDice;
-	TextView view_numberDice2;
+	Button buttonrollDice;
+	Button buttonbuyOut;
+	TextView viewnumberDice;
+	TextView viewnumberDice2;
 	TextView viewdoubles;
-	TextView view_position;
+	TextView viewposition;
 	TextView view_balance;
 	TextView updateBalance;
 
@@ -205,12 +201,12 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		communityCards.initializeDeck();
 		chanceCardProcessor = new ChanceCardProcessor();
 		communityCardProcessor = new CommunityCardProcessor();
-		button_rollDice = findViewById(R.id.button_roll_dice);
-		button_buyOut = findViewById(R.id.btn_buy_out);
-		view_numberDice = findViewById(R.id.view_number_dice);
-		view_numberDice2 = findViewById(R.id.view_number_dice2);
+		buttonrollDice = findViewById(R.id.button_roll_dice);
+		buttonbuyOut = findViewById(R.id.btn_buy_out);
+		viewnumberDice = findViewById(R.id.view_number_dice);
+		viewnumberDice2 = findViewById(R.id.view_number_dice2);
 		viewdoubles = findViewById(R.id.doubles);
-		view_position = findViewById(R.id.number_playerposition);
+		viewposition = findViewById(R.id.number_playerposition);
 		view_balance = findViewById(R.id.text_balance);
 		updateBalance = findViewById(R.id.changeOfBalance);
 
@@ -230,7 +226,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		middleTile = findViewById(R.id.tile_middle);
 		exposeButton = findViewById(R.id.button_expose);
 
-		button_rollDice.setOnClickListener(new View.OnClickListener() {
+		buttonrollDice.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
@@ -306,7 +302,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				cheatButton.setVisibility(View.INVISIBLE);
 				}
 		});
-		button_buyOut.setOnClickListener(new View.OnClickListener(){
+		buttonbuyOut.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View view){
 				setOldBalance(currentPlayer.getBalance());
@@ -325,7 +321,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 				cheat(currentPlayer, (Street) currentTile);
 				cheatButton.setVisibility(View.INVISIBLE);
-				//playerFinishedTurn();
 			}
 		});
 
@@ -355,7 +350,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 
 				exposeButton.setEnabled(false);
-				//playerFinishedTurn();
 			}
 		});
 
@@ -370,8 +364,10 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 				if (deedlistview.getVisibility() == View.VISIBLE){
 					deedlistview.setVisibility(View.INVISIBLE);
+					addUpBtn.setVisibility(View.VISIBLE);
 				}else{
 					deedlistview.setVisibility(View.VISIBLE);
+					addUpBtn.setVisibility(View.INVISIBLE);
 				}
 				deedlistview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 					@Override
@@ -446,9 +442,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					jailRollCounter = 0;
 				}
 			}
-			view_numberDice.setText("Roll 1: " + Integer.toString(roll1));
-			view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
-			view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
+			viewnumberDice.setText("Roll 1: " + Integer.toString(roll1));
+			viewnumberDice2.setText("Roll 2: " + Integer.toString(roll2));
+			viewposition.setText(Integer.toString(gameboard.getPosition("Player 1")));
 			setPlayerIcon(currentPlayer);
 		}
 
@@ -590,15 +586,15 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			public void run(){
 				view_balance.setText(getString(R.string.balance, currentPlayer.getBalance()));
 				if (GameState.getInstance().getCurrentActivePlayer().getAddress().equals(currentPlayer.getAddress()) && GameState.getInstance().getCurrentActivePlayer().getPort() == currentPlayer.getPort()){
-					button_rollDice.setEnabled(true);
+					buttonrollDice.setEnabled(true);
 					if (currentPlayer.isInJail() && currentPlayer.getBalance() > 50){
-						button_buyOut.setEnabled(true);
+						buttonbuyOut.setEnabled(true);
 					}else{
-						button_buyOut.setEnabled(false);
+						buttonbuyOut.setEnabled(false);
 					}
 				}else{
-					button_rollDice.setEnabled(false);
-					button_buyOut.setEnabled(false);
+					buttonrollDice.setEnabled(false);
+					buttonbuyOut.setEnabled(false);
 				}
 				setPlayerIcons();
 			}
@@ -1144,7 +1140,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					Player cheater = GameState.getInstance().getCheatManager().getLatestCheater();
 					int balanceCheater = cheater.getBalance();
 					int balanceExposer = player.getBalance();
-					//cheater.removeDeedFromPlayer(GameState.getInstance().getCheatManager().getCheatedStreet());
 					GameState.getInstance().getCheatManager().getCheatedStreet().setOwner(null);
 
 					cheater.setBalance(balanceCheater - 300);
@@ -1156,7 +1151,6 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 
 					AlertDialog dialog = new AlertDialog.Builder(GameboardActivity.this).create();
 					dialog.setTitle("You are right!");
-					//dialog.setMessage("The cheater looses the cheated street and pays you $300");
 					dialog.setMessage("The cheater pays a fine to the bank and pays $300 to you");
 					dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener(){
 						@Override
@@ -1243,7 +1237,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		for (int i = 0; i < GameState.getInstance().getAllDeeds().size(); i++){
 			if(GameState.getInstance().getAllDeeds().get(i) instanceof Street){
 				Street street = (Street) GameState.getInstance().getAllDeeds().get(i);
-				if (street.getOwner() != null && street.getOwner().getAddress().equals(player.getAddress()) && street.getOwner().getPort() == player.getPort()){
+				if (street.getOwner() != null && street.getOwner().getAddress().equals(player.getAddress()) && street.getOwner().getPort() == player.getPort() && !street.getIsMortgaged()){
 					int temp = street.getPrice();
 					deedTotal += temp;
 					if (street.getHouseCount() != 0){
@@ -1260,13 +1254,13 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				}
 			}else if(GameState.getInstance().getAllDeeds().get(i) instanceof Railroad){
 				Railroad railroad = (Railroad) GameState.getInstance().getAllDeeds().get(i);
-				if(railroad.getOwner() != null && railroad.getOwner().getAddress().equals(player.getAddress()) && railroad.getOwner().getPort() == player.getPort()){
+				if(railroad.getOwner() != null && railroad.getOwner().getAddress().equals(player.getAddress()) && railroad.getOwner().getPort() == player.getPort() && !railroad.getIsMortgaged()){
 					int temp4 = railroad.getPrice();
 					deedTotal += temp4;
 				}
 			}else if(GameState.getInstance().getAllDeeds().get(i) instanceof Utility){
 				Utility utility = (Utility) GameState.getInstance().getAllDeeds().get(i);
-				if (utility.getOwner() != null && utility.getOwner().getAddress().equals(player.getAddress()) && utility.getOwner().getPort() == player.getPort()){
+				if (utility.getOwner() != null && utility.getOwner().getAddress().equals(player.getAddress()) && utility.getOwner().getPort() == player.getPort() && !utility.getIsMortgaged()){
 					int temp5 = utility.getPrice();
 					deedTotal += temp5;
 				}
