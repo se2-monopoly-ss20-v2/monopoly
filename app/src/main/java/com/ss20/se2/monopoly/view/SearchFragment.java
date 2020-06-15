@@ -99,6 +99,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener{
 				LocalGamesFinder.getInstance().unsubscribe(onLocalGamesChangedListener);
 				MainActivity.getNavController().navigateUp();
 				break;
+			default:
+				break;
 		}
 	}
 }

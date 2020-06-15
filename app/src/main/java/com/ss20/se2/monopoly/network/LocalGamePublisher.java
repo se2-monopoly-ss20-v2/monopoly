@@ -48,11 +48,11 @@ public class LocalGamePublisher{
 	private void initializeRegistrationListener(){
 		registrationListener = new NsdManager.RegistrationListener(){
 			@Override
-			public void onServiceRegistered(NsdServiceInfo NsdServiceInfo){
+			public void onServiceRegistered(NsdServiceInfo nsdServiceInfo){
 				// Save the service name. Android may have changed it in order to
 				// resolve a conflict, so update the name you initially requested
 				// with the name Android actually used.
-				serviceName = NsdServiceInfo.getServiceName();
+				serviceName = nsdServiceInfo.getServiceName();
 			}
 
 			@Override

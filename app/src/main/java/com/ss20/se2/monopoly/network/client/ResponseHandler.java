@@ -46,6 +46,7 @@ class ResponseHandler implements Runnable{
 	}
 
 	private void stop(){
+		//Could still be needed so not getting removed
 		running.set(false);
 	}
 
@@ -95,8 +96,6 @@ class ResponseHandler implements Runnable{
 		} else if (response instanceof GameStateResponse) {
 			gameActionProcessor.state((GameStateResponse) response);
 		}
-		// TODO: First update database and then call the appropriate method(s) (using the response type)
-		//  of the OnGameDataChangedListener for every type
 	}
 
 	private class GameActionProcessor implements GameResponses{

@@ -43,43 +43,7 @@ public class ChanceCardProcessor {
             case "KICKSTART":
                 player.updateBalance(balance+100);
                 break;
-
-            case "8":
-                player.updateBalance(balance+100);
-                break;
-
-            case "9":
-                player.setCurrentPosition(10);
-                break;
-
-            case "10":
-                player.setCurrentPosition(15);
-                break;
-
-            case "11":
-                player.setCurrentPosition(0);
-                break;
-
-            case "12":
-                player.updateBalance(balance+10);
-                break;
-
-            case "13":
-                player.setCurrentPosition(18);
-                break;
-
-            case "14":
-                player.updateBalance(balance-150);
-                break;
-
-            case "15":
-                player.updateBalance(balance-temp);
-                break;
-
-            case "16":
-                player.updateBalance(balance-temp);
-                break;
-
+                
             default:
                 break;
         }
