@@ -51,6 +51,24 @@ public class DataStructureUnitTest{
 		assertEquals(15, u2.getMortgage());
 		Special special = new Special("Free Parking", SpecialFieldType.FREEPARKING);
 		assertEquals(SpecialFieldType.FREEPARKING, special.getFieldType());
+
+		s1.setHouseCount(0);
+		assertEquals(0, s1.getHouseCount());
+		s1.setInitialRent(100);
+		assertEquals(100, s1.getInitialRent());
+		s1.setCurrentRent(100);
+		assertEquals(100, s1.getCurrentRent());
+		s1.incrementHouseCount();
+		assertEquals(1, s1.getHouseCount());
+		s1.setHasHotel(false);
+		assertEquals(false, s1.getHasHotel());
+		s1.upgradeToHotel();
+		assertEquals(true,s1.getHasHotel());
+
+		assertEquals(UtilityType.WATER_WORKS, u1.getType());
+		u1.setType(UtilityType.ELECTRIC_COMPANY);
+		assertEquals(UtilityType.ELECTRIC_COMPANY, u1);
+
 	}
 
 	@Test
@@ -85,6 +103,15 @@ public class DataStructureUnitTest{
 		assertEquals(1, p1.getPlayersCards().size());
 		s1.setOwner(p1);
 		assertEquals(p1, s1.getOwner());
+
+		p1.setInJail(false);
+		assertEquals(false, p1.isInJail());
+		p1.setInJail(true);
+		assertEquals(true, p1.isInJail());
+		p1.setHasTurn(false);
+		assertEquals(false,p1.isHasTurn());
+		p1.setHasTurn(true);
+		assertEquals(true,p1.isHasTurn());
 	}
 
 	@Test
