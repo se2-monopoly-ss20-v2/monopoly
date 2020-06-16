@@ -449,8 +449,9 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			view_numberDice.setText("Roll 1: " + Integer.toString(roll1));
 			view_numberDice2.setText("Roll 2: " + Integer.toString(roll2));
 			view_position.setText(Integer.toString(gameboard.getPosition("Player 1")));
+			exposeButton.setEnabled(false);
 			setPlayerIcon(currentPlayer);
-		}
+	}
 
 	public void checkPlayersPosition(final Player player){
 		GameTile currentTile = gameboard.gameTiles.get(player.getCurrentPosition());
@@ -600,7 +601,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					button_rollDice.setEnabled(false);
 					button_buyOut.setEnabled(false);
 				}
-				setPlayerIcons();
+				setPlayerIcons(currentPlayer);
 			}
 		});
 	}
@@ -667,6 +668,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				@Override
 				public void onClick(DialogInterface dialogInterface, int i){
 					dialog.dismiss();
+					GameState.getInstance().updatePlayer(player);
+
 					playerFinishedTurn();
 				}
 			});
@@ -860,6 +863,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	}
 
 	public void doFreeParking(){
+		GameState.getInstance().updatePlayer(currentPlayer);
 		GameState.getInstance().playerEndedTurn();
 		GameStateNetworkMessage message = new GameStateNetworkMessage();
 		message.setState(GameState.getInstance());
@@ -1301,6 +1305,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 		Log.d("POSITION: ", Integer.toString(pos));
 		Log.d("PIECENAME: ", pieceName);
 
+
 		switch (pieceName){
 			case "Boat":
 				boat.setX(fields[pos].getX());
@@ -1368,9 +1373,11 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	/**
 	 * Iterates through every player and calls setPlayerIcon to update positions
 	 */
-	public void setPlayerIcons(){
+	public void setPlayerIcons(Player p){
 		for (Player player:GameState.getInstance().getPlayers()) {
+			if(player != p){
 			setPlayerIcon(player);
+		}
 		}
 	}
 
