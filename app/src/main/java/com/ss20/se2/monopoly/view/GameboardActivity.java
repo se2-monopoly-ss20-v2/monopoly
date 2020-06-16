@@ -484,6 +484,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				movePlayerToJail(currentPlayer);
 				gameboard.move("Player 1", -20);
 			}else if (tile.getFieldType().equals(SpecialFieldType.JAIL_VISITOR)){
+				GameState.getInstance().updatePlayer(player);
 				playerFinishedTurn();
 			}else if (tile.getFieldType().equals(SpecialFieldType.GO)){
 				playerFinishedTurn();
