@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.ss20.se2.monopoly.R;
+import com.ss20.se2.monopoly.models.GameState;
 import com.ss20.se2.monopoly.models.Player;
 import com.ss20.se2.monopoly.models.fields.deeds.Deed;
 import com.ss20.se2.monopoly.models.fields.deeds.Railroad;
@@ -80,6 +81,7 @@ public class DialogContainerFragment extends DialogFragment{
 			@Override
 			public void onClick(View v){
 				delegate.cancelled();
+				GameState.getInstance().updatePlayer(player);
 				dismiss();
 			}
 		});

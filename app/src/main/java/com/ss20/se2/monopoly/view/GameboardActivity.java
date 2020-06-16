@@ -445,6 +445,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 			viewnumberDice.setText("Roll 1: " + Integer.toString(roll1));
 			viewnumberDice2.setText("Roll 2: " + Integer.toString(roll2));
 			viewposition.setText(Integer.toString(gameboard.getPosition("Player 1")));
+			exposeButton.setEnabled(false);
 			setPlayerIcon(currentPlayer);
 		}
 
@@ -483,6 +484,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				movePlayerToJail(currentPlayer);
 				gameboard.move("Player 1", -20);
 			}else if (tile.getFieldType().equals(SpecialFieldType.JAIL_VISITOR)){
+				GameState.getInstance().updatePlayer(player);
 				playerFinishedTurn();
 			}else if (tile.getFieldType().equals(SpecialFieldType.GO)){
 				playerFinishedTurn();
@@ -596,7 +598,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					buttonrollDice.setEnabled(false);
 					buttonbuyOut.setEnabled(false);
 				}
-				setPlayerIcons();
+				setPlayerIcons(currentPlayer);
 			}
 		});
 	}
@@ -663,6 +665,8 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 				@Override
 				public void onClick(DialogInterface dialogInterface, int i){
 					dialog.dismiss();
+					GameState.getInstance().updatePlayer(player);
+
 					playerFinishedTurn();
 				}
 			});
@@ -856,6 +860,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	}
 
 	public void doFreeParking(){
+		GameState.getInstance().updatePlayer(currentPlayer);
 		GameState.getInstance().playerEndedTurn();
 		GameStateNetworkMessage message = new GameStateNetworkMessage();
 		message.setState(GameState.getInstance());
@@ -1362,9 +1367,11 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	/**
 	 * Iterates through every player and calls setPlayerIcon to update positions
 	 */
-	public void setPlayerIcons(){
+	public void setPlayerIcons(Player p){
 		for (Player player:GameState.getInstance().getPlayers()) {
+			if(player != p){
 			setPlayerIcon(player);
+		}
 		}
 	}
 
