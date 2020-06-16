@@ -812,12 +812,14 @@
             android:layout_width="20dp"
             android:layout_height="20dp" app:srcCompat="@color/colorAccent"
             android:id="@+id/player_1"
-            app:layout_constraintEnd_toEndOf="@+id/tile_0" app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintEnd_toEndOf="@+id/tile_0" app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="invisible"/>
     <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp" app:srcCompat="@color/colorPrimary"
             android:id="@+id/player_2"
-            app:layout_constraintEnd_toStartOf="@+id/player_1" app:layout_constraintBottom_toBottomOf="@+id/tile_0"/>
+            app:layout_constraintEnd_toStartOf="@+id/player_1" app:layout_constraintBottom_toBottomOf="@+id/tile_0"
+            android:visibility="invisible"/>
     <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp" app:srcCompat="@drawable/boat" tools:layout_editor_absoluteY="81dp"
