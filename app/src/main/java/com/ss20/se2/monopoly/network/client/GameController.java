@@ -65,6 +65,8 @@ public class GameController implements Runnable, GameActions{
 					joined = true;
 					Log.d(NetworkUtilities.TAG, "Client connection ok");
 					break;
+				default:
+					break;
 			}
 		}catch (IOException e){
 			Log.d(NetworkUtilities.TAG, e.toString());

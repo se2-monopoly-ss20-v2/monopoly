@@ -8,7 +8,6 @@ package com.ss20.se2.monopoly.models;
  */
 public interface OnGameDataChangedListener{
 
-	// TODO: Implement all required notify methods
 	void onGameJoined(Player player);
 	// ...
 }

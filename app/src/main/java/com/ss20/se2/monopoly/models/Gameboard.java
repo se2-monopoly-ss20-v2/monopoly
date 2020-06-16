@@ -65,12 +65,10 @@ public class Gameboard implements Serializable{
 		if (position + diceroll < 40) {
 			if (gameboardArray[position + diceroll] == null) {
 				gameboardArray[position + diceroll] = temp;
-				temp = null;
 			}
 		} else {
 			if (gameboardArray[(position + diceroll) - 40] == null) {
 				gameboardArray[(position + diceroll) - 40] = temp;
-				temp = null;
 			}
 		}
 	}
