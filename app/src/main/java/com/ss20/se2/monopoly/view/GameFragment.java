@@ -33,6 +33,8 @@ public class GameFragment extends Fragment implements View.OnClickListener{
 			case R.id.backBtn:
 				MainActivity.getNavController().navigateUp();
 				break;
+			default:
+				break;
 		}
 	}
 }

@@ -110,7 +110,6 @@ public class RequestHandler implements Runnable{
 		}else if (request instanceof GameStateNetworkMessage){
 			gameActionProcessor.updateGameState((GameStateNetworkMessage) request);
 		}
-		// TODO: Use the classes of the request and the type to call the specific action method
 	}
 
 	private class GameActionProcessor implements GameActions{

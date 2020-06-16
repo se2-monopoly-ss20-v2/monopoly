@@ -45,6 +45,7 @@ public class LocalGamesFinder{
 		this.discoveryListener = new NsdManager.DiscoveryListener(){
 			@Override
 			public void onStartDiscoveryFailed(String serviceType, int errorCode){
+				//Needs to be overridden but isn't needed in the project
 			}
 
 			@Override
@@ -59,6 +60,7 @@ public class LocalGamesFinder{
 
 			@Override
 			public void onDiscoveryStopped(String serviceType){
+				//Needs to be overridden but isn't needed in the project
 			}
 
 			@Override

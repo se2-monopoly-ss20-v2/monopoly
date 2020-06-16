@@ -66,6 +66,8 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 			case R.id.buttonOldActivity:
 				Intent i = new Intent(getActivity(), GameboardActivity.class);
 				startActivity(i);
+			default:
+				break;
 		}
 	}
 }
