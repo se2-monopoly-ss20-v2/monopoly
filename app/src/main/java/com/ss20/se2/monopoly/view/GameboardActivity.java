@@ -641,6 +641,18 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	}
 
 	void updatePlayersAfterPaymentAndEndTurn(Player owner, Player player) {
+
+		int pos = GameState.getInstance().getPlayerFrom(owner.getAddress(), owner.getPort()).getCurrentPosition();
+
+		for (Deed deed:GameState.getInstance().getAllDeeds()) {
+
+			if(deed.getOwner()!=null && deed.getOwner().getAddress() == owner.getAddress() && deed.getOwner().getPort() == owner.getPort()){
+
+				deed.getOwner().setCurrentPosition(pos);
+			}
+		}
+
+
 		GameState.getInstance().updatePlayer(owner);
 		GameState.getInstance().updatePlayer(player);
 		GameState.getInstance().playerEndedTurn();
