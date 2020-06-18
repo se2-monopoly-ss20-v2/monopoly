@@ -704,6 +704,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					dialog.dismiss();
 					int balance = street.getHouseCount() == 4 ? deedManager.performAcquiringHotelFor(street, player) : deedManager.performAcquiringHouseFor(street, player);
 					GameState.getInstance().updateStreet(street);
+					GameState.getInstance().updatePlayer(player);
 					view_balance.setText(getString(R.string.balance,  balance));
 					showDifference(getOldBalance(), player.getBalance());
 					playerFinishedTurn();
