@@ -641,6 +641,18 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 	}
 
 	void updatePlayersAfterPaymentAndEndTurn(Player owner, Player player) {
+
+		int pos = GameState.getInstance().getPlayerFrom(owner.getAddress(), owner.getPort()).getCurrentPosition();
+
+		for (Deed deed:GameState.getInstance().getAllDeeds()) {
+
+			if(deed.getOwner()!=null && deed.getOwner().getAddress() == owner.getAddress() && deed.getOwner().getPort() == owner.getPort()){
+
+				deed.getOwner().setCurrentPosition(pos);
+			}
+		}
+
+
 		GameState.getInstance().updatePlayer(owner);
 		GameState.getInstance().updatePlayer(player);
 		GameState.getInstance().playerEndedTurn();
@@ -692,6 +704,7 @@ public class GameboardActivity extends AppCompatActivity implements DeedFragment
 					dialog.dismiss();
 					int balance = street.getHouseCount() == 4 ? deedManager.performAcquiringHotelFor(street, player) : deedManager.performAcquiringHouseFor(street, player);
 					GameState.getInstance().updateStreet(street);
+					GameState.getInstance().updatePlayer(player);
 					view_balance.setText(getString(R.string.balance,  balance));
 					showDifference(getOldBalance(), player.getBalance());
 					playerFinishedTurn();
